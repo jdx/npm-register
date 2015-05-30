@@ -1,10 +1,17 @@
 'use strict';
 
+/*jshint -W079 */
+let Promise  = require('bluebird');
 let koa      = require('koa');
 let r        = require('koa-route');
 let logger   = require('koa-logger');
 let packages = require('./lib/packages');
+let config   = require('./lib/config');
 let app      = koa();
+
+if (!config.production) {
+  Promise.longStackTraces();
+}
 
 app.use(logger());
 
