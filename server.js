@@ -6,6 +6,7 @@ let koa      = require('koa');
 let r        = require('koa-route');
 let logger   = require('koa-logger');
 let packages = require('./lib/packages');
+let tarballs = require('./lib/tarballs');
 let config   = require('./lib/config');
 let app      = koa();
 
@@ -14,6 +15,15 @@ if (!config.production) {
 }
 
 app.use(logger());
+
+app.use(r.get('/:name/-/:filename', function *(name, filename) {
+  let tarball = yield tarballs.get(name, filename);
+  if (!tarball) {
+    this.status = 404;
+    return;
+  }
+  this.body = tarball;
+}));
 
 app.use(r.get('/:name', function *(name) {
   let pkg = yield packages.get(name);
