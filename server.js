@@ -1,7 +1,5 @@
 'use strict';
 
-/*jshint -W079 */
-let Promise     = require('bluebird');
 let koa         = require('koa');
 let gzip        = require('koa-gzip');
 let r           = require('koa-route');
@@ -10,10 +8,6 @@ let packages    = require('./lib/packages');
 let tarballs    = require('./lib/tarballs');
 let config      = require('./lib/config');
 let app         = koa();
-
-if (!config.production) {
-  Promise.longStackTraces();
-}
 
 app.use(logger());
 app.use(gzip());
@@ -41,6 +35,6 @@ app.use(r.get('/:name', function *(name) {
   this.body = pkg;
 }));
 
-let server = app.listen(process.env.PORT || 3000, function () {
-  console.log('server listening on ' + server.address().port);
+app.listen(config.port, function () {
+  console.log(`server listening on ${config.port}`);
 });
