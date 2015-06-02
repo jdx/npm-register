@@ -3,6 +3,7 @@
 /*jshint -W079 */
 let Promise     = require('bluebird');
 let koa         = require('koa');
+let gzip        = require('koa-gzip');
 let r           = require('koa-route');
 let logger      = require('koa-logger');
 let packages    = require('./lib/packages');
@@ -15,6 +16,7 @@ if (!config.production) {
 }
 
 app.use(logger());
+app.use(gzip());
 
 app.use(r.get('/:name/-/:filename', function *(name, filename) {
   let tarball = yield tarballs.get(name, filename);
@@ -22,6 +24,7 @@ app.use(r.get('/:name/-/:filename', function *(name, filename) {
     this.status = 404;
     return;
   }
+  this.set('Content-Length', tarball.headers['Content-Length']);
   this.body = tarball;
 }));
 
