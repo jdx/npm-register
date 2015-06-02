@@ -24,5 +24,8 @@
     "koa-logger": "^1.2.2",
     "koa-route": "^2.4.1",
     "request": "^2.57.0"
+  },
+  "devDependencies": {
+    "jshint": "*"
   }
 }
