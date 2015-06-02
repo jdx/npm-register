@@ -25,6 +25,7 @@ app.use(r.get('/:name/-/:filename', function *(name, filename) {
     return;
   }
   this.set('Content-Length', tarball.headers['Content-Length']);
+  this.set('Cache-Control', 'public, max-age=86400');
   this.body = tarball;
 }));
 
