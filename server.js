@@ -1,14 +1,14 @@
 'use strict';
 
 /*jshint -W079 */
-let Promise  = require('bluebird');
-let koa      = require('koa');
-let r        = require('koa-route');
-let logger   = require('koa-logger');
-let packages = require('./lib/packages');
-let tarballs = require('./lib/tarballs');
-let config   = require('./lib/config');
-let app      = koa();
+let Promise     = require('bluebird');
+let koa         = require('koa');
+let r           = require('koa-route');
+let logger      = require('koa-logger');
+let packages    = require('./lib/packages');
+let tarballs    = require('./lib/tarballs');
+let config      = require('./lib/config');
+let app         = koa();
 
 if (!config.production) {
   Promise.longStackTraces();
@@ -26,11 +26,13 @@ app.use(r.get('/:name/-/:filename', function *(name, filename) {
 }));
 
 app.use(r.get('/:name', function *(name) {
-  let pkg = yield packages.get(name);
-  if (!pkg) {
-    this.status = 404;
+  let etag = this.req.headers['if-none-match'];
+  let pkg = yield packages.get(name, etag);
+  if (pkg === 304 || pkg === 404) {
+    this.status = pkg;
     return;
   }
+  this.set('ETag', pkg.etag);
   this.body = pkg;
 }));
 
