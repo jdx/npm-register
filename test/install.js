@@ -8,6 +8,8 @@ process.env.PORT = '7129';
 require('../server');
 let registry = 'http://localhost:' + process.env.PORT;
 
+process.env.NPM_CONFIG_LOGSTREAM = '/dev/null';
+
 describe('install', function () {
   it('can install heroku-git', function () {
     return exec('npm uninstall heroku-git')
