@@ -2,5 +2,12 @@
   "name": "elephant",
   "description": "A private npm server",
   "repository": "https://github.com/dickeyxxx/elephant",
-  "keywords": ["node", "npm"]
+  "keywords": ["node", "npm"],
+  "env": {
+    "AWS_ACCESS_KEY_ID": "",
+    "AWS_SECRET_ACCESS_KEY": "",
+    "AWS_S3_BUCKET": "",
+    "NODE_ENV": "production",
+    "UPLINK": "https://registry.npmjs.org"
+  }
 }
