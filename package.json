@@ -9,10 +9,7 @@
   "engines": {
     "iojs": ">= 2.1.0"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/dickeyxxx/elephant"
-  },
+  "repository": "dickeyxxx/elephant",
   "author": "Jeff Dickey (@dickeyxxx)",
   "license": "ISC",
   "dependencies": {
