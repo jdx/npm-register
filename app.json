@@ -1,0 +1,6 @@
+{
+  "name": "elephant",
+  "description": "A private npm server",
+  "repository": "https://github.com/dickeyxxx/elephant",
+  "keywords": ["node", "npm"]
+}
