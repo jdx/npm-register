@@ -1,15 +1,15 @@
 'use strict';
 
-let koa         = require('koa');
-let gzip        = require('koa-gzip');
-let r           = require('koa-route');
-let logger      = require('koa-logger');
-let parse       = require('co-body');
-let packages    = require('./lib/packages');
-let tarballs    = require('./lib/tarballs');
-let config      = require('./lib/config');
-let user        = require('./lib/user');
-let app         = koa();
+let koa      = require('koa');
+let gzip     = require('koa-gzip');
+let r        = require('koa-route');
+let logger   = require('koa-logger');
+let parse    = require('co-body');
+let packages = require('./lib/packages');
+let tarballs = require('./lib/tarballs');
+let config   = require('./lib/config');
+let user     = require('./lib/user');
+let app      = koa();
 
 app.use(logger());
 app.use(gzip());
@@ -18,9 +18,10 @@ app.use(r.put('/-/user/:user', function *() {
   let auth = yield user.authenticate(yield parse(this));
   if (auth) {
     this.status = 201;
-    this.body = auth;
+    this.body   = auth;
   } else {
-    this.body = {error: "invalid credentials"};
+    this.status = 401;
+    this.body   = {error: "invalid credentials"};
   }
 }));
 
