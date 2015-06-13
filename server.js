@@ -18,11 +18,21 @@ app.use(r.put('/-/user/:user', function *() {
   let auth = yield user.authenticate(yield parse(this));
   if (auth) {
     this.status = 201;
-    this.body   = auth;
+    this.body   = {token: auth};
   } else {
     this.status = 401;
     this.body   = {error: "invalid credentials"};
   }
+}));
+
+app.use(r.get('/-/whoami', function *() {
+  let token = this.headers.authorization.split(' ')[1];
+  let username = yield user.findByToken(token);
+  if (!username) {
+    this.status = 401;
+    return;
+  }
+  this.body = {username: username};
 }));
 
 app.use(r.get('/:name/-/:filename', function *(name, filename) {
