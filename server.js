@@ -46,6 +46,17 @@ app.use(r.get('/:name/-/:filename', function *(name, filename) {
   this.body = tarball;
 }));
 
+app.use(r.put('/:name', function *(name) {
+  let pkg      = yield parse(this);
+  let existing = yield packages.get(name);
+  if (Object.keys(existing.versions).indexOf(pkg['dist-tags'].latest) !== -1) {
+    this.status = 409;
+    this.body   = {error: 'this version already present'};
+    return;
+  }
+  this.body = 'fooooooooo';
+}));
+
 app.use(r.get('/:name', function *(name) {
   let etag = this.req.headers['if-none-match'];
   let pkg = yield packages.get(name, etag);
