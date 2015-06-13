@@ -49,7 +49,8 @@ app.use(r.get('/:name/-/:filename', function *(name, filename) {
 app.use(r.put('/:name', function *(name) {
   let pkg      = yield parse(this);
   let existing = yield packages.get(name);
-  if (Object.keys(existing.versions).indexOf(pkg['dist-tags'].latest) !== -1) {
+  let versions = Object.keys(existing.versions);
+  if (versions.indexOf(pkg['dist-tags'].latest) !== -1) {
     this.status = 409;
     this.body   = {error: 'this version already present'};
     return;
