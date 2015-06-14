@@ -16,9 +16,8 @@ app.use(logger());
 app.use(gzip());
 
 app.use(r.get('/', function* () {
-  yield parse(this); // make jshint happy
   let path = __dirname + '/public/index.html';
-  this.type = 'html';
+  this.type = 'text/html';
   this.body = fs.createReadStream(path);
 }));
 
