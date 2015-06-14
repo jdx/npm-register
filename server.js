@@ -12,6 +12,7 @@ let config   = require('./lib/config');
 let user     = require('./lib/user');
 let app      = koa();
 
+app.name = 'elephant';
 app.use(logger());
 app.use(gzip());
 
@@ -20,6 +21,16 @@ app.use(r.get('/', function* () {
   this.type = 'text/html';
   this.body = fs.createReadStream(__dirname + '/public/index.html');
 }));
+
+// error middleware
+app.use(function* (next) {
+  try { yield next; }
+  catch (err) {
+    this.status = err.status || 500;
+    this.body   = {error: err.message};
+    this.app.emit('error', err, this);
+  }
+});
 
 // get package metadata
 app.use(r.get('/:name', function *(name) {
@@ -96,5 +107,5 @@ app.use(r.put('/:name', function *(name) {
 }));
 
 app.listen(config.port, function () {
-  console.log(`server listening on ${config.port}`);
+  console.log(`${app.name} listening on ${config.port} [${app.env}]`);
 });
