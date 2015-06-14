@@ -3,7 +3,7 @@
 let koa      = require('koa');
 let gzip     = require('koa-gzip');
 let r        = require('koa-route');
-let logger   = require('koa-logger');
+let morgan   = require('koa-morgan');
 let parse    = require('co-body');
 let fs       = require('fs');
 let packages = require('./lib/packages');
@@ -15,7 +15,7 @@ let app      = koa();
 app.name = 'elephant';
 app.port = config.port;
 
-app.use(logger());
+app.use(morgan.middleware(config.production ? 'combined' : 'dev'));
 app.use(gzip());
 
 // static root page
