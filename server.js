@@ -16,9 +16,8 @@ app.use(logger());
 app.use(gzip());
 
 app.use(r.get('/', function* () {
-  let path = __dirname + '/public/index.html';
   this.type = 'text/html';
-  this.body = fs.createReadStream(path);
+  this.body = fs.createReadStream(__dirname + '/public/index.html');
 }));
 
 app.use(r.put('/-/user/:user', function *() {
