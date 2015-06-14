@@ -109,3 +109,4 @@ app.use(r.put('/:name', function *(name) {
 }));
 
 module.exports = app;
+if (!module.parent) { app.listen(app.port); }
