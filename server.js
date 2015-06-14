@@ -13,6 +13,8 @@ let user     = require('./lib/user');
 let app      = koa();
 
 app.name = 'elephant';
+app.port = config.port;
+
 app.use(logger());
 app.use(gzip());
 
@@ -106,6 +108,4 @@ app.use(r.put('/:name', function *(name) {
   this.body = 'fooooooooo';
 }));
 
-app.listen(config.port, function () {
-  console.log(`${app.name} listening on ${config.port} [${app.env}]`);
-});
+module.exports = app;
