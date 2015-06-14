@@ -56,7 +56,7 @@ app.use(r.get('/:name/-/:filename', function *(name, filename) {
     this.body   = {error: 'no tarball found'};
     return;
   }
-  this.set('Content-Length', tarball.headers['Content-Length']);
+  this.set('Content-Length', tarball.size);
   this.set('Cache-Control', 'public, max-age=86400');
   this.body = tarball;
 }));
