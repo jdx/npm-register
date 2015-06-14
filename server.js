@@ -44,7 +44,7 @@ app.use(r.get('/:name', function *(name) {
   }
   packages.rewriteHost(pkg, config.uplink.hostname, this.headers.host);
   this.set('ETag', pkg.etag);
-  this.set('Cache-Control', 'public, max-age=600');
+  this.set('Cache-Control', `public, max-age=${config.cache.packageMaxAge}`);
   this.body = pkg;
 }));
 
