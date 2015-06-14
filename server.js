@@ -5,6 +5,7 @@ let gzip     = require('koa-gzip');
 let r        = require('koa-route');
 let logger   = require('koa-logger');
 let parse    = require('co-body');
+let fs       = require('fs');
 let packages = require('./lib/packages');
 let tarballs = require('./lib/tarballs');
 let config   = require('./lib/config');
@@ -13,6 +14,13 @@ let app      = koa();
 
 app.use(logger());
 app.use(gzip());
+
+app.use(r.get('/', function* () {
+  yield parse(this); // make jshint happy
+  let path = __dirname + '/public/index.html';
+  this.type = 'html';
+  this.body = fs.createReadStream(path);
+}));
 
 app.use(r.put('/-/user/:user', function *() {
   let auth = yield user.authenticate(yield parse(this));
