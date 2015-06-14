@@ -20,6 +20,31 @@ app.use(r.get('/', function* () {
   this.body = fs.createReadStream(__dirname + '/public/index.html');
 }));
 
+app.use(r.get('/:name', function *(name) {
+  let etag = this.req.headers['if-none-match'];
+  let pkg = yield packages.get(name, etag);
+  if (pkg === 304 || pkg === 404) {
+    this.status = pkg;
+    return;
+  }
+  packages.rewriteHost(pkg, config.uplink.hostname, this.headers.host);
+  this.set('ETag', pkg.etag);
+  this.set('Cache-Control', 'public, max-age=600');
+  this.body = pkg;
+}));
+
+app.use(r.get('/:name/-/:filename', function *(name, filename) {
+  let tarball = yield tarballs.get(name, filename);
+  if (!tarball) {
+    this.status = 404;
+    this.body   = {error: 'no tarball found'};
+    return;
+  }
+  this.set('Content-Length', tarball.headers['Content-Length']);
+  this.set('Cache-Control', 'public, max-age=86400');
+  this.body = tarball;
+}));
+
 app.use(r.put('/-/user/:user', function *() {
   let auth = yield user.authenticate(yield parse(this));
   if (auth) {
@@ -31,25 +56,25 @@ app.use(r.put('/-/user/:user', function *() {
   }
 }));
 
-app.use(r.get('/-/whoami', function *() {
-  let token = this.headers.authorization.split(' ')[1];
-  let username = yield user.findByToken(token);
-  if (!username) {
+// authenticate
+app.use(function* (next) {
+  if (!this.headers.authorization) {
     this.status = 401;
+    this.body   = {error: 'no credentials provided'};
     return;
   }
-  this.body = {username: username};
-}));
+  let token = this.headers.authorization.split(' ')[1];
+  this.username = yield user.findByToken(token);
+  if (!this.username) {
+    this.status = 401;
+    this.body   = {error: 'invalid credentials'};
+    return;
+  }
+  yield next;
+});
 
-app.use(r.get('/:name/-/:filename', function *(name, filename) {
-  let tarball = yield tarballs.get(name, filename);
-  if (!tarball) {
-    this.status = 404;
-    return;
-  }
-  this.set('Content-Length', tarball.headers['Content-Length']);
-  this.set('Cache-Control', 'public, max-age=86400');
-  this.body = tarball;
+app.use(r.get('/-/whoami', function *() {
+  this.body = {username: this.username};
 }));
 
 app.use(r.put('/:name', function *(name) {
@@ -62,19 +87,6 @@ app.use(r.put('/:name', function *(name) {
     return;
   }
   this.body = 'fooooooooo';
-}));
-
-app.use(r.get('/:name', function *(name) {
-  let etag = this.req.headers['if-none-match'];
-  let pkg = yield packages.get(name, etag);
-  if (pkg === 304 || pkg === 404) {
-    this.status = pkg;
-    return;
-  }
-  packages.rewriteHost(pkg, config.uplink.hostname, this.headers.host);
-  this.set('ETag', pkg.etag);
-  this.set('Cache-Control', 'public, max-age=600');
-  this.body = pkg;
 }));
 
 app.listen(config.port, function () {
