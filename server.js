@@ -15,11 +15,13 @@ let app      = koa();
 app.use(logger());
 app.use(gzip());
 
+// static root page
 app.use(r.get('/', function* () {
   this.type = 'text/html';
   this.body = fs.createReadStream(__dirname + '/public/index.html');
 }));
 
+// get package metadata
 app.use(r.get('/:name', function *(name) {
   let etag = this.req.headers['if-none-match'];
   let pkg = yield packages.get(name, etag);
@@ -33,6 +35,7 @@ app.use(r.get('/:name', function *(name) {
   this.body = pkg;
 }));
 
+// get package tarball
 app.use(r.get('/:name/-/:filename', function *(name, filename) {
   let tarball = yield tarballs.get(name, filename);
   if (!tarball) {
@@ -45,6 +48,7 @@ app.use(r.get('/:name/-/:filename', function *(name, filename) {
   this.body = tarball;
 }));
 
+// login
 app.use(r.put('/-/user/:user', function *() {
   let auth = yield user.authenticate(yield parse(this));
   if (auth) {
@@ -73,10 +77,12 @@ app.use(function* (next) {
   yield next;
 });
 
+// whoami
 app.use(r.get('/-/whoami', function *() {
   this.body = {username: this.username};
 }));
 
+// npm publish
 app.use(r.put('/:name', function *(name) {
   let pkg      = yield parse(this);
   let existing = yield packages.get(name);
