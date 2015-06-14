@@ -7,7 +7,7 @@
     "test": "mocha && jshint ."
   },
   "engines": {
-    "iojs": ">= 2.1.0"
+    "iojs": ">= 2.3.0"
   },
   "repository": "dickeyxxx/elephant",
   "author": "Jeff Dickey (@dickeyxxx)",
