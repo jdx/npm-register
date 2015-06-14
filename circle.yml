@@ -1,3 +1,3 @@
 machine:
   node:
-    version: iojs-v2.2.1
+    version: iojs-v2.3.0
