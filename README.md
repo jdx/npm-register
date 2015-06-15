@@ -11,14 +11,33 @@ Rather than trying to copy all the data in npm, this acts more like a proxy. Whi
 
 The inspiration for this project comes from [sinopia](https://github.com/rlidwka/sinopia). This came out of a need for better cache, CDN, and general performance as well as stability of being able to run multiple instances without depending on a local filesystem.
 
-[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
-
-Storage
--------
+Setup
+-----
 
 The bulk of the data is stored in S3. You will need to set the `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, and `AWS_S3_BUCKET` environment variables.
 
 For caching, some data will be stored in `./tmp`, and if `REDIS_URL` is set (optional) redis will be used to cache package data.
+
+The easiest way to set this up is with the Heroku button:
+
+[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
+
+Alternatively, you can set it up by cloning this repo:
+
+```
+$ git clone https://github.com/dickeyxxx/elephant
+$ cd elephant
+$ npm install
+$ npm start
+```
+
+Either way, your registry is now setup and you should be able to test it by updating the packages with it:
+
+```
+$ npm update --registry http://urltomyregistry
+```
+
+See below for how to enable authorization and `npm publish`.
 
 How it works
 ------------
@@ -59,3 +78,7 @@ Email: (this IS public) jeff@heroku.com
 $ npm whoami --registry http://myregistry
 dickeyxxx
 ```
+
+This stores the credentials in `~/.npmrc`. You can now use `npm publish` to publish packages.
+
+**NOTE**: Because the original use-case for having private packages was a little strange, right now you need to be authenticated to upload a private package, but once they are in the registry anyone can install them (but they would have to know the name of it). Comment on https://github.com/dickeyxxx/elephant/issues/1 if you'd like to see better functionality around this.
