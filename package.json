@@ -1,7 +1,7 @@
 {
   "name": "elephant",
   "version": "1.0.0",
-  "description": "private npm server",
+  "description": "Your own private npm registry and backup server",
   "scripts": {
     "start": "node server.js",
     "test": "mocha && jshint ."

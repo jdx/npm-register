@@ -1,13 +1,17 @@
 {
   "name": "elephant",
-  "description": "A private npm server",
+  "description": "Your own private npm registry and backup server",
   "repository": "https://github.com/dickeyxxx/elephant",
   "keywords": ["node", "npm"],
   "env": {
     "AWS_ACCESS_KEY_ID": "",
     "AWS_SECRET_ACCESS_KEY": "",
     "AWS_S3_BUCKET": "",
+    "CACHE_PACKAGE_TTL": "60",
     "NODE_ENV": "production",
     "UPLINK": "https://registry.npmjs.org"
-  }
+  },
+  "addons": [
+    "heroku-redis"
+  ]
 }
