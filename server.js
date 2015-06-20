@@ -1,5 +1,7 @@
 'use strict';
 
+if (process.env.NEW_RELIC_LICENSE_KEY) require('newrelic');
+
 let koa      = require('koa');
 let gzip     = require('koa-gzip');
 let r        = require('koa-route');
