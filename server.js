@@ -96,16 +96,19 @@ app.use(r.get('/-/whoami', function *() {
 }));
 
 // npm publish
-app.use(r.put('/:name', function *(name) {
-  let pkg      = yield parse(this);
-  let existing = yield packages.get(name);
-  let versions = Object.keys(existing.versions);
-  if (versions.indexOf(pkg['dist-tags'].latest) !== -1) {
-    this.status = 409;
-    this.body   = {error: 'this version already present'};
-    return;
+app.use(r.put('/:name', function *() {
+  let pkg = yield parse(this);
+  try {
+    yield packages.upload(pkg);
+    this.body = yield packages.get(pkg.name);
+  } catch (err) {
+    if (err === packages.errors.versionExists) {
+      this.body   = {error: err.toString()};
+      this.status = 409;
+    } else {
+      throw err;
+    }
   }
-  this.body = 'fooooooooo';
 }));
 
 module.exports = app;
