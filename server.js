@@ -38,14 +38,17 @@ app.use(function* (next) {
 
 // get package metadata
 app.use(r.get('/:name', function *(name) {
-  console.dir(this.headers);
   let etag = this.req.headers['if-none-match'];
   let pkg = yield packages.get(name, etag);
   if (pkg === 304 || pkg === 404) {
     this.status = pkg;
     return;
   }
-  packages.rewriteHost(pkg, config.uplink.hostname, this.headers.host);
+  let host = this.headers.host;
+  if (this.headers['user-agent'] === 'Amazon CloudFront') {
+    host = config.cloudfrontHost;
+  }
+  packages.rewriteHost(pkg, config.uplink.hostname, host);
   this.set('ETag', pkg.etag);
   this.set('Cache-Control', `public, max-age=${config.cache.packageTTL}`);
   this.body = pkg;
