@@ -38,6 +38,7 @@ app.use(function* (next) {
 
 // get package metadata
 app.use(r.get('/:name', function *(name) {
+  console.dir(this.headers);
   let etag = this.req.headers['if-none-match'];
   let pkg = yield packages.get(name, etag);
   if (pkg === 304 || pkg === 404) {
