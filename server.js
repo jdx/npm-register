@@ -42,7 +42,7 @@ app.use(r.get('/:name', function *(name) {
   let pkg = yield packages.get(name, etag);
   if (pkg === 304 || pkg === 404) {
     this.status = pkg;
-    this.body = null;
+    this.body = '';
     return;
   }
   let host = this.headers.host;
