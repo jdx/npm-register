@@ -40,9 +40,13 @@ app.use(function* (next) {
 app.use(r.get('/:name', function *(name) {
   let etag = this.req.headers['if-none-match'];
   let pkg = yield packages.get(name, etag);
-  if (pkg === 304 || pkg === 404) {
-    this.status = pkg;
-    this.body = '';
+  if (pkg === 304) {
+    this.status = 304;
+    return;
+  }
+  if (pkg === 404) {
+    this.status = 404;
+    this.body   = {error: 'no such package available'};
     return;
   }
   let host = this.headers.host;
