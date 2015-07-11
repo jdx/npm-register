@@ -54,6 +54,8 @@ app.use(r.get('/:name', function *(name) {
     host = config.cloudfrontHost;
   }
   packages.rewriteHost(pkg, config.uplink.hostname, host);
+  // TODO: find out why this happens
+  packages.rewriteHost(pkg, 'localhost:3000', host);
   this.set('ETag', pkg.etag);
   this.set('Cache-Control', `public, max-age=${config.cache.packageTTL}`);
   this.body = pkg;
