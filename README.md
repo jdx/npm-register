@@ -62,10 +62,12 @@ npm commands supported
 Authentication
 --------------
 
-Elephant uses an htpasswd file in S3 for authentication and stores tokens in S3. To set this up, first create an htpasswd file. Then upload it to `/htpasswd` in your S3 bucket.
+Elephant uses an htpasswd file in S3 for authentication and stores tokens in S3. To set this up, first create an htpasswd file. Then upload it to `/htpasswd` in your S3 bucket. There are helpers in `./bin` for this. You will need to have `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, and `AWS_S3_BUCKET` environment variables set.
 
 ```
-$ htpasswd -nB dickeyxxx > htpasswd
+$ ./bin/get-htpasswd > ./htpasswd
+$ htpasswd -nB dickeyxxx >> ./htpasswd
+$ cat ./htpasswd | ./bin/put-htpasswd
 ```
 
 Then you can login with npm. Note that the email is ignored by the server, but the CLI will force you to add one.
