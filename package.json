@@ -28,8 +28,8 @@
     "request": "^2.57.0"
   },
   "devDependencies": {
+    "chai": "^3.0.0",
     "jshint": "*",
-    "mocha": "^2.2.5",
-    "chai": "^3.0.0"
+    "mocha": "^2.2.5"
   }
 }
