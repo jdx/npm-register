@@ -70,7 +70,7 @@ app.use(r.get('/:name/-/:filename', function *(name, filename) {
     return;
   }
   this.set('Content-Length', tarball.size);
-  this.set('Cache-Control', 'public, max-age=86400');
+  this.set('Cache-Control', 'public, max-age=21600');
   this.body = tarball;
 }));
 
