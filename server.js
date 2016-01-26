@@ -26,6 +26,12 @@ app.use(r.get('/', function* () {
   this.body = fs.createReadStream(__dirname + '/public/index.html');
 }));
 
+// ping
+app.use(r.get('/-/ping', function *() {
+  this.body = {};
+}));
+
+
 // error middleware
 app.use(function* (next) {
   try { yield next; }
