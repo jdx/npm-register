@@ -22,14 +22,17 @@
   "nonbsp": true,
   "nonew": true,
   "noyield": true,
+  "sub": true,
   "trailing": true,
   "undef": true,
   "unused": true,
   "globals": {
+    "cli": true,
+    "expect": true,
+    "Promise": true
   },
   "predef": [
     "$",
-    "React",
     "after",
     "afterEach",
     "angular",
@@ -37,10 +40,12 @@
     "beforeEach",
     "browser",
     "by",
+    "context",
     "describe",
     "document",
     "element",
-    "inject",
-    "it"
+    "it",
+    "nock",
+    "sinon"
   ]
 }
