@@ -7,25 +7,25 @@
     "test": "mocha && jshint ."
   },
   "engines": {
-    "node": "5.6.0"
+    "node": ">= 5.4.0"
   },
   "repository": "dickeyxxx/elephant",
   "author": "Jeff Dickey (@dickeyxxx)",
   "license": "ISC",
   "dependencies": {
-    "aws-sdk": "2.2.35",
-    "bluebird": "3.3.1",
+    "bluebird": "^2.9.27",
     "co": "^4.5.4",
-    "co-body": "4.0.0",
-    "concat-stream": "1.5.1",
-    "heroku-git": "2.4.5",
+    "co-body": "^2.0.0",
     "htpasswd-auth": "^2.0.0",
     "ioredis": "^1.5.0",
-    "koa": "1.1.2",
-    "koa-morgan": "0.4.0",
+    "knox": "^0.9.2",
+    "koa": "^0.21.0",
+    "koa-gzip": "^0.1.0",
+    "koa-morgan": "^0.2.1",
     "koa-route": "^2.4.1",
     "newrelic": "^1.20.1",
-    "node-uuid": "^1.4.3"
+    "node-uuid": "^1.4.3",
+    "request": "^2.57.0"
   },
   "devDependencies": {
     "chai": "^3.0.0",
