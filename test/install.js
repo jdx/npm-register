@@ -10,13 +10,16 @@ process.env.NPM_CONFIG_LOGSTREAM = '/dev/null';
 
 describe('install', function () {
   it('can install heroku-git', function () {
-    this.timeout(20000);
-    return exec('npm uninstall heroku-git').catch(() => {})
-    .then(() => exec(`npm install heroku-git --registry ${registry}`))
-    .then(() => exec(`npm ls --parseable`))
-    .then(output => expect(output).to.match(/heroku-git$/m))
+    return exec('npm uninstall heroku-git')
+    .then(function () {
+      return exec(`npm install heroku-git --registry ${registry}`);
+    })
+    .then(function (output) {
+      let stdout = output[0];
+      expect(stdout).to.match(/^heroku-git/);
+    })
     .finally(function () {
-      exec('npm uninstall heroku-git').catch(() => {});
+      exec('npm uninstall heroku-git');
     });
   });
 });
