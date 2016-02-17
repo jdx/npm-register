@@ -11,12 +11,27 @@ let packages = require('./lib/packages');
 let tarballs = require('./lib/tarballs');
 let config   = require('./lib/config');
 let user     = require('./lib/user');
+let rollbar  = require('rollbar');
 let app      = koa();
+
+if (config.rollbar) {
+  rollbar.init(config.rollbar);
+  rollbar.handleUncaughtExceptions(config.rollbar);
+}
 
 app.name = 'elephant';
 app.port = config.port;
 
 app.use(morgan.middleware(config.production ? 'combined' : 'dev'));
+
+app.use(function* (next) {
+  try {
+    yield next;
+  } catch (err) {
+    if (config.rollbar) rollbar.handleError(err, this.request);
+    throw err;
+  }
+});
 
 // static root page
 app.use(r.get('/', function* () {

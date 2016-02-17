@@ -10,7 +10,7 @@ process.env.NPM_CONFIG_LOGSTREAM = '/dev/null';
 
 describe('install', function () {
   it('can install heroku-git', function () {
-    this.timeout(20000);
+    this.timeout(300000);
     return exec('npm uninstall heroku-git').catch(() => {})
     .then(() => exec(`npm install heroku-git --registry ${registry}`))
     .then(() => exec(`npm ls --parseable`))

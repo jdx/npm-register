@@ -25,7 +25,8 @@
     "koa-morgan": "0.4.0",
     "koa-route": "^2.4.1",
     "newrelic": "^1.20.1",
-    "node-uuid": "^1.4.3"
+    "node-uuid": "^1.4.3",
+    "rollbar": "0.5.12"
   },
   "devDependencies": {
     "chai": "^3.0.0",
