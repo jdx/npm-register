@@ -12,7 +12,13 @@ let packages = require('./lib/packages');
 let tarballs = require('./lib/tarballs');
 let config   = require('./lib/config');
 let user     = require('./lib/user');
+let rollbar  = require('rollbar');
 let app      = koa();
+
+if (config.rollbar) {
+  rollbar.init(config.rollbar);
+  rollbar.handleUncaughtExceptions(config.rollbar);
+}
 
 app.name = 'elephant';
 app.port = config.port;
@@ -36,6 +42,7 @@ app.use(r.get('/-/ping', function *() {
 app.use(function* (next) {
   try { yield next; }
   catch (err) {
+    if (config.rollbar) rollbar.handleError(err, {}, this.request);
     this.status = err.status || 500;
     this.body   = {error: err.message};
     this.app.emit('error', err, this);
