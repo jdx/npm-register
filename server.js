@@ -145,6 +145,6 @@ app.use(r.put('/:name', function *() {
 module.exports = app;
 if (!module.parent) {
   app.listen(app.port, function () {
-    console.log(`${app.name} listening on port ${app.port} [${app.env}]`);
+    console.error(`${app.name} listening on port ${app.port} [${app.env}]`);
   });
 }
