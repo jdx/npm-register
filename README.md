@@ -1,4 +1,4 @@
-# elephant [![Circle CI](https://circleci.com/gh/dickeyxxx/elephant/tree/master.svg?style=svg)](https://circleci.com/gh/dickeyxxx/elephant/tree/master)
+# elephant [![Circle CI](https://circleci.com/gh/heroku/elephant/tree/master.svg?style=svg)](https://circleci.com/gh/heroku/elephant/tree/master)
 
 Your own private npm registry and backup server.
 
