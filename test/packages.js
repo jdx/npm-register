@@ -31,6 +31,10 @@ describe('packages', () => {
   });
 
   describe('GET /:package/-/:filename (package tarball)', () => {
+    before(co.wrap(function* () {
+      yield s3.deleteFileAsync('/tarballs/mocha/mocha-1.0.0.tgz');
+    }));
+
     it('returns a package tarball', () => {
       return request.get('/mocha')
       .accept('json')
