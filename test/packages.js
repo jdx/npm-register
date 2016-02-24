@@ -6,6 +6,8 @@ let user    = require('../lib/user');
 let co      = require('co');
 let url     = require('url');
 let crypto  = require('crypto');
+let fs      = require('fs');
+let s3      = require('../lib/s3');
 
 // make sure this user is in the htpasswd file
 const testUser = {name: 'test', password: 'test'};
@@ -19,7 +21,7 @@ function bearer (token) {
 describe('packages', () => {
   let token;
 
-  describe('/:package (package metadata)', () => {
+  describe('GET /:package (package metadata)', () => {
     it('returns a package', () => {
       return request.get('/mocha')
       .accept('json')
@@ -28,7 +30,7 @@ describe('packages', () => {
     });
   });
 
-  describe('/:package/-/:filename (package tarball)', () => {
+  describe('GET /:package/-/:filename (package tarball)', () => {
     it('returns a package tarball', () => {
       return request.get('/mocha')
       .accept('json')
@@ -48,6 +50,38 @@ describe('packages', () => {
           });
         });
       });
+    });
+  });
+
+  describe('PUT /:package (npm publish)', () => {
+    before(co.wrap(function* () {
+      token = yield user.authenticate(testUser);
+      yield s3.deleteFileAsync('/tarballs/elephant-sample/elephant-sample-1.0.0.tgz');
+      yield s3.deleteFileAsync('/packages/elephant-sample');
+    }));
+
+    it('adds a package', () => {
+      return request.put('/mocha')
+      .use(bearer(token))
+      .send({
+        name:         'elephant-sample',
+        'dist-tags':  {latest: '1.0.0'},
+        versions: {
+          '1.0.0': {
+            dist: {
+              shasum: '13ac99afb9147d64649e62077a192f32b37c846d',
+              tarball: 'http://localhost:3000/elephant-sample/-/elephant-sample-1.0.0.tgz',
+            }
+          }
+        },
+        _attachments: {
+          'elephant-sample-1.0.0.tgz': {
+            content_type: 'application/octet-stream',
+            data: fs.readFileSync('./test/fixtures/elephant-sample.tar.gz', {encoding: 'base64'})
+          }
+        }
+      })
+      .expect(200);
     });
   });
 });
