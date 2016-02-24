@@ -4,5 +4,5 @@ machine:
 test:
   override:
     - mkdir -p $CIRCLE_TEST_REPORTS/mocha
-    - mocha --reporter mocha-junit-reporter > $CIRCLE_TEST_REPORTS/mocha/xunit.xml
+    - mocha --reporter mocha-junit-reporter > $CIRCLE_TEST_REPORTS/mocha/junit.xml
     - jshint .
