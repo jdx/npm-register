@@ -16,7 +16,12 @@ let rollbar  = require('rollbar');
 let app      = koa();
 
 if (config.rollbar) {
-  rollbar.init(config.rollbar);
+  rollbar.init(config.rollbar, {
+    environment:  process.env.NODE_ENV,
+    codeVersion:  process.env.HEROKU_SLUG_COMMIT,
+    host:         process.env.HEROKU_APP_NAME,
+    scrubHeaders: ['authorization'],
+  });
   rollbar.handleUncaughtExceptions(config.rollbar);
 }
 
@@ -42,7 +47,7 @@ app.use(r.get('/-/ping', function *() {
 app.use(function* (next) {
   try { yield next; }
   catch (err) {
-    if (config.rollbar) rollbar.handleError(err, {}, this.request);
+    if (config.rollbar) rollbar.handleError(err, this.request);
     this.status = err.status || 500;
     this.body   = {error: err.message};
     this.app.emit('error', err, this);
