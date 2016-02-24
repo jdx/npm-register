@@ -3,5 +3,6 @@ machine:
     version: v5.7.0
 test:
   override:
-    - mocha --reporter xunit
+    - mkdir -p $CIRCLE_TEST_REPORTS/mocha
+    - mocha --reporter mocha-junit-reporter > $CIRCLE_TEST_REPORTS/mocha/xunit.xml
     - jshint .
