@@ -26,7 +26,9 @@
     "newrelic": "^1.20.1",
     "node-uuid": "^1.4.3",
     "request": "^2.57.0",
-    "rollbar": "0.5.12"
+    "rollbar": "0.5.13",
+    "supertest": "1.2.0",
+    "supertest-as-promised": "3.0.0"
   },
   "devDependencies": {
     "chai": "^3.0.0",
