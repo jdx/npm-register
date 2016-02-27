@@ -7,7 +7,7 @@
     "test": "mocha && jshint ."
   },
   "engines": {
-    "node": "5.6.0"
+    "node": "5.7.0"
   },
   "repository": "dickeyxxx/elephant",
   "author": "Jeff Dickey (@dickeyxxx)",
