@@ -9,15 +9,11 @@ let expect = require('chai').expect;
 process.env.NPM_CONFIG_LOGSTREAM = '/dev/null';
 
 describe('install', function () {
-  it('can install heroku-git', function () {
+  it('installs heroku-git', function () {
     return exec('npm uninstall heroku-git').catch(() => {})
-    .then(function () {
-      return exec(`npm install heroku-git --parseable --registry ${registry}`);
-    })
-    .then(function (output) {
-      let stdout = output[0];
-      expect(stdout).to.match(/heroku-git$/m);
-    })
+    .then(() => exec('npm cache clean heroku-git'))
+    .then(() => exec(`npm install heroku-git --parseable --registry ${registry}`))
+    .then(output => expect(output).to.match(/heroku-git$/m))
     .finally(function () {
       exec('npm uninstall heroku-git');
     });
