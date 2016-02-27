@@ -16,7 +16,7 @@ Setup
 
 The bulk of the data is stored in S3. You will need to set the `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, and `AWS_S3_BUCKET` environment variables.
 
-For caching, some data will be stored in `./tmp`, and if `REDIS_URL` is set (optional) redis will be used to cache package data.
+If `REDIS_URL` is set (optional) redis will be used to cache package data.
 
 The easiest way to set this up is with the Heroku button:
 
