@@ -35,14 +35,14 @@ app.use(compress());
 
 // static root page
 app.use(r.get('/', function* () {
-  newrelic.setTransactionName('/');
+  newrelic.setTransactionName('');
   this.type = 'text/html';
   this.body = fs.createReadStream(__dirname + '/public/index.html');
 }));
 
 // ping
 app.use(r.get('/-/ping', function *() {
-  newrelic.setTransactionName('/-/ping');
+  newrelic.setTransactionName('-/ping');
   this.body = {};
 }));
 
@@ -61,7 +61,7 @@ app.use(function* (next) {
 
 // get package metadata
 app.use(r.get('/:name', function *(name) {
-  newrelic.setTransactionName('/:name');
+  newrelic.setTransactionName(':name');
   let etag = this.req.headers['if-none-match'];
   let pkg = yield packages.get(name, etag);
   if (pkg === 304) {
@@ -87,7 +87,7 @@ app.use(r.get('/:name', function *(name) {
 
 // get package tarball
 app.use(r.get('/:name/-/:filename', function *(name, filename) {
-  newrelic.setTransactionName('/:name/-/:filename');
+  newrelic.setTransactionName(':name/-/:filename');
   let tarball = yield tarballs.get(name, filename);
   if (!tarball) {
     this.status = 404;
@@ -101,7 +101,7 @@ app.use(r.get('/:name/-/:filename', function *(name, filename) {
 
 // login
 app.use(r.put('/-/user/:user', function *() {
-  newrelic.setTransactionName('/-/user/:user');
+  newrelic.setTransactionName('-/user/:user');
   let auth = yield user.authenticate(yield parse(this));
   if (auth) {
     this.status = 201;
@@ -131,13 +131,13 @@ app.use(function* (next) {
 
 // whoami
 app.use(r.get('/-/whoami', function *() {
-  newrelic.setTransactionName('/-/whoami');
+  newrelic.setTransactionName('-/whoami');
   this.body = {username: this.username};
 }));
 
 // npm publish
 app.use(r.put('/:name', function *() {
-  newrelic.setTransactionName('/:name');
+  newrelic.setTransactionName(':name');
   let pkg = yield parse(this);
   try {
     yield packages.upload(pkg);
