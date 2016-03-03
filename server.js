@@ -73,22 +73,17 @@ app.use(r.get('/:name', function *(name) {
     this.body   = {error: 'no such package available'};
     return;
   }
-  let host = this.headers.host;
-  if (this.headers['user-agent'] === 'Amazon CloudFront') {
-    host = config.cloudfrontHost;
-  }
-  packages.rewriteHost(pkg, config.uplink.hostname, host);
-  // TODO: find out why this happens
-  packages.rewriteHost(pkg, 'localhost:3000', host);
+  let cloudfront = this.headers['user-agent'] === 'Amazon CloudFront';
+  packages.rewriteTarballURLs(pkg, cloudfront ? config.cloudfrontHost : this.headers.host);
   this.set('ETag', pkg.etag);
   this.set('Cache-Control', `public, max-age=${config.cache.packageTTL}`);
   this.body = pkg;
 }));
 
-// get package tarball
-app.use(r.get('/:name/-/:filename', function *(name, filename) {
-  newrelic.setTransactionName(':name/-/:filename');
-  let tarball = yield tarballs.get(name, filename);
+// get package tarball with sha
+app.use(r.get('/:name/-/:filename/:sha', function *(name, filename, sha) {
+  newrelic.setTransactionName(':name/-/:filename/:sha');
+  let tarball = yield tarballs.get(name, filename, sha);
   if (!tarball) {
     this.status = 404;
     this.body   = {error: 'no tarball found'};
@@ -97,6 +92,12 @@ app.use(r.get('/:name/-/:filename', function *(name, filename) {
   this.set('Content-Length', tarball.size);
   this.set('Cache-Control', `public, max-age=${config.cache.tarballTTL}`);
   this.body = tarball;
+}));
+
+// get package tarball without sha
+app.use(r.get('/:name/-/:filename', function *(name, filename) {
+  newrelic.setTransactionName(':name/-/:filename');
+  this.redirect(`/${name}/-/${filename}/a`);
 }));
 
 // login
