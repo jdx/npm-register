@@ -12,6 +12,14 @@ let s3      = require('../lib/s3');
 // make sure this user is in the htpasswd file
 const testUser = {name: 'test', password: 'test'};
 
+function* deleteItems (prefix) {
+  let items = yield s3.listAsync({prefix});
+  for (let item of items.Contents) {
+    console.log(`deleting ${item.Key}`);
+    yield s3.deleteFileAsync(item.Key);
+  }
+}
+
 function bearer (token) {
   return function (request) {
     request.set('Authorization', `Bearer ${token}`);
@@ -32,7 +40,7 @@ describe('packages', () => {
 
   describe('GET /:package/-/:filename (package tarball)', () => {
     before(co.wrap(function* () {
-      yield s3.deleteFileAsync('/tarballs/mocha/mocha-1.0.0.tgz');
+      yield deleteItems('tarballs/mocha');
     }));
 
     it('returns a package tarball', () => {
@@ -60,8 +68,8 @@ describe('packages', () => {
   describe('PUT /:package (npm publish)', () => {
     before(co.wrap(function* () {
       token = yield user.authenticate(testUser);
-      yield s3.deleteFileAsync('/tarballs/elephant-sample/elephant-sample-1.0.0.tgz');
-      yield s3.deleteFileAsync('/packages/elephant-sample');
+      yield deleteItems('tarballs/elephant-sample');
+      yield deleteItems('packages/elephant-sample');
     }));
 
     it('adds a package', () => {
