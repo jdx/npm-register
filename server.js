@@ -15,6 +15,7 @@ let tarballs = require('./lib/tarballs');
 let config   = require('./lib/config');
 let user     = require('./lib/user');
 let rollbar  = require('rollbar');
+let path     = require('path');
 let app      = koa();
 
 if (config.rollbar) {
@@ -111,7 +112,9 @@ app.use(r.get('/:scope/:name/-/:filename/:sha', function *(scope, name, filename
 // get package tarball without sha
 app.use(r.get('/:name/-/:filename', function *(name, filename) {
   newrelic.setTransactionName(':name/-/:filename');
-  this.redirect(`/${name}/-/${filename}/a`);
+  let ext = path.extname(filename);
+  filename = path.basename(filename, ext);
+  this.redirect(`/${name}/-/${filename}/a${ext}`);
 }));
 
 // login
