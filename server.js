@@ -15,6 +15,7 @@ let tarballs = require('./lib/tarballs');
 let config   = require('./lib/config');
 let user     = require('./lib/user');
 let rollbar  = require('rollbar');
+let path     = require('path');
 let app      = koa();
 
 if (config.rollbar) {
@@ -73,22 +74,17 @@ app.use(r.get('/:name', function *(name) {
     this.body   = {error: 'no such package available'};
     return;
   }
-  let host = this.headers.host;
-  if (this.headers['user-agent'] === 'Amazon CloudFront') {
-    host = config.cloudfrontHost;
-  }
-  packages.rewriteHost(pkg, config.uplink.hostname, host);
-  // TODO: find out why this happens
-  packages.rewriteHost(pkg, 'localhost:3000', host);
+  let cloudfront = this.headers['user-agent'] === 'Amazon CloudFront';
+  packages.rewriteTarballURLs(pkg, cloudfront ? config.cloudfrontHost : this.headers.host);
   this.set('ETag', pkg.etag);
   this.set('Cache-Control', `public, max-age=${config.cache.packageTTL}`);
   this.body = pkg;
 }));
 
-// get package tarball
-app.use(r.get('/:name/-/:filename', function *(name, filename) {
-  newrelic.setTransactionName(':name/-/:filename');
-  let tarball = yield tarballs.get(name, filename);
+// get package tarball with sha
+app.use(r.get('/:name/-/:filename/:sha', function *(name, filename, sha) {
+  newrelic.setTransactionName(':name/-/:filename/:sha');
+  let tarball = yield tarballs.get(name, filename, sha);
   if (!tarball) {
     this.status = 404;
     this.body   = {error: 'no tarball found'};
@@ -97,6 +93,28 @@ app.use(r.get('/:name/-/:filename', function *(name, filename) {
   this.set('Content-Length', tarball.size);
   this.set('Cache-Control', `public, max-age=${config.cache.tarballTTL}`);
   this.body = tarball;
+}));
+
+// get package tarball with sha
+app.use(r.get('/:scope/:name/-/:filename/:sha', function *(scope, name, filename, sha) {
+  newrelic.setTransactionName(':scope/:name/-/:filename/:sha');
+  let tarball = yield tarballs.get(`${scope}/${name}`, filename, sha);
+  if (!tarball) {
+    this.status = 404;
+    this.body   = {error: 'no tarball found'};
+    return;
+  }
+  this.set('Content-Length', tarball.size);
+  this.set('Cache-Control', `public, max-age=${config.cache.tarballTTL}`);
+  this.body = tarball;
+}));
+
+// get package tarball without sha
+app.use(r.get('/:name/-/:filename', function *(name, filename) {
+  newrelic.setTransactionName(':name/-/:filename');
+  let ext = path.extname(filename);
+  filename = path.basename(filename, ext);
+  this.redirect(`/${name}/-/${filename}/a${ext}`);
 }));
 
 // login
