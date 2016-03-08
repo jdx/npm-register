@@ -11,6 +11,8 @@ Rather than trying to copy all the data in npm, this acts more like a proxy. Whi
 
 The inspiration for this project comes from [sinopia](https://github.com/rlidwka/sinopia). This came out of a need for better cache, CDN, and general performance as well as stability of being able to run multiple instances without depending on a local filesystem.
 
+This is also a [12 Factor](http://12factor.net/) app to make it easy to host on a PaaS like Heroku or in a custom Ansible/Chef/Puppet cluster.
+
 Setup
 -----
 
