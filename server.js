@@ -6,7 +6,6 @@ process.env.NEW_RELIC_LOG = 'stdout';
 let koa      = require('koa');
 let compress = require('koa-compress');
 let r        = require('koa-route');
-let morgan   = require('koa-morgan');
 let newrelic = require('newrelic');
 let parse    = require('co-body');
 let fs       = require('fs');
@@ -31,7 +30,7 @@ if (config.rollbar) {
 app.name = 'elephant';
 app.port = config.port;
 
-app.use(morgan.middleware(config.production ? 'combined' : 'dev'));
+app.use(require('./logger'));
 app.use(compress());
 
 // static root page
@@ -64,7 +63,7 @@ app.use(function* (next) {
 app.use(r.get('/:name', function *(name) {
   newrelic.setTransactionName(':name');
   let etag = this.req.headers['if-none-match'];
-  let pkg = yield packages.get(name, etag);
+  let pkg = yield packages(this.metric).get(name, etag);
   if (pkg === 304) {
     this.status = 304;
     return;
@@ -75,7 +74,7 @@ app.use(r.get('/:name', function *(name) {
     return;
   }
   let cloudfront = this.headers['user-agent'] === 'Amazon CloudFront';
-  packages.rewriteTarballURLs(pkg, cloudfront ? config.cloudfrontHost : this.headers.host);
+  packages(this.metric).rewriteTarballURLs(pkg, cloudfront ? config.cloudfrontHost : this.headers.host);
   this.set('ETag', pkg.etag);
   this.set('Cache-Control', `public, max-age=${config.cache.packageTTL}`);
   this.body = pkg;
@@ -84,7 +83,7 @@ app.use(r.get('/:name', function *(name) {
 // get package tarball with sha
 app.use(r.get('/:name/-/:filename/:sha', function *(name, filename, sha) {
   newrelic.setTransactionName(':name/-/:filename/:sha');
-  let tarball = yield tarballs.get(name, filename, sha);
+  let tarball = yield tarballs(this.metric).get(name, filename, sha);
   if (!tarball) {
     this.status = 404;
     this.body   = {error: 'no tarball found'};
@@ -98,7 +97,7 @@ app.use(r.get('/:name/-/:filename/:sha', function *(name, filename, sha) {
 // get package tarball with sha
 app.use(r.get('/:scope/:name/-/:filename/:sha', function *(scope, name, filename, sha) {
   newrelic.setTransactionName(':scope/:name/-/:filename/:sha');
-  let tarball = yield tarballs.get(`${scope}/${name}`, filename, sha);
+  let tarball = yield tarballs(this.metric).get(`${scope}/${name}`, filename, sha);
   if (!tarball) {
     this.status = 404;
     this.body   = {error: 'no tarball found'};
@@ -158,10 +157,10 @@ app.use(r.put('/:name', function *() {
   newrelic.setTransactionName(':name');
   let pkg = yield parse(this);
   try {
-    yield packages.upload(pkg);
-    this.body = yield packages.get(pkg.name);
+    yield packages(this.metric).upload(pkg);
+    this.body = yield packages(this.metric).get(pkg.name);
   } catch (err) {
-    if (err === packages.errors.versionExists) {
+    if (err === packages(this.metric).errors.versionExists) {
       this.body   = {error: err.toString()};
       this.status = 409;
     } else {
