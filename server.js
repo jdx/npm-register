@@ -94,6 +94,20 @@ app.use(r.get('/:name/-/:filename/:sha', function *(name, filename, sha) {
   this.body = tarball;
 }));
 
+// get package tarball with sha
+app.use(r.get('/:scope/:name/-/:filename/:sha', function *(scope, name, filename, sha) {
+  newrelic.setTransactionName(':scope/:name/-/:filename/:sha');
+  let tarball = yield tarballs.get(`${scope}/${name}`, filename, sha);
+  if (!tarball) {
+    this.status = 404;
+    this.body   = {error: 'no tarball found'};
+    return;
+  }
+  this.set('Content-Length', tarball.size);
+  this.set('Cache-Control', `public, max-age=${config.cache.tarballTTL}`);
+  this.body = tarball;
+}));
+
 // get package tarball without sha
 app.use(r.get('/:name/-/:filename', function *(name, filename) {
   newrelic.setTransactionName(':name/-/:filename');
