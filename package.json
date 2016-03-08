@@ -22,8 +22,8 @@
     "knox": "^0.9.2",
     "koa": "1.1.2",
     "koa-compress": "1.0.9",
-    "koa-morgan": "^0.2.1",
     "koa-route": "^2.4.1",
+    "metric-log": "1.0.1",
     "newrelic": "^1.20.1",
     "node-uuid": "^1.4.3",
     "rollbar": "0.5.13"
