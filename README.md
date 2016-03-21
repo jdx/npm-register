@@ -1,5 +1,7 @@
 # elephant
 
+[![Code Climate](https://codeclimate.com/github/dickeyxxx/elephant/badges/gpa.svg)](https://codeclimate.com/github/dickeyxxx/elephant)
+
 Your own private npm registry and backup server.
 
 Overview
