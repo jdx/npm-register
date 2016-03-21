@@ -10,6 +10,9 @@ engines:
       - php
   eslint:
     enabled: true
+    checks:
+      comma-dangle:
+        enabled: false
   fixme:
     enabled: true
 ratings:
