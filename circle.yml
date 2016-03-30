@@ -1,6 +1,6 @@
 machine:
   node:
-    version: v5.7.1
+    version: v5.9.1
 test:
   override:
     - mkdir -p $CIRCLE_TEST_REPORTS/mocha
