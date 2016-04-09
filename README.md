@@ -4,6 +4,8 @@
 
 Your own private npm registry and backup server.
 
+[![Coverage Status](https://coveralls.io/repos/github/dickeyxxx/elephant/badge.svg?branch=master)](https://coveralls.io/github/dickeyxxx/elephant?branch=master)
+
 Overview
 --------
 
