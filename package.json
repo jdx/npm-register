@@ -4,7 +4,8 @@
   "description": "Your own private npm registry and backup server",
   "scripts": {
     "start": "node server.js",
-    "test": "mocha && jshint ."
+    "test": "nyc mocha && jshint .",
+    "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "engines": {
     "node": "5.9.1"
@@ -30,9 +31,10 @@
   },
   "devDependencies": {
     "chai": "^3.0.0",
+    "coveralls": "2.11.9",
     "jshint": "*",
     "mocha": "^2.2.5",
-    "mocha-junit-reporter": "1.10.0",
+    "nyc": "6.2.1",
     "supertest": "1.2.0",
     "supertest-as-promised": "3.0.0"
   }
