@@ -5,7 +5,7 @@ require('./server')
 let registry = 'http://localhost:' + process.env.PORT
 let bluebird = require('bluebird')
 let exec = bluebird.promisify(require('child_process').exec)
-let expect = require('chai').expect
+let expect = require('unexpected')
 
 process.env.NPM_CONFIG_LOGSTREAM = '/dev/null'
 
