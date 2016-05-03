@@ -17,7 +17,10 @@
     "metric-log": "1.0.1",
     "newrelic": "^1.20.1",
     "node-uuid": "^1.4.3",
-    "rollbar": "0.6.0"
+    "nyc": "6.4.2",
+    "rollbar": "0.6.0",
+    "snazzy": "4.0.0",
+    "standard": "7.0.0"
   },
   "devDependencies": {
     "codeclimate-test-reporter": "0.3.1",
