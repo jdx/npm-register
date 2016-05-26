@@ -78,6 +78,28 @@ app.use(r.get('/:name', function * (name) {
   this.body = pkg
 }))
 
+
+// get scoped package metadata
+app.use(r.get('/:scope/:name', function *(scope, name) {
+  newrelic.setTransactionName(':name');
+  let etag = this.req.headers['if-none-match'];
+  let pkg = yield packages(this.metric).get(`${scope}/${name}`, etag);
+  if (pkg === 304) {
+    this.status = 304;
+    return;
+  }
+  if (pkg === 404) {
+    this.status = 404;
+    this.body   = {error: 'no such package available'};
+    return;
+  }
+  let cloudfront = this.headers['user-agent'] === 'Amazon CloudFront';
+  packages(this.metric).rewriteTarballURLs(pkg, cloudfront ? config.cloudfrontHost : this.headers.host);
+  this.set('ETag', pkg.etag);
+  this.set('Cache-Control', `public, max-age=${config.cache.packageTTL}`);
+  this.body = pkg;
+}));
+
 // get package tarball with sha
 app.use(r.get('/:name/-/:filename/:sha', function * (name, filename, sha) {
   newrelic.setTransactionName(':name/-/:filename/:sha')
@@ -92,10 +114,10 @@ app.use(r.get('/:name/-/:filename/:sha', function * (name, filename, sha) {
   this.body = tarball
 }))
 
-// get package tarball with sha
-app.use(r.get('/:scope/:name/-/:filename/:sha', function * (scope, name, filename, sha) {
-  newrelic.setTransactionName(':scope/:name/-/:filename/:sha')
-  let tarball = yield tarballs(this.metric).get(`${scope}/${name}`, filename, sha)
+// get scoped package tarball with sha
+app.use(r.get('/:scope/:name/-/:scope_again/:filename/:sha', function *(scope, name, scope_again, filename, sha) {
+  newrelic.setTransactionName(':scope/:name/-/:scope_again/:filename/:sha');
+  let tarball = yield tarballs(this.metric).get(`${scope}/${name}`, filename, sha);
   if (!tarball) {
     this.status = 404
     this.body = {error: 'no tarball found'}
