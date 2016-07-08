@@ -129,29 +129,33 @@ app.use(r.put('/-/user/:user', function * () {
 
 // authenticate
 app.use(function * (next) {
-  if (!this.headers.authorization) {
-    this.status = 401
-    this.body = {error: 'no credentials provided'}
-    return
+  const unauthorized = new Error('unauthorized')
+  if (this.headers.authorization) {
+    let token = this.headers.authorization.split(' ')[1]
+    this.username = yield user.findByToken(token)
   }
-  let token = this.headers.authorization.split(' ')[1]
-  this.username = yield user.findByToken(token)
-  if (!this.username) {
+  this.authenticated = () => {
+    if (!this.username) throw unauthorized
+  }
+  try {
+    yield next
+  } catch (err) {
+    if (err !== unauthorized) throw err
     this.status = 401
     this.body = {error: 'invalid credentials'}
-    return
   }
-  yield next
 })
 
 // whoami
 app.use(r.get('/-/whoami', function * () {
+  this.authenticated()
   newrelic.setTransactionName('-/whoami')
   this.body = {username: this.username}
 }))
 
 // npm publish
 app.use(r.put('/:name', function * () {
+  this.authenticated()
   newrelic.setTransactionName(':name')
   let pkg = yield parse(this)
   try {
