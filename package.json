@@ -34,7 +34,7 @@
     "unexpected": "10.13.2"
   },
   "engines": {
-    "node": "^6.0.0"
+    "node": "6.3.0"
   },
   "license": "ISC",
   "repository": "dickeyxxx/elephant",
