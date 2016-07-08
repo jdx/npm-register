@@ -1,9 +1,9 @@
-# elephant
+# elephant [![CircleCI](https://circleci.com/gh/dickeyxxx/elephant/tree/master.svg?style=svg)](https://circleci.com/gh/dickeyxxx/elephant/tree/master)
 
 Your own private npm registry and backup server.
 
 [![Code Climate](https://codeclimate.com/github/dickeyxxx/elephant/badges/gpa.svg)](https://codeclimate.com/github/dickeyxxx/elephant)
-[![Coverage Status](https://coveralls.io/repos/github/dickeyxxx/elephant/badge.svg?branch=master)](https://coveralls.io/github/dickeyxxx/elephant?branch=master)
+[![codecov](https://codecov.io/gh/dickeyxxx/elephant/branch/master/graph/badge.svg)](https://codecov.io/gh/dickeyxxx/elephant)
 
 Overview
 --------
