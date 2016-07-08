@@ -36,7 +36,6 @@
   "license": "ISC",
   "repository": "dickeyxxx/elephant",
   "scripts": {
-    "coverage": "nyc report --reporter=text-lcov | codeclimate-test-reporter && nyc report --reporter=text-lcov | coveralls",
     "start": "node server.js",
     "test": "nyc mocha && standard"
   }
