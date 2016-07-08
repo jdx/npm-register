@@ -171,6 +171,11 @@ app.use(r.put('/:name', function * () {
   }
 }))
 
+app.use(function * () {
+  this.status = 404
+  this.body = {error: 'Not found'}
+})
+
 module.exports = app
 if (!module.parent) {
   app.listen(app.port, function () {
