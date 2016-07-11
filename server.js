@@ -33,18 +33,9 @@ app.port = config.port
 app.use(require('./logger'))
 app.use(compress())
 
-// static root page
-app.use(r.get('/', function * () {
-  newrelic.setTransactionName('')
-  this.type = 'text/html'
-  this.body = fs.createReadStream(path.join(__dirname, '/public/index.html'))
-}))
-
-// ping
-app.use(r.get('/-/ping', function * () {
-  newrelic.setTransactionName('-/ping')
-  this.body = {}
-}))
+const routes = require('./routes')
+app.use(routes.routes())
+app.use(routes.allowedMethods())
 
 // error middleware
 app.use(function * (next) {
