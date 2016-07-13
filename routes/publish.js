@@ -3,9 +3,10 @@
 const r = require('koa-router')()
 const packages = require('../lib/packages')
 const parse = require('co-body')
+const middleware = require('../middleware')
 
 // npm publish
-r.put('/:name', function * () {
+r.put('/:name', middleware.auth, function * () {
   let pkg = yield parse(this)
   try {
     yield packages(this.metric).upload(pkg)
