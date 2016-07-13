@@ -6,7 +6,6 @@ const parse = require('co-body')
 
 // npm publish
 r.put('/:name', function * () {
-  this.authenticated()
   let pkg = yield parse(this)
   try {
     yield packages(this.metric).upload(pkg)
