@@ -25,5 +25,6 @@ function load (name) {
 
 load('packages')
 load('auth')
+load('publish')
 
 module.exports = r
