@@ -13,16 +13,17 @@ r.get('/', function * () {
   yield sendfile(this, path.join(__dirname, '../public/index.html'))
 })
 
-r.get('/foo/:bar', function * () {
-  this.body = this.params.bar
-})
-
-r.get('/error-test', function * () {
-  throw new Error('testing!')
-})
-
 r.get('/-/ping', function * () {
   this.body = {}
 })
+
+function load (name) {
+  let sub = require('./' + name)
+  r.use(sub.routes())
+  r.use(sub.allowedMethods())
+}
+
+load('packages')
+load('auth')
 
 module.exports = r
