@@ -2,155 +2,23 @@
 
 const opbeat = require('opbeat').start()
 
-if (!process.env.NEW_RELIC_LICENSE_KEY) process.env.NEW_RELIC_ENABLED = 'false'
-process.env.NEW_RELIC_LOG = 'stdout'
-
-let koa = require('koa')
-let compress = require('koa-compress')
-let r = require('koa-route')
-let parse = require('co-body')
-let packages = require('./lib/packages')
-let tarballs = require('./lib/tarballs')
-let config = require('./config')
-let user = require('./lib/user')
+const app = require('koa')()
+const compress = require('koa-compress')
+const config = require('./config')
 const routes = require('./routes')
-let path = require('path')
-let app = koa()
-app.context.opbeat = opbeat
+const middleware = require('./middleware')
 
 app.name = 'elephant'
 app.port = config.port
-app.proxy = true
+app.proxy = config.production
+app.context.opbeat = opbeat
 
 app.use(require('./logger'))
 app.use(compress())
-
-app.use(function * (next) {
-  try { yield next } catch (err) {
-    this.opbeat.captureError(err, {
-      user: {username: this.state.username},
-      request: this.req
-    })
-    this.status = err.status || 500
-    this.body = {error: err.message}
-    this.app.emit('error', err, this)
-  }
-})
-
+app.use(middleware.error)
 app.use(routes.routes())
 app.use(routes.allowedMethods())
-
-// get package metadata
-app.use(r.get('/:name', function * (name) {
-  let etag = this.req.headers['if-none-match']
-  let pkg = yield packages(this.metric).get(name, etag)
-  if (pkg === 304) {
-    this.status = 304
-    return
-  }
-  if (pkg === 404) {
-    this.status = 404
-    this.body = {error: 'no such package available'}
-    return
-  }
-  let cloudfront = this.headers['user-agent'] === 'Amazon CloudFront'
-  packages(this.metric).rewriteTarballURLs(pkg, cloudfront ? config.cloudfrontHost : this.headers.host)
-  this.set('ETag', pkg.etag)
-  this.set('Cache-Control', `public, max-age=${config.cache.packageTTL}`)
-  this.body = pkg
-}))
-
-// get package tarball with sha
-app.use(r.get('/:name/-/:filename/:sha', function * (name, filename, sha) {
-  let tarball = yield tarballs(this.metric).get(name, filename, sha)
-  if (!tarball) {
-    this.status = 404
-    this.body = {error: 'no tarball found'}
-    return
-  }
-  this.set('Content-Length', tarball.size)
-  this.set('Cache-Control', `public, max-age=${config.cache.tarballTTL}`)
-  this.body = tarball
-}))
-
-// get package tarball with sha
-app.use(r.get('/:scope/:name/-/:filename/:sha', function * (scope, name, filename, sha) {
-  let tarball = yield tarballs(this.metric).get(`${scope}/${name}`, filename, sha)
-  if (!tarball) {
-    this.status = 404
-    this.body = {error: 'no tarball found'}
-    return
-  }
-  this.set('Content-Length', tarball.size)
-  this.set('Cache-Control', `public, max-age=${config.cache.tarballTTL}`)
-  this.body = tarball
-}))
-
-// get package tarball without sha
-app.use(r.get('/:name/-/:filename', function * (name, filename) {
-  let ext = path.extname(filename)
-  filename = path.basename(filename, ext)
-  this.redirect(`/${name}/-/${filename}/a${ext}`)
-}))
-
-// login
-app.use(r.put('/-/user/:user', function * () {
-  let auth = yield user.authenticate(yield parse(this))
-  if (auth) {
-    this.status = 201
-    this.body = {token: auth}
-  } else {
-    this.status = 401
-    this.body = {error: 'invalid credentials'}
-  }
-}))
-
-// authenticate
-app.use(function * (next) {
-  const unauthorized = new Error('unauthorized')
-  if (this.headers.authorization) {
-    let token = this.headers.authorization.split(' ')[1]
-    this.username = yield user.findByToken(token)
-  }
-  this.authenticated = () => {
-    if (!this.username) throw unauthorized
-  }
-  try {
-    yield next
-  } catch (err) {
-    if (err !== unauthorized) throw err
-    this.status = 401
-    this.body = {error: 'invalid credentials'}
-  }
-})
-
-// whoami
-app.use(r.get('/-/whoami', function * () {
-  this.authenticated()
-  this.body = {username: this.username}
-}))
-
-// npm publish
-app.use(r.put('/:name', function * () {
-  this.authenticated()
-  let pkg = yield parse(this)
-  try {
-    yield packages(this.metric).upload(pkg)
-    this.body = yield packages(this.metric).get(pkg.name)
-  } catch (err) {
-    if (err === packages(this.metric).errors.versionExists) {
-      this.body = {error: err.toString()}
-      this.status = 409
-    } else {
-      throw err
-    }
-  }
-}))
-
-app.use(function * () {
-  this.status = 404
-  this.body = {error: 'Not found'}
-})
+app.use(middleware.notfound)
 
 module.exports = app
 if (!module.parent) {
