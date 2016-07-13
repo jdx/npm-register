@@ -1,6 +1,5 @@
 'use strict'
 
-let bluebird = require('bluebird')
 let path = require('path')
 let url = require('url')
 let env = process.env
@@ -31,10 +30,6 @@ let config = {
     packageTTL: parseInt(env.CACHE_PACKAGE_TTL) || 60,
     tarballTTL: parseInt(env.CACHE_TARBALL_TTL) || (6 * 60 * 60)
   }
-}
-
-if (!config.production) {
-  bluebird.longStackTraces()
 }
 
 module.exports = config

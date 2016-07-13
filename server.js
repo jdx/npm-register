@@ -8,51 +8,40 @@ process.env.NEW_RELIC_LOG = 'stdout'
 let koa = require('koa')
 let compress = require('koa-compress')
 let r = require('koa-route')
-let newrelic = require('newrelic')
 let parse = require('co-body')
-let fs = require('fs')
 let packages = require('./lib/packages')
 let tarballs = require('./lib/tarballs')
-let config = require('./lib/config')
+let config = require('./config')
 let user = require('./lib/user')
-let rollbar = require('rollbar')
+const routes = require('./routes')
 let path = require('path')
 let app = koa()
-
-if (config.rollbar) {
-  rollbar.init(config.rollbar, {
-    environment: process.env.NODE_ENV,
-    codeVersion: process.env.HEROKU_SLUG_COMMIT,
-    host: process.env.HEROKU_APP_NAME,
-    scrubHeaders: ['authorization']
-  })
-  rollbar.handleUncaughtExceptions(config.rollbar)
-}
+app.context.opbeat = opbeat
 
 app.name = 'elephant'
 app.port = config.port
+app.proxy = true
 
 app.use(require('./logger'))
 app.use(compress())
 
-const routes = require('./routes')
-app.use(routes.routes())
-app.use(routes.allowedMethods())
-
-// error middleware
 app.use(function * (next) {
   try { yield next } catch (err) {
-    newrelic.noticeError(err)
-    if (config.rollbar) rollbar.handleError(err, this.request)
+    this.opbeat.captureError(err, {
+      user: {username: this.state.username},
+      request: this.req
+    })
     this.status = err.status || 500
     this.body = {error: err.message}
     this.app.emit('error', err, this)
   }
 })
 
+app.use(routes.routes())
+app.use(routes.allowedMethods())
+
 // get package metadata
 app.use(r.get('/:name', function * (name) {
-  newrelic.setTransactionName(':name')
   let etag = this.req.headers['if-none-match']
   let pkg = yield packages(this.metric).get(name, etag)
   if (pkg === 304) {
@@ -73,7 +62,6 @@ app.use(r.get('/:name', function * (name) {
 
 // get package tarball with sha
 app.use(r.get('/:name/-/:filename/:sha', function * (name, filename, sha) {
-  newrelic.setTransactionName(':name/-/:filename/:sha')
   let tarball = yield tarballs(this.metric).get(name, filename, sha)
   if (!tarball) {
     this.status = 404
@@ -87,7 +75,6 @@ app.use(r.get('/:name/-/:filename/:sha', function * (name, filename, sha) {
 
 // get package tarball with sha
 app.use(r.get('/:scope/:name/-/:filename/:sha', function * (scope, name, filename, sha) {
-  newrelic.setTransactionName(':scope/:name/-/:filename/:sha')
   let tarball = yield tarballs(this.metric).get(`${scope}/${name}`, filename, sha)
   if (!tarball) {
     this.status = 404
@@ -101,7 +88,6 @@ app.use(r.get('/:scope/:name/-/:filename/:sha', function * (scope, name, filenam
 
 // get package tarball without sha
 app.use(r.get('/:name/-/:filename', function * (name, filename) {
-  newrelic.setTransactionName(':name/-/:filename')
   let ext = path.extname(filename)
   filename = path.basename(filename, ext)
   this.redirect(`/${name}/-/${filename}/a${ext}`)
@@ -109,7 +95,6 @@ app.use(r.get('/:name/-/:filename', function * (name, filename) {
 
 // login
 app.use(r.put('/-/user/:user', function * () {
-  newrelic.setTransactionName('-/user/:user')
   let auth = yield user.authenticate(yield parse(this))
   if (auth) {
     this.status = 201
@@ -142,14 +127,12 @@ app.use(function * (next) {
 // whoami
 app.use(r.get('/-/whoami', function * () {
   this.authenticated()
-  newrelic.setTransactionName('-/whoami')
   this.body = {username: this.username}
 }))
 
 // npm publish
 app.use(r.put('/:name', function * () {
   this.authenticated()
-  newrelic.setTransactionName(':name')
   let pkg = yield parse(this)
   try {
     yield packages(this.metric).upload(pkg)
