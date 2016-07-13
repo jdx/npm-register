@@ -18,6 +18,7 @@
     "metric-log": "1.0.1",
     "newrelic": "1.28.2",
     "node-uuid": "1.4.7",
+    "opbeat": "3.8.1",
     "rollbar": "0.6.2"
   },
   "devDependencies": {

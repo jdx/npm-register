@@ -1,5 +1,7 @@
 'use strict'
 
+const opbeat = require('opbeat').start()
+
 if (!process.env.NEW_RELIC_LICENSE_KEY) process.env.NEW_RELIC_ENABLED = 'false'
 process.env.NEW_RELIC_LOG = 'stdout'
 
