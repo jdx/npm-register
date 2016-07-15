@@ -1,0 +1,17 @@
+{
+	"Version": "2008-10-17",
+	"Statement": [
+		{
+			"Sid": "",
+			"Effect": "Allow",
+			"Principal": {
+				"AWS": "arn:aws:iam::IAMUSER"
+			},
+			"Action": "s3:*",
+			"Resource": [
+				"arn:aws:s3:::S3BUCKET/*",
+				"arn:aws:s3:::S3BUCKET"
+			]
+		}
+	]
+}
