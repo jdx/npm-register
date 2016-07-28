@@ -1,7 +1,7 @@
 {
   "name": "npm-register",
   "description": "Your own private npm registry and backup server",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "author": "Jeff Dickey (@dickeyxxx)",
   "bin": "server.js",
   "bugs": "https://github.com/dickeyxxx/npm-register",
