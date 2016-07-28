@@ -3,9 +3,7 @@
   "description": "Your own private npm registry and backup server",
   "version": "1.0.2",
   "author": "Jeff Dickey (@dickeyxxx)",
-  "bin": {
-    "npm-register": "./server.js"
-  },
+  "bin": "server.js",
   "bugs": "https://github.com/dickeyxxx/npm-register",
   "dependencies": {
     "bluebird": "3.4.1",
