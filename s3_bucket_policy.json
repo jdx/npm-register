@@ -2,7 +2,7 @@
 	"Version": "2008-10-17",
 	"Statement": [
 		{
-			"Sid": "elephant user",
+			"Sid": "npm-register user",
 			"Effect": "Allow",
 			"Principal": {
 				"AWS": "arn:aws:iam::IAMUSER"

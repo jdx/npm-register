@@ -8,7 +8,7 @@ const config = require('./config')
 const routes = require('./routes')
 const middleware = require('./middleware')
 
-app.name = 'elephant'
+app.name = 'npm-register'
 app.port = config.port
 app.proxy = config.production
 app.context.opbeat = opbeat
