@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 'use strict'
 
 const opbeat = require('opbeat').start()
