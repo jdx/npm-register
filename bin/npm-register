@@ -1,13 +1,17 @@
 #!/usr/bin/env node
 'use strict'
 
-const {argv} = require('yargs')
-  .command('start', 'Start the server')
+const argv = require('yargs')
+  .command('start', 'start the server')
   .demand(1)
   .strict()
   .help('h')
   .alias('h', 'help')
   .version()
+  .argv
 
-console.dir(argv)
-require('../server')
+switch (argv._[0]) {
+  case 'start':
+    require('../server')
+    break
+}
