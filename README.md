@@ -10,7 +10,7 @@ Overview
 
 This project allows you to have your own npm registry. This server works with the necessary `npm` commands just like the npmjs.org registry. You can use it to not worry about npm going down or to store your private packages. It performs much faster than npmjs.org and can even be matched with a CDN like Cloudfront to be fast globally.
 
-Rather than trying to copy all the data in npm, this acts more like a proxy. While npm is up, it will cache package data in S3. If npm goes down, it will deliver whatever is available in the cache. This means it won't be a fully comprehensive backup of npm, but you will be able to access anything you accessed before.
+Rather than trying to copy all the data in npm, this acts more like a proxy. While npm is up, it will cache package data in S3. If npm goes down, it will deliver whatever is available in the cache. This means it won't be a fully comprehensive backup of npm, but you will be able to access anything you accessed before. This makes it easy to set up since you don't need to mirror the entire registry. Any packages previously accessed will be available. Storing the data in S3 makes elephant easy to maintain since any time a server acts up, you can simply blow it away and provision a new one with the same S3 credentials.
 
 The inspiration for this project comes from [sinopia](https://github.com/rlidwka/sinopia). This came out of a need for better cache, CDN, and general performance as well as stability of being able to run multiple instances without depending on a local filesystem.
 
