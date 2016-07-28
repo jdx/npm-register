@@ -3,6 +3,7 @@
   "description": "Your own private npm registry and backup server",
   "version": "1.0.0",
   "author": "Jeff Dickey (@dickeyxxx)",
+  "bugs": "https://github.com/dickeyxxx/npm-register",
   "dependencies": {
     "bluebird": "3.4.1",
     "co": "4.6.0",
@@ -33,7 +34,12 @@
   "engines": {
     "node": "6.3.0"
   },
+  "homepage": "https://github.com/dickeyxxx/npm-register",
+  "keywords": [
+    "npm"
+  ],
   "license": "ISC",
+  "main": "server.js",
   "repository": "dickeyxxx/npm-register",
   "scripts": {
     "start": "node server.js",
