@@ -2,7 +2,7 @@
   "name": "elephant",
   "description": "Your own private npm registry and backup server",
   "logo": "http://node-js-sample.herokuapp.com/node.svg",
-  "repository": "https://github.com/dickeyxxx/elephant",
+  "repository": "https://github.com/dickeyxxx/npm-register",
   "keywords": ["node", "npm"],
   "env": {
     "AWS_ACCESS_KEY_ID": "",
