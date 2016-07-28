@@ -1,5 +1,5 @@
 {
-  "name": "elephant",
+  "name": "npm-register",
   "description": "Your own private npm registry and backup server",
   "version": "1.0.0",
   "author": "Jeff Dickey (@dickeyxxx)",
@@ -34,7 +34,7 @@
     "node": "6.3.0"
   },
   "license": "ISC",
-  "repository": "dickeyxxx/elephant",
+  "repository": "dickeyxxx/npm-register",
   "scripts": {
     "start": "node server.js",
     "test": "nyc mocha && standard"

@@ -1,9 +1,9 @@
-# elephant [![CircleCI](https://circleci.com/gh/dickeyxxx/elephant/tree/master.svg?style=svg)](https://circleci.com/gh/dickeyxxx/elephant/tree/master)
+# npm-register [![CircleCI](https://circleci.com/gh/dickeyxxx/npm-register/tree/master.svg?style=svg)](https://circleci.com/gh/dickeyxxx/npm-register/tree/master)
 
 Your own private npm registry and backup server. Used in production and maintained by Heroku. Designed to be easy to set up and maintain, performant, and stable.
 
-[![Code Climate](https://codeclimate.com/github/dickeyxxx/elephant/badges/gpa.svg)](https://codeclimate.com/github/dickeyxxx/elephant)
-[![codecov](https://codecov.io/gh/dickeyxxx/elephant/branch/master/graph/badge.svg)](https://codecov.io/gh/dickeyxxx/elephant)
+[![Code Climate](https://codeclimate.com/github/dickeyxxx/npm-register/badges/gpa.svg)](https://codeclimate.com/github/dickeyxxx/npm-register)
+[![codecov](https://codecov.io/gh/dickeyxxx/npm-register/branch/master/graph/badge.svg)](https://codecov.io/gh/dickeyxxx/npm-register)
 
 Overview
 --------
