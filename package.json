@@ -3,7 +3,7 @@
   "description": "Your own private npm registry and backup server",
   "version": "1.0.3",
   "author": "Jeff Dickey (@dickeyxxx)",
-  "bin": "server.js",
+  "bin": "bin/npm-register",
   "bugs": "https://github.com/dickeyxxx/npm-register",
   "dependencies": {
     "bluebird": "3.4.1",
@@ -19,7 +19,8 @@
     "koa-sendfile": "2.0.0",
     "metric-log": "1.0.1",
     "node-uuid": "1.4.7",
-    "opbeat": "3.8.1"
+    "opbeat": "3.8.1",
+    "yargs": "4.8.1"
   },
   "devDependencies": {
     "codeclimate-test-reporter": "0.3.3",

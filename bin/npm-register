@@ -1,0 +1,13 @@
+#!/usr/bin/env node
+'use strict'
+
+const {argv} = require('yargs')
+  .command('start', 'Start the server')
+  .demand(1)
+  .strict()
+  .help('h')
+  .alias('h', 'help')
+  .version()
+
+console.dir(argv)
+require('../server')
