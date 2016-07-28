@@ -27,13 +27,11 @@ The easiest way to set this up is with the Heroku button:
 
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
-Alternatively, you can set it up by cloning this repo:
+Alternatively, you can set it up from npm:
 
 ```
-$ git clone https://github.com/dickeyxxx/elephant
-$ cd elephant
-$ npm install
-$ npm start
+$ npm install -g npm-register
+$ npm-register
 ```
 
 Either way, your registry is now setup and you should be able to test it by updating the packages with it:
