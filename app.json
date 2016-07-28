@@ -1,5 +1,5 @@
 {
-  "name": "elephant",
+  "name": "npm-register",
   "description": "Your own private npm registry and backup server",
   "logo": "http://node-js-sample.herokuapp.com/node.svg",
   "repository": "https://github.com/dickeyxxx/npm-register",
