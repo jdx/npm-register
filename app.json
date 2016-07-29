@@ -11,6 +11,7 @@
     "CACHE_PACKAGE_TTL": "60",
     "NODE_ENV": "production",
     "UPLINK": "https://registry.npmjs.org"
+    // "OPBEAT_ACTIVE": false
   },
   "addons": [
     "heroku-redis"
