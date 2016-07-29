@@ -6,6 +6,8 @@
   "bin": "bin/npm-register",
   "bugs": "https://github.com/dickeyxxx/npm-register",
   "dependencies": {
+    "alphonso-fs": "git+https://github.com/bhanuc/alphonso-fs.git",
+    "alphonso-s3": "git+https://github.com/bhanuc/alphonso-s3.git",
     "bluebird": "3.4.1",
     "co": "4.6.0",
     "co-body": "4.2.0",
