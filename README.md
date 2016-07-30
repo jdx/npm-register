@@ -64,15 +64,15 @@ The tarballs are the actual code and never change once they are uploaded (though
 
 In the event npmjs.org is offline, npm-register will use the most recent package metadata that was requested from npmjs.org until it comes back online.
 
-npm commands supported
+Supported npm Commands
 ----------------------
 
-* `npm install`
-* `npm update`
-* `npm login`
-* `npm whoami`
-* `npm publish`
-* [Need more?](https://github.com/dickeyxxx/npm-register/issues)
+npm-register should support most npm commands. There are some exceptions, however:
+
+* `npm star`
+* `npm search`
+
+If anything else doesn't work, please submit an issue so we can fix it, or at least note the missing functionality here.
 
 Authentication
 --------------
