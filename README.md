@@ -10,7 +10,7 @@ Overview
 
 This project allows you to have your own npm registry. This server works with the necessary `npm` commands just like the npmjs.org registry. You can use it to not worry about npm going down or to store your private packages. It performs much faster than npmjs.org and can even be matched with a CDN like Cloudfront to be fast globally.
 
-Rather than trying to copy all the data in npm, this acts more like a proxy. While npm is up, it will cache package data in S3. If npm goes down, it will deliver whatever is available in the cache. This means it won't be a fully comprehensive backup of npm, but you will be able to access anything you accessed before. This makes it easy to set up since you don't need to mirror the entire registry. Any packages previously accessed will be available. Storing the data in S3 makes npm-register easy to maintain since any time a server acts up, you can simply blow it away and provision a new one with the same S3 credentials.
+Rather than trying to copy all the data in npm, this acts more like a proxy. While npm is up, it will cache package data locally or in S3. If npm goes down, it will deliver whatever is available in the cache. This means it won't be a fully comprehensive backup of npm, but you will be able to access anything you accessed before. This makes it easy to set up since you don't need to mirror the entire registry. Any packages previously accessed will be available.
 
 The inspiration for this project comes from [sinopia](https://github.com/rlidwka/sinopia). This came out of a need for better cache, CDN, and general performance as well as stability of being able to run multiple instances without depending on a local filesystem.
 
@@ -19,11 +19,7 @@ This is also a [12 Factor](http://12factor.net/) app to make it easy to host on 
 Setup
 -----
 
-The bulk of the data is stored in S3. You will need to set the `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, and `AWS_S3_BUCKET` environment variables.
-
-If `REDIS_URL` is set (optional) redis will be used to cache package data.
-
-The easiest way to set this up is with the Heroku button:
+The easiest way to set this up is with the Heroku button (you must use S3 with Heroku):
 
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
@@ -42,6 +38,21 @@ $ npm update --registry http://urltomyregistry
 
 See below for how to enable authorization and `npm publish`.
 
+S3 Storage
+----------
+
+Use S3 for storage by setting `NPM_REGISTER_STORAGE=s3`. Then set `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, and `AWS_S3_BUCKET` to the proper values.
+
+Local Filesystem Storage
+------------------------
+
+Using the local filesystem is the default. You can explicitly set the storage with `NPM_REGISTER_STORAGE=fs`. Select the location for the files to be stored with `NPM_REGISTER_FS_DIRECTORY=/var/npm-register`.
+
+Redis
+-----
+
+Redis can optionally be used to cache the etags and package data. Set `REDIS_URL` to activate it.
+
 How it works
 ------------
 
@@ -49,7 +60,7 @@ Essentially the goal of the project is to quickly deliver current npm data even 
 
 Package metadata mostly contains what versions of a package are available. These cannot be cached for very long since the package can be updated. By default, it is cached for 60 seconds. You can modify this with `CACHE_PACKAGE_TTL`. Etags are also supported and cached to further speed up access.
 
-The tarballs are the actual code and never change once they are uploaded (though they can be removed via unpublishing). These are downloaded one time from npmjs.org per package and version, stored in S3 and in the local tmp folder for future requests. These have a very long max-age header.
+The tarballs are the actual code and never change once they are uploaded (though they can be removed via unpublishing). These are downloaded one time from npmjs.org per package and version, stored locally or in S3 for future requests. These have a very long max-age header.
 
 In the event npmjs.org is offline, npm-register will use the most recent package metadata that was requested from npmjs.org until it comes back online.
 
@@ -65,7 +76,7 @@ npm commands supported
 Authentication
 --------------
 
-npm-register uses an htpasswd file in S3 for authentication and stores tokens in S3. To set this up, first create an htpasswd file. Then upload it to `/htpasswd` in your S3 bucket. Use aws-cli.
+npm-register uses an htpasswd file for authentication and stores tokens in S3. To set this up, first create an htpasswd file, then upload it to `/htpasswd` in your S3 bucket or your local file system:
 
 ```
 $ aws s3 cp s3://S3BUCKET/htpasswd ./htpasswd

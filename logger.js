@@ -1,6 +1,6 @@
 'use strict'
 
-let metric = require('metric-log')
+const metric = require('metric-log')
 
 module.exports = function * (next) {
   this.metric = metric.context({request_id: this.request.headers['x-request-id'] || Math.random()})

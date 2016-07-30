@@ -6,34 +6,33 @@
   "bin": "bin/npm-register",
   "bugs": "https://github.com/dickeyxxx/npm-register",
   "dependencies": {
-    "alphonso-fs": "git+https://github.com/bhanuc/alphonso-fs.git",
-    "alphonso-s3": "git+https://github.com/bhanuc/alphonso-s3.git",
+    "@request/core": "0.1.0",
     "bluebird": "3.4.1",
     "co": "4.6.0",
     "co-body": "4.2.0",
+    "fs-extra": "0.30.0",
     "got": "6.3.0",
     "htpasswd-auth": "2.0.0",
-    "ioredis": "2.2.0",
-    "knox": "0.9.2",
-    "koa": "1.2.0",
+    "koa": "1.2.1",
     "koa-compress": "1.0.9",
     "koa-router": "5.4.0",
     "koa-sendfile": "2.0.0",
     "metric-log": "1.0.1",
+    "minimatch": "3.0.2",
     "node-uuid": "1.4.7",
-    "opbeat": "3.8.1",
+    "opbeat": "3.13.0",
     "yargs": "4.8.1"
   },
   "devDependencies": {
     "codeclimate-test-reporter": "0.3.3",
     "codecov": "1.0.1",
     "mocha": "2.5.3",
-    "nyc": "7.0.0",
+    "nyc": "7.1.0",
     "snazzy": "4.0.0",
     "standard": "7.1.2",
-    "supertest": "1.2.0",
+    "supertest": "2.0.0",
     "supertest-as-promised": "3.2.0",
-    "unexpected": "10.14.2"
+    "unexpected": "10.15.0"
   },
   "engines": {
     "node": "6.3.0"

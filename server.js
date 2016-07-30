@@ -1,6 +1,6 @@
 'use strict'
 
-const opbeat = require('opbeat').start()
+const opbeat = require('opbeat').start({active: !!process.env.OPBEAT_APP_ID})
 
 const app = require('koa')()
 const compress = require('koa-compress')
