@@ -15,7 +15,8 @@ let config = {
     tarballTTL: parseInt(env.CACHE_TARBALL_TTL) || (6 * 60 * 60)
   },
   storage: env.NPM_REGISTER_STORAGE || 'fs',
-  fs: {directory: env.NPM_REGISTER_FS_DIRECTORY}
+  fs: {directory: env.NPM_REGISTER_FS_DIRECTORY},
+  s3: {bucket: env.AWS_S3_BUCKET}
 }
 
 module.exports = config

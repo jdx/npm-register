@@ -6,7 +6,7 @@
   "bin": "bin/npm-register",
   "bugs": "https://github.com/dickeyxxx/npm-register",
   "dependencies": {
-    "@request/core": "0.1.0",
+    "aws-sdk": "2.4.11",
     "bluebird": "3.4.1",
     "co": "4.6.0",
     "co-body": "4.2.0",
@@ -20,6 +20,7 @@
     "metric-log": "1.0.1",
     "node-uuid": "1.4.7",
     "opbeat": "3.13.0",
+    "s3": "4.4.0",
     "yargs": "4.8.1"
   },
   "devDependencies": {
