@@ -72,6 +72,7 @@ npm commands supported
 * `npm login`
 * `npm whoami`
 * `npm publish`
+* [Need more?](https://github.com/dickeyxxx/npm-register/issues)
 
 Authentication
 --------------
