@@ -12,7 +12,7 @@ r.put('/:name', middleware.auth, function * () {
     yield packages.upload(pkg)
     this.body = yield packages.get(pkg.name)
   } catch (err) {
-    if (err === packages(this.metric).errors.versionExists) {
+    if (err === packages.errors.versionExists) {
       this.body = {error: err.toString()}
       this.status = 409
     } else {
