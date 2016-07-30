@@ -35,7 +35,7 @@
     "unexpected": "10.15.0"
   },
   "engines": {
-    "node": "6.3.0"
+    "node": ">=6.0.0"
   },
   "homepage": "https://github.com/dickeyxxx/npm-register",
   "keywords": [
