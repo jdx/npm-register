@@ -9,7 +9,7 @@ const path = require('path')
 // get package metadata
 r.get('/:name', function * () {
   let etag = this.req.headers['if-none-match']
-  let pkg = yield packages(this.metric).get(this.params.name, etag)
+  let pkg = yield packages.get(this.params.name, etag)
   if (pkg === 304) {
     this.status = 304
     return
@@ -20,16 +20,15 @@ r.get('/:name', function * () {
     return
   }
   let cloudfront = this.headers['user-agent'] === 'Amazon CloudFront'
-  packages(this.metric).rewriteTarballURLs(pkg, cloudfront ? config.cloudfrontHost : this.headers.host)
+  packages.rewriteTarballURLs(pkg, cloudfront ? config.cloudfrontHost : this.headers.host)
   this.set('ETag', pkg.etag)
   this.set('Cache-Control', `public, max-age=${config.cache.packageTTL}`)
   this.body = pkg
 })
 
-// get package tarball with sha
-r.get('/:name/-/:filename/:sha', function * () {
-  let {name, filename, sha} = this.params
-  let tarball = yield tarballs(this.metric).get(name, filename, sha)
+function * tarball () {
+  let {scope, name, filename, sha} = this.params
+  let tarball = yield tarballs.get(scope ? `${scope}/${name}` : name, filename, sha)
   if (!tarball) {
     this.status = 404
     this.body = {error: 'no tarball found'}
@@ -37,22 +36,14 @@ r.get('/:name/-/:filename/:sha', function * () {
   }
   this.set('Content-Length', tarball.size)
   this.set('Cache-Control', `public, max-age=${config.cache.tarballTTL}`)
-  this.body = tarball
-})
+  this.body = tarball.stream
+}
+
+// get package tarball with sha
+r.get('/:name/-/:filename/:sha', tarball)
 
 // get scoped package tarball with sha
-r.get('/:scope/:name/-/:filename/:sha', function * () {
-  let {scope, name, filename, sha} = this.params
-  let tarball = yield tarballs(this.metric).get(`${scope}/${name}`, filename, sha)
-  if (!tarball) {
-    this.status = 404
-    this.body = {error: 'no tarball found'}
-    return
-  }
-  this.set('Content-Length', tarball.size)
-  this.set('Cache-Control', `public, max-age=${config.cache.tarballTTL}`)
-  this.body = tarball
-})
+r.get('/:scope/:name/-/:filename/:sha', tarball)
 
 // get package tarball without sha
 r.get('/:name/-/:filename', function * () {

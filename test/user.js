@@ -1,11 +1,11 @@
 'use strict'
 /* global describe it before */
 
-let app = require('../server')
-let request = require('supertest-as-promised').agent(app.listen())
-let user = require('../lib/user')
-let co = require('co')
-let expect = require('unexpected')
+const app = require('../server')
+const request = require('supertest-as-promised').agent(app.listen())
+const user = require('../lib/user')
+const co = require('co')
+const expect = require('unexpected')
 
 // make sure this user is in the htpasswd file
 const testUser = {name: 'test', password: 'test'}

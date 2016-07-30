@@ -8,17 +8,17 @@ let co = require('co')
 let url = require('url')
 let crypto = require('crypto')
 let fs = require('fs')
-let s3 = require('../lib/s3')
+let storage = require('../lib/storage')
 let expect = require('unexpected')
 
 // make sure this user is in the htpasswd file
 const testUser = {name: 'test', password: 'test'}
 
 function * deleteItems (prefix) {
-  let items = yield s3.listAsync({prefix})
-  for (let item of items.Contents) {
-    console.log(`deleting ${item.Key}`)
-    yield s3.deleteFileAsync(item.Key)
+  let items = yield storage.list(prefix)
+  for (let item of items) {
+    console.log(`deleting ${item}`)
+    yield storage.delete(item)
   }
 }
 
@@ -51,7 +51,7 @@ describe('packages', () => {
         .expect(200)
         .then((r) => r.body.versions['1.0.0'].dist)
         .then((dist) => {
-          return new Promise((resolve) => {
+          return new Promise(resolve => {
             let req = request.get(url.parse(dist.tarball).path)
             let hash = crypto.createHash('sha1')
             hash.setEncoding('hex')
