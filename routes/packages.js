@@ -20,7 +20,7 @@ r.get('/:name', function * () {
     return
   }
   let cloudfront = this.headers['user-agent'] === 'Amazon CloudFront'
-  packages.rewriteTarballURLs(pkg, cloudfront ? config.cloudfrontHost : this.headers.host)
+  packages.rewriteTarballURLs(pkg, cloudfront ? config.cloudfrontHost : this.headers.host, this.request.protocol)
   this.set('ETag', pkg.etag)
   this.set('Cache-Control', `public, max-age=${config.cache.packageTTL}`)
   this.body = pkg
