@@ -19,7 +19,7 @@
     "koa-sendfile": "2.0.0",
     "metric-log": "1.0.1",
     "node-uuid": "1.4.7",
-    "opbeat": "3.13.0",
+    "opbeat": "3.14.0",
     "s3": "4.4.0",
     "yargs": "4.8.1"
   },
