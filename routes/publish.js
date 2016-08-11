@@ -7,7 +7,7 @@ const middleware = require('../middleware')
 
 // npm publish
 r.put('/:name', middleware.auth, function * () {
-  let pkg = yield parse(this)
+  let pkg = yield parse(this, {limit: '100mb'})
   try {
     yield packages.upload(pkg)
     this.body = yield packages.get(pkg.name)
