@@ -14,7 +14,7 @@ module.exports = {
     packageTTL: parseInt(env.CACHE_PACKAGE_TTL) || 60,
     tarballTTL: parseInt(env.CACHE_TARBALL_TTL) || (6 * 60 * 60)
   },
-  fs: {directory: env.NPM_REGISTER_FS_DIRECTORY || 'fs'},
+  fs: {directory: env.NPM_REGISTER_FS_DIRECTORY || 'tmp'},
   s3: {bucket: env.AWS_S3_BUCKET}
 }
 
