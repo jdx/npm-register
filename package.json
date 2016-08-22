@@ -6,7 +6,7 @@
   "bin": "bin/npm-register",
   "bugs": "https://github.com/dickeyxxx/npm-register",
   "dependencies": {
-    "aws-sdk": "2.4.12",
+    "aws-sdk": "2.5.2",
     "bluebird": "3.4.1",
     "co": "4.6.0",
     "co-body": "4.2.0",
@@ -20,9 +20,9 @@
     "koa-sendfile": "2.0.0",
     "metric-log": "1.0.1",
     "node-uuid": "1.4.7",
-    "opbeat": "3.14.0",
+    "opbeat": "3.16.0",
     "s3": "4.4.0",
-    "yargs": "4.8.1"
+    "yargs": "5.0.0"
   },
   "devDependencies": {
     "codeclimate-test-reporter": "0.3.3",
