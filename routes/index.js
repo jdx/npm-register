@@ -24,6 +24,7 @@ function load (name) {
 }
 
 load('packages')
+load('tarballs')
 load('auth')
 load('publish')
 
