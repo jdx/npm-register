@@ -11,7 +11,12 @@ function * tarball () {
   let tarball = yield config.storage.stream(key)
   if (!tarball) {
     console.log(`Loading ${key} from npm`)
-    tarball = yield npm.getTarball(name, filename + path.extname(sha))
+    try {
+      tarball = yield npm.getTarball(name, filename + path.extname(sha))
+    } catch (err) {
+      if (err.statusCode === 404) this.throw('package not found', 404)
+      else throw err
+    }
     yield config.storage.put(key, tarball.stream, {
       'content-length': tarball.resp.headers['content-length'],
       'content-type': tarball.resp.headers['content-type']
