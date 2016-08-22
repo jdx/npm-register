@@ -46,7 +46,7 @@
   "main": "start.js",
   "repository": "dickeyxxx/npm-register",
   "scripts": {
-    "start": "node start.js",
+    "start": "./bin/npm-register start",
     "test": "nyc mocha && standard"
   }
 }
