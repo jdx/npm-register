@@ -18,6 +18,6 @@ module.exports = {
   s3: {bucket: env.AWS_S3_BUCKET}
 }
 
-let Storage = require('./lib/storage/' + env.NPM_REGISTER_STORAGE || 'fs')
+let Storage = require('./lib/storage/' + (env.NPM_REGISTER_STORAGE || 'fs'))
 console.dir(Storage)
 module.exports.storage = new Storage()
