@@ -5,14 +5,14 @@ const path = require('path')
 const config = require('../config')
 const npm = require('../lib/npm')
 
-function * tarball () {
+r.get('/:scope?/:name/-/:scope2?/:filename/:sha', function * () {
   let {scope, name, filename, sha} = this.params
   let key = path.join('tarballs', scope ? `${scope}/${name}` : name, filename, sha)
   let tarball = yield config.storage.stream(key)
   if (!tarball) {
     console.log(`Loading ${key} from npm`)
     try {
-      tarball = yield npm.getTarball(name, filename + path.extname(sha))
+      tarball = yield npm.getTarball(scope ? `${scope}/${name}` : name, filename + path.extname(sha))
     } catch (err) {
       if (err.statusCode === 404) this.throw('package not found', 404)
       else throw err
@@ -27,13 +27,7 @@ function * tarball () {
   this.set('Content-Length', tarball.size)
   this.set('Cache-Control', `public, max-age=${config.cache.tarballTTL}`)
   this.body = tarball.stream
-}
-
-// get package tarball with sha
-r.get('/:name/-/:filename/:sha', tarball)
-
-// get scoped package tarball with sha
-r.get('/:scope/:name/-/:filename/:sha', tarball)
+})
 
 // get package tarball without sha
 r.get('/:name/-/:filename', function * () {
