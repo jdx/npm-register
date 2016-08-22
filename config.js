@@ -19,5 +19,4 @@ module.exports = {
 }
 
 let Storage = require('./lib/storage/' + (env.NPM_REGISTER_STORAGE || 'fs'))
-console.dir(Storage)
 module.exports.storage = new Storage()
