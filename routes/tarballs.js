@@ -2,17 +2,24 @@
 
 const r = require('koa-router')()
 const path = require('path')
-const tarballs = require('../lib/tarballs')
 const config = require('../config')
+const npm = require('../lib/npm')
 
 function * tarball () {
   let {scope, name, filename, sha} = this.params
-  let tarball = yield tarballs.get(scope ? `${scope}/${name}` : name, filename, sha)
+  let key = path.join('tarballs', scope ? `${scope}/${name}` : name, filename, sha)
+  let tarball = yield config.storage.stream(key)
   if (!tarball) {
-    this.status = 404
-    this.body = {error: 'no tarball found'}
-    return
+    console.log(`Loading ${key} from npm`)
+    tarball = yield npm.getTarball(name, filename + path.extname(sha))
+    if (!tarball) this.throw('no tarball found', 404)
+    yield config.storage.put(key, tarball, {
+      'content-length': tarball.headers['content-length'],
+      'content-type': tarball.headers['content-type']
+    })
+    tarball = yield config.storage.stream(key)
   }
+
   this.set('Content-Length', tarball.size)
   this.set('Cache-Control', `public, max-age=${config.cache.tarballTTL}`)
   this.body = tarball.stream
