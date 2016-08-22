@@ -38,6 +38,7 @@ r.put('/:name', middleware.auth, function * () {
       'Content-Length': attachment.length
     })
   }
+  yield packages.save(pkg)
   this.body = yield packages.get(pkg.name)
 })
 
