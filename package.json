@@ -43,10 +43,10 @@
     "npm"
   ],
   "license": "ISC",
-  "main": "server.js",
+  "main": "start.js",
   "repository": "dickeyxxx/npm-register",
   "scripts": {
-    "start": "node server.js",
+    "start": "node start.js",
     "test": "nyc mocha && standard"
   }
 }

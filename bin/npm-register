@@ -12,6 +12,6 @@ const argv = require('yargs')
 
 switch (argv._[0]) {
   case 'start':
-    require('../server')
+    require('../start')
     break
 }
