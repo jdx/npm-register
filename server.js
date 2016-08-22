@@ -21,8 +21,3 @@ app.use(routes.allowedMethods())
 app.use(middleware.notfound)
 
 module.exports = app
-if (!module.parent) {
-  app.listen(app.port, function () {
-    console.error(`${app.name} listening on port ${app.port} [${app.env}]`)
-  })
-}
