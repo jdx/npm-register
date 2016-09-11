@@ -6,6 +6,7 @@ const npm = require('../lib/npm')
 const config = require('../config')
 const job = require('../lib/job')
 const _ = require('lodash')
+const parse = require('co-body')
 
 let updateDistTags = job(co.wrap(function * (name, tags) {
   let key = `dist-tags/${name}`
@@ -28,6 +29,27 @@ r.get('/-/package/:name/dist-tags', function * () {
     if (!tags) throw err
     this.body = tags
   }
+})
+
+r.put('/-/package/:name/dist-tags/:tag', function * () {
+  let {name, tag} = this.params
+  let version = JSON.parse(yield parse.text(this))
+  let tags = yield npm.getDistTags(name).catch(() => 'not found')
+  if (tags !== 'not found') this.throw(400, `Cannot set dist-tags, ${name} is hosted on ${config.uplink.host}`)
+  tags = yield getStorageTags(name)
+  tags[tag] = version
+  yield config.storage.put(`dist-tags/${name}`, tags)
+  this.body = {}
+})
+
+r.delete('/-/package/:name/dist-tags/:tag', function * () {
+  let {name, tag} = this.params
+  let tags = yield npm.getDistTags(name).catch(() => 'not found')
+  if (tags !== 'not found') this.throw(400, `Cannot set dist-tags, ${name} is hosted on ${config.uplink.host}`)
+  tags = yield getStorageTags(name)
+  delete tags[tag]
+  yield config.storage.put(`dist-tags/${name}`, tags)
+  this.body = {}
 })
 
 module.exports = r
