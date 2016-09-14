@@ -10,9 +10,8 @@ const parse = require('co-body')
 const middleware = require('../middleware')
 
 let updateDistTags = job(co.wrap(function * (name, tags) {
-  let key = `dist-tags/${name}`
-  let current = yield config.storage.getJSON(key)
-  if (!_.isEqual(current, tags)) yield config.storage.put(key, tags)
+  let current = yield getStorageTags(name)
+  if (!_.isEqual(current, tags)) yield config.storage.put(`dist-tags/${name}`, tags)
 }))
 
 function getStorageTags (name) {
