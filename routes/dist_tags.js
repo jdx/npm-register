@@ -46,7 +46,7 @@ r.put('/-/package/:name/dist-tags/:tag', middleware.auth, function * () {
 r.delete('/-/package/:name/dist-tags/:tag', middleware.auth, function * () {
   let {name, tag} = this.params
   let tags = yield npm.getDistTags(name).catch(() => 'not found')
-  if (tags !== 'not found') this.throw(400, `Cannot set dist-tags, ${name} is hosted on ${config.uplink.host}`)
+  if (tags !== 'not found') this.throw(400, `Cannot delete dist-tags, ${name} is hosted on ${config.uplink.host}`)
   tags = yield getStorageTags(name)
   delete tags[tag]
   yield config.storage.put(`dist-tags/${name}`, tags)
