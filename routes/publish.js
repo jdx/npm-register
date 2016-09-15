@@ -11,9 +11,12 @@ const config = require('../config')
 // npm publish
 r.put('/:name', middleware.auth, function * () {
   let pkg = yield parse(this, {limit: '100mb'})
+  let tags = Object.keys(pkg['dist-tags'])
+  if (tags.length !== 1) this.throw(400, 'must have 1 dist-tag')
+  let tag = tags[0]
   let existing = yield packages.get(pkg.name)
   if (existing !== 404) {
-    if (Object.keys(existing.versions).find(v => v === pkg['dist-tags'].latest)) {
+    if (Object.keys(existing.versions).find(v => v === pkg['dist-tags'][tag])) {
       this.body = {error: 'version already exists'}
       this.status = 409
       return
@@ -39,6 +42,9 @@ r.put('/:name', middleware.auth, function * () {
     })
   }
   yield packages.save(pkg)
+  tags = (yield config.storage.getJSON(`dist-tags/${pkg.name}`)) || {}
+  tags[tag] = pkg['dist-tags'][tag]
+  yield config.storage.put(`dist-tags/${pkg.name}`, tags)
   this.body = yield packages.get(pkg.name)
 })
 
