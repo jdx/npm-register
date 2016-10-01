@@ -15,7 +15,10 @@ module.exports = {
     tarballTTL: parseInt(env.CACHE_TARBALL_TTL) || (6 * 60 * 60)
   },
   fs: {directory: env.NPM_REGISTER_FS_DIRECTORY || 'tmp'},
-  s3: {bucket: env.AWS_S3_BUCKET}
+  s3: {
+    bucket: env.AWS_S3_BUCKET,
+    region: env.AWS_DEFAULT_REGION
+  }
 }
 
 let Storage = require('./lib/storage/' + (env.NPM_REGISTER_STORAGE || 'fs'))
