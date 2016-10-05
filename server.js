@@ -14,7 +14,7 @@ app.proxy = config.production
 app.context.opbeat = opbeat
 
 app.use(require('./logger'))
-app.use(require('koa-timeout')(10000))
+app.use(require('koa-timeout')(config.timeout))
 app.use(compress())
 app.use(middleware.error)
 app.use(routes.routes())
