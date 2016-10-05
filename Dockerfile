@@ -35,5 +35,5 @@ VOLUME /data
 EXPOSE 3000
 USER register
 ENV NODE_ENV production
-CMD ["npm", "start"]
+CMD ["node", "start.js"]
 
