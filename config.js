@@ -6,7 +6,7 @@ let env = process.env
 module.exports = {
   port: env.PORT || 3000,
   production: !!['production', 'staging'].find(e => e === env.NODE_ENV),
-  timeout: env.TIMEOUT || 10000,
+  timeout: parseInt(env.TIMEOUT) || 10000,
   uplink: url.parse(env.UPLINK || 'https://registry.npmjs.org'),
   redis: env.REDIS_URL,
   cloudfrontHost: env.CLOUDFRONT_HOST,
