@@ -17,10 +17,15 @@ r.get('/:scope?/:name/-/:scope2?/:filename/:sha', function * () {
       if (err.statusCode === 404) this.throw('package not found', 404)
       else throw err
     }
-    yield config.storage.put(key, tarball.stream, {
+    let put = config.storage.put(key, tarball.stream, {
       'content-length': tarball.resp.headers['content-length'],
       'content-type': tarball.resp.headers['content-type']
     })
+    let timeout = new Promise(resolve => setTimeout(() => resolve('timeout'), config.timeout))
+    if ((yield Promise.race([put, timeout])) === 'timeout') {
+      config.storage.delete(key)
+      this.throw(504)
+    }
     tarball = yield config.storage.stream(key)
   }
 
