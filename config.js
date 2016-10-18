@@ -21,5 +21,5 @@ module.exports = {
   }
 }
 
-let Storage = require('./lib/storage/' + (env.NPM_REGISTER_STORAGE || 'fs'))
+let Storage = require('./lib/storage/' + (env.NPM_REGISTER_STORAGE.toLowerCase() || 'fs'))
 module.exports.storage = new Storage()
