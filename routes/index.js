@@ -1,6 +1,7 @@
 'use strict'
 
-const r = require('koa-router')()
+const config = require('../config')
+const r = require('koa-router')({ prefix: config.urlPrefix })
 const sendfile = require('koa-sendfile')
 const path = require('path')
 
