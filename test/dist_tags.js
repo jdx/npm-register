@@ -24,7 +24,7 @@ describe('dist-tags', () => {
       before(co.wrap(function * () {
         let Storage = require('../lib/storage/' + storage)
         config.storage = new Storage()
-        config.storage.put('dist-tags/foobar123', {latest: '1.0.0', alpha: '2.0.0'})
+        config.storage.put('packages/foobar123', {'dist-tags': {latest: '1.0.0', alpha: '2.0.0'}})
         token = yield user.authenticate(testUser)
       }))
 
