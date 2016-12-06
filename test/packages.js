@@ -105,6 +105,64 @@ function bearer (token) {
             .expect(200)
         })
       })
+
+      describe('PUT /:package (npm publish)', () => {
+        before(co.wrap(function * () {
+          token = yield user.authenticate(testUser)
+          yield deleteItems('tarballs/elephant-sample')
+          yield deleteItems('packages/elephant-sample')
+
+          config.storage.put('packages/elephant-sample', {
+            'dist-tags': {latest: '1.0.0', alpha: '2.0.0'},
+            'versions': {
+              '1.0.0': {'dist': {
+                'shasum': '2f0cd4c569a2948dc9883fe9e622e4d0898f7c3e',
+                'tarball': 'http://localhost:3000/elephant-sample/-/elephant-sample-1.0.0.tgz'
+              }},
+              '2.0.0': {'dist': {
+                'shasum': '776a348f26080c4116f62dff7a6079e0c4a795a7',
+                'tarball': 'http://localhost:3000/elephant-sample/-/elephant-sample-2.0.0.tgz'
+              }}
+            }
+          })
+        }))
+
+        it('updates a package', () => {
+          return request.put('/elephant-sample')
+            .use(bearer(token))
+            .send({
+              name: 'elephant-sample',
+              'dist-tags': {beta: '3.0.0'},
+              versions: {
+                '3.0.0': {
+                  dist: {
+                    shasum: '13ac99afb9147d64649e62077a192f32b37c846d',
+                    tarball: 'http://localhost:3000/elephant-sample/-/elephant-sample-3.0.0.tgz'
+                  }
+                }
+              },
+              _attachments: {
+                'elephant-sample-3.0.0.tgz': {
+                  content_type: 'application/octet-stream',
+                  data: fs.readFileSync('./test/fixtures/elephant-sample.tar.gz', {encoding: 'base64'})
+                }
+              }
+            })
+            .expect(200)
+            .then(() => {
+              return request.get('/-/package/elephant-sample/dist-tags')
+              .accept('json')
+              .expect(200)
+              .then((r) => expect(r.body, 'to satisfy', {latest: '1.0.0', alpha: '2.0.0', beta: '3.0.0'}))
+              .then(() => {
+                return request.get('/elephant-sample')
+                .accept('json')
+                .expect(200)
+                .then((r) => expect(r.body['dist-tags'], 'to satisfy', {latest: '1.0.0', alpha: '2.0.0', beta: '3.0.0'}))
+              })
+            })
+        })
+      })
     })
   })
 })

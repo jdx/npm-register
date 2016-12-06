@@ -22,6 +22,7 @@ r.put('/:name', middleware.auth, function * () {
       return
     }
     pkg.versions = Object.assign(existing.versions, pkg.versions)
+    pkg['dist-tags'] = Object.assign(existing['dist-tags'], pkg['dist-tags'])
   }
   pkg.etag = Math.random().toString()
   let attachments = pkg._attachments
@@ -42,9 +43,6 @@ r.put('/:name', middleware.auth, function * () {
     })
   }
   yield packages.save(pkg)
-  tags = (yield config.storage.getJSON(`dist-tags/${pkg.name}`)) || {}
-  tags[tag] = pkg['dist-tags'][tag]
-  yield config.storage.put(`dist-tags/${pkg.name}`, tags)
   this.body = yield packages.get(pkg.name)
 })
 
