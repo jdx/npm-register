@@ -1,54 +1,41 @@
 'use strict'
 
-const co = require('co')
 const r = require('koa-router')()
 const npm = require('../lib/npm')
 const config = require('../config')
-const job = require('../lib/job')
-const _ = require('lodash')
 const parse = require('co-body')
 const middleware = require('../middleware')
 
-let updateDistTags = job(co.wrap(function * (name, tags) {
-  let current = yield getStorageTags(name)
-  if (!_.isEqual(current, tags)) yield config.storage.put(`dist-tags/${name}`, tags)
-}))
-
-function getStorageTags (name) {
-  return config.storage.getJSON(`dist-tags/${name}`)
-}
+let getPackage = name => config.storage.getJSON(`packages/${name}`)
 
 r.get('/-/package/:name/dist-tags', function * () {
   let {name} = this.params
-  try {
-    let tags = yield npm.getDistTags(name)
-    this.body = tags
-    updateDistTags(name, tags)
-  } catch (err) {
-    let tags = yield getStorageTags(name)
-    if (!tags) throw err
-    this.body = tags
+  let pkg = yield npm.get(name)
+  if (pkg !== 404) this.body = pkg['dist-tags']
+  else {
+    let pkg = yield getPackage(name)
+    this.body = pkg['dist-tags']
   }
 })
 
 r.put('/-/package/:name/dist-tags/:tag', middleware.auth, function * () {
   let {name, tag} = this.params
   let version = JSON.parse(yield parse.text(this))
-  let tags = yield npm.getDistTags(name).catch(() => 'not found')
-  if (tags !== 'not found') this.throw(400, `Cannot set dist-tags, ${name} is hosted on ${config.uplink.host}`)
-  tags = yield getStorageTags(name)
-  tags[tag] = version
-  yield config.storage.put(`dist-tags/${name}`, tags)
+  let pkg = yield npm.get(name)
+  if (pkg !== 404) this.throw(400, `Cannot set dist-tags, ${name} is hosted on ${config.uplink.host}`)
+  pkg = yield getPackage(name)
+  pkg['dist-tags'] = Object.assign(pkg['dist-tags'], {[tag]: version})
+  yield config.storage.put(`packages/${name}`, pkg)
   this.body = {}
 })
 
 r.delete('/-/package/:name/dist-tags/:tag', middleware.auth, function * () {
   let {name, tag} = this.params
-  let tags = yield npm.getDistTags(name).catch(() => 'not found')
-  if (tags !== 'not found') this.throw(400, `Cannot delete dist-tags, ${name} is hosted on ${config.uplink.host}`)
-  tags = yield getStorageTags(name)
-  delete tags[tag]
-  yield config.storage.put(`dist-tags/${name}`, tags)
+  let pkg = yield npm.get(name)
+  if (pkg !== 404) this.throw(400, `Cannot delete dist-tags, ${name} is hosted on ${config.uplink.host}`)
+  pkg = yield getPackage(name)
+  delete pkg['dist-tags'][tag]
+  yield config.storage.put(`packages/${name}`, pkg)
   this.body = {}
 })
 
