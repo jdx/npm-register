@@ -1,5 +1,7 @@
 'use strict'
 
+const config = require('../config')
+
 module.exports = function * (next) {
   try { yield next } catch (err) {
     this.status = err.status || 500
@@ -9,7 +11,8 @@ module.exports = function * (next) {
         request: this.req
       })
     }
-    this.body = {error: err.message}
+    if (config.production) this.body = {error: 'server error'}
+    else this.body = {error: err.message}
     this.app.emit('error', err, this)
   }
 }
