@@ -11,6 +11,7 @@ let getPackage = name => config.storage.getJSON(`packages/${name}`)
 r.get('/-/package/:name/dist-tags', function * () {
   let {name} = this.params
   let pkg = yield npm.get(name)
+  this.set('Cache-Control', 'public, max-age=0') // TODO: cache dist-tags
   if (pkg !== 404) this.body = pkg['dist-tags']
   else {
     let pkg = yield getPackage(name)
