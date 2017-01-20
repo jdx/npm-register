@@ -8,7 +8,7 @@ const middleware = require('../middleware')
 
 let getPackage = name => config.storage.getJSON(`packages/${name}`)
 
-r.get('/-/package/:name/dist-tags', function * () {
+r.get('/-/package/:name/dist-tags', middleware.auth.read, function * () {
   let {name} = this.params
   let pkg = yield npm.get(name)
   if (pkg !== 404) this.body = pkg['dist-tags']
@@ -18,7 +18,7 @@ r.get('/-/package/:name/dist-tags', function * () {
   }
 })
 
-r.put('/-/package/:name/dist-tags/:tag', middleware.auth, function * () {
+r.put('/-/package/:name/dist-tags/:tag', middleware.auth.write, function * () {
   let {name, tag} = this.params
   let version = JSON.parse(yield parse.text(this))
   let pkg = yield npm.get(name)
@@ -29,7 +29,7 @@ r.put('/-/package/:name/dist-tags/:tag', middleware.auth, function * () {
   this.body = {}
 })
 
-r.delete('/-/package/:name/dist-tags/:tag', middleware.auth, function * () {
+r.delete('/-/package/:name/dist-tags/:tag', middleware.auth.write, function * () {
   let {name, tag} = this.params
   let pkg = yield npm.get(name)
   if (pkg !== 404) this.throw(400, `Cannot delete dist-tags, ${name} is hosted on ${config.uplink.host}`)

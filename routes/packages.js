@@ -5,6 +5,7 @@ const path = require('path')
 const url = require('url')
 const packages = require('../lib/packages')
 const config = require('../config')
+const middleware = require('../middleware')
 
 function addShaToPath (p, sha) {
   let ext = path.extname(p)
@@ -27,7 +28,7 @@ function rewriteTarballURLs (pkg, host, protocol) {
 }
 
 // get package metadata
-r.get('/:name', function * () {
+r.get('/:name', middleware.auth.read, function * () {
   let etag = this.req.headers['if-none-match']
   let pkg = yield packages.get(this.params.name, etag)
   if (pkg === 304) {

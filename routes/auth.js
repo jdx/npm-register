@@ -18,7 +18,7 @@ r.put('/-/user/:user', function * () {
 })
 
 // whoami
-r.get('/-/whoami', middleware.auth, function * () {
+r.get('/-/whoami', middleware.auth.always, function * () {
   this.body = {username: this.username}
 })
 
