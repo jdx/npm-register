@@ -9,7 +9,7 @@ const packages = require('../lib/packages')
 const config = require('../config')
 
 // npm publish
-r.put('/:name', middleware.auth, function * () {
+r.put('/:name', middleware.auth.write, function * () {
   let pkg = yield parse(this, {limit: '100mb'})
   let tags = Object.keys(pkg['dist-tags'])
   if (tags.length !== 1) this.throw(400, 'must have 1 dist-tag')

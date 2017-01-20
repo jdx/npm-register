@@ -41,7 +41,9 @@ function bearer (token) {
           })
         })
         describe('anonymous', () => {
-          it('returns 401', () => {
+          it('returns 401, even if read and write authentications are both disabled', () => {
+            config.auth.read = false
+            config.auth.write = false
             return request.get('/-/whoami')
               .accept('json')
               .expect(401)

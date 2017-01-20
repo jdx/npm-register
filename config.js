@@ -18,6 +18,10 @@ module.exports = {
   s3: {
     bucket: env.AWS_S3_BUCKET,
     region: env.AWS_DEFAULT_REGION
+  },
+  auth: {
+    write: (env.NPM_REGISTER_AUTH_WRITE || 'true') === 'true',
+    read: (env.NPM_REGISTER_AUTH_READ || 'false') === 'true'
   }
 }
 

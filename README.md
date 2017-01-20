@@ -98,4 +98,6 @@ dickeyxxx
 
 This stores the credentials in `~/.npmrc`. You can now use `npm publish` to publish packages.
 
-**NOTE**: Because the original use-case for having private packages was a little strange, right now you need to be authenticated to upload a private package, but once they are in the registry anyone can install them (but they would have to know the name of it). Comment on https://github.com/dickeyxxx/npm-register/issues/1 if you'd like to see better functionality around this.
+### Configuration via environment variables
+
+By default, all write endpoints (e.g. publish, unpublish) require authentication whereas read endpoints (e.g. install) don't. This default behaviour can be changed by using `NPM_REGISTER_AUTH_WRITE` and `NPM_REGISTER_AUTH_READ` environment variables: use `true` to enable authentication and `false` to disable it.
