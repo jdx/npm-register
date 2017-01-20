@@ -4,8 +4,9 @@ const r = require('koa-router')()
 const path = require('path')
 const config = require('../config')
 const npm = require('../lib/npm')
+const middleware = require('../middleware')
 
-r.get('/:scope?/:name/-/:scope2?/:filename/:sha', function * () {
+r.get('/:scope?/:name/-/:scope2?/:filename/:sha', middleware.auth.read, function * () {
   let {scope, name, filename, sha} = this.params
   let key = path.join('tarballs', scope ? `${scope}/${name}` : name, filename, sha)
   let tarball = yield config.storage.stream(key)
@@ -30,7 +31,7 @@ r.get('/:scope?/:name/-/:scope2?/:filename/:sha', function * () {
 })
 
 // get package tarball without sha
-r.get('/:name/-/:filename', function * () {
+r.get('/:name/-/:filename', middleware.auth.read, function * () {
   let {name, filename} = this.params
   let ext = path.extname(filename)
   filename = path.basename(filename, ext)

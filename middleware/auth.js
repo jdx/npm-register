@@ -1,12 +1,25 @@
 'use strict'
 
 const user = require('../lib/user')
+const config = require('../config')
 
-module.exports = function * (next) {
-  if (this.headers.authorization) {
-    let token = this.headers.authorization.split(' ')[1]
-    this.username = yield user.findByToken(token)
+function * doAuth (ctx, next) {
+  if (ctx.headers.authorization) {
+    let token = ctx.headers.authorization.split(' ')[1]
+    ctx.username = yield user.findByToken(token)
   }
-  if (!this.username) this.throw(401)
+  if (!ctx.username) ctx.throw(401)
   yield next
+}
+
+module.exports = {
+  read: function * (next) {
+    yield (config.auth.read ? doAuth(this, next) : next)
+  },
+  write: function * (next) {
+    yield (config.auth.write ? doAuth(this, next) : next)
+  },
+  always: function * (next) {
+    yield doAuth(this, next)
+  }
 }

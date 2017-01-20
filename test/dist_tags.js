@@ -47,6 +47,15 @@ describe('dist-tags', () => {
             .expect(200)
             .then((r) => expect(r.body, 'to have property', 'alpha'))
         })
+        it('can be configured to require authentication', () => {
+          config.auth.read = true
+          return request.get('/-/package/heroku-debug/dist-tags')
+            .expect(401)
+            .then(() =>
+              request.get('/-/package/heroku-debug/dist-tags')
+                .use(bearer(token))
+                .expect(200))
+        })
       })
 
       describe('GET /-/package/foobar123/dist-tags', () => {
@@ -55,6 +64,15 @@ describe('dist-tags', () => {
             .accept('json')
             .expect(200)
             .then((r) => expect(r.body, 'to satisfy', {latest: '1.0.0'}))
+        })
+        it('can be configured to require authentication', () => {
+          config.auth.read = true
+          return request.get('/-/package/foobar123/dist-tags')
+            .expect(401)
+            .then(() =>
+              request.get('/-/package/foobar123/dist-tags')
+                .use(bearer(token))
+                .expect(200))
         })
       })
 
@@ -77,6 +95,17 @@ describe('dist-tags', () => {
             })
           })
         })
+        it('can be configured to skip authentication', () => {
+          return request.put('/-/package/foobar123/dist-tags/beta')
+            .send('"2.0.0"')
+            .expect(401)
+            .then(() => {
+              config.auth.write = false
+              return request.put('/-/package/foobar123/dist-tags/beta')
+                .send('"2.0.0"')
+                .expect(200)
+            })
+        })
       })
 
       describe('DELETE /-/package/foobar123/dist-tags/beta', () => {
@@ -90,6 +119,15 @@ describe('dist-tags', () => {
             .expect(200)
             .then((r) => expect(r.body, 'not to have property', 'alpha'))
           })
+        })
+        it('can be configured to skip authentication', () => {
+          return request.delete('/-/package/foobar123/dist-tags/alpha')
+            .expect(401)
+            .then(() => {
+              config.auth.write = false
+              return request.delete('/-/package/foobar123/dist-tags/alpha')
+                .expect(200)
+            })
         })
       })
     })
