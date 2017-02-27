@@ -22,7 +22,10 @@ module.exports = {
   auth: {
     write: (env.NPM_REGISTER_AUTH_WRITE || 'true') === 'true',
     read: (env.NPM_REGISTER_AUTH_READ || 'false') === 'true'
-  }
+  },
+  httpProxyHost: env.HTTP_PROXY_HOST,
+  httpProxyPort: env.HTTP_PROXY_PORT,
+  httpProxyAuth: env.HTTP_PROXY_AUTH
 }
 
 let storageType = ((env.NPM_REGISTER_STORAGE && env.NPM_REGISTER_STORAGE.toLowerCase()) || 'fs')
