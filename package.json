@@ -12,6 +12,7 @@
     "co-body": "4.2.0",
     "fs-extra": "0.30.0",
     "got": "6.3.0",
+    "tunnel": "0.0.4",
     "htpasswd-auth": "2.0.0",
     "ioredis": "2.3.0",
     "koa": "1.2.1",
