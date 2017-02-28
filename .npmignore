@@ -1,8 +1,11 @@
 .codeclimate.yml
 .envrc
 .npmignore
+.nyc_output
 Dockerfile
 app.json
 circle.yml
 s3_bucket_policy.json
 test
+tmp
+yarn.lock
