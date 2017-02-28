@@ -1,6 +1,31 @@
-machine:
-  node:
-    version: v6.3.0
-test:
-  post:
-    - nyc report --reporter=text-lcov > coverage.lcov && codecov
+version: 2
+executorType: docker
+containerInfo:
+  - image: yarnpkg/node-yarn:latest
+stages:
+  build:
+    workDir: ~/npm-register
+    environment:
+      - CIRCLE_PROJECT_USERNAME: dickeyxxx
+      - CIRCLE_PROJECT_REPONAME: npm-register
+    steps:
+      - type: checkout
+      - type: cache-restore
+        key: npm-register-{{checksum "package.json"}}
+      - type: shell
+        command: |
+          set -exu
+
+          # setup yarn
+          yarn
+          yarn test
+          bash <(curl -s https://codecov.io/bash)
+
+          # show files in npm pack
+          npm pack
+          tar xvzf *.tgz
+      - type: cache-save
+        key: cli-engine-{{checksum "package.json"}}
+        paths:
+          - /usr/local/share/.cache/yarn
+          - ~/npm-register/node_modules
