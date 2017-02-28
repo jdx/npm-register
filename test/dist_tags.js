@@ -2,7 +2,7 @@
 /* global describe it before */
 
 let app = require('../server')
-let request = require('supertest-as-promised').agent(app.listen())
+let request = require('supertest').agent(app.listen())
 let user = require('../lib/user')
 let co = require('co')
 let config = require('../config')
