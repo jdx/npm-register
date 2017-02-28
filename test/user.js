@@ -2,7 +2,7 @@
 /* global describe it before */
 
 const app = require('../server')
-const request = require('supertest-as-promised').agent(app.listen())
+const request = require('supertest').agent(app.listen())
 const user = require('../lib/user')
 const co = require('co')
 const expect = require('unexpected')
