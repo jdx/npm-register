@@ -19,12 +19,8 @@ stages:
           # setup yarn
           yarn
           yarn test
-          nyc report --reporter=text-lcov > coverage.lcov
+          ./node_modules/.bin/nyc report --reporter=text-lcov > coverage.lcov
           bash <(curl -s https://codecov.io/bash)
-
-          # show files in npm pack
-          npm pack
-          tar xvzf *.tgz
       - type: cache-save
         key: cli-engine-{{checksum "package.json"}}
         paths:
