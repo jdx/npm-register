@@ -80,9 +80,9 @@ Authentication
 npm-register uses an htpasswd file for authentication and stores tokens in S3. To set this up, first create an htpasswd file, then upload it to `/htpasswd` in your S3 bucket or your local file system:
 
 ```
-$ aws s3 cp s3://S3BUCKET/htpasswd ./htpasswd
+$ aws s3 cp s3://$AWS_S3_BUCKET/htpasswd ./htpasswd
 $ htpasswd -nB YOURUSERNAME >> ./htpasswd
-$ aws s3 cp ./htpasswd s3://S3BUCKET/htpasswd
+$ aws s3 cp ./htpasswd s3://$AWS_S3_BUCKET/htpasswd
 ```
 
 Then you can login with npm. Note that the email is ignored by the server, but the CLI will force you to add one.
