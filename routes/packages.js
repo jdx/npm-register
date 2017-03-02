@@ -6,6 +6,7 @@ const url = require('url')
 const packages = require('../lib/packages')
 const config = require('../config')
 const middleware = require('../middleware')
+const argv = require('yargs').argv;
 
 function addShaToPath (p, sha) {
   let ext = path.extname(p)
@@ -17,6 +18,10 @@ function addShaToPath (p, sha) {
 }
 
 function rewriteTarballURLs (pkg, host, protocol) {
+  if (argv.alwaysHttps) {
+    protocol = 'https'
+  }
+
   for (let version of Object.keys(pkg.versions)) {
     let dist = pkg.versions[version].dist
     let u = url.parse(dist.tarball)
