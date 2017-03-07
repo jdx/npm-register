@@ -101,3 +101,10 @@ This stores the credentials in `~/.npmrc`. You can now use `npm publish` to publ
 ### Configuration via environment variables
 
 By default, all write endpoints (e.g. publish, unpublish) require authentication whereas read endpoints (e.g. install) don't. This default behaviour can be changed by using `NPM_REGISTER_AUTH_WRITE` and `NPM_REGISTER_AUTH_READ` environment variables: use `true` to enable authentication and `false` to disable it.
+
+Yarn compatibility
+------------------
+
+Yarn doesn't follow HTTP redirects and so expects all URLs to be HTTPS by default. Pass
+`--always-https` to ignore the protocol header and return all responses in a format Yarn
+understands.
