@@ -3,6 +3,8 @@
 
 const argv = require('yargs')
   .command('start', 'start the server')
+  .boolean('always-https')
+  .describe('always-https', 'Ingore request headers and always return HTTPS URLs')
   .demand(1)
   .strict()
   .help('h')
