@@ -9,3 +9,4 @@ s3_bucket_policy.json
 test
 tmp
 yarn.lock
+htpasswd
