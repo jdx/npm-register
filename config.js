@@ -25,7 +25,8 @@ module.exports = {
   },
   httpProxyHost: env.HTTP_PROXY_HOST,
   httpProxyPort: env.HTTP_PROXY_PORT,
-  httpProxyAuth: env.HTTP_PROXY_AUTH
+  httpProxyAuth: env.HTTP_PROXY_AUTH,
+  urlPrefix: env.NPM_REGISTER_URL_PREFIX
 }
 
 let storageType = ((env.NPM_REGISTER_STORAGE && env.NPM_REGISTER_STORAGE.toLowerCase()) || 'fs')
