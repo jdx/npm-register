@@ -19,6 +19,8 @@ This is also a [12 Factor](http://12factor.net/) app to make it easy to host on 
 Setup
 -----
 
+**Note: npm-register requires Node v6.x or later.**
+
 The easiest way to set this up is with the Heroku button (you must use S3 with Heroku):
 
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
