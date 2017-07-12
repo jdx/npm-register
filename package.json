@@ -35,7 +35,7 @@
   },
   "engineStrict" : true,
   "enginesStrict": {
-    "node": ">=6.0.0"
+    "node": ">=8.1.4"
   },
   "homepage": "https://github.com/dickeyxxx/npm-register",
   "keywords": [
