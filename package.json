@@ -8,6 +8,7 @@
   "dependencies": {
     "aws-sdk": "^2.104.0",
     "bluebird": "^3.5.0",
+    "body-parser": "^1.17.2",
     "compression": "^1.7.0",
     "express": "^4.15.4",
     "fs-extra": "^4.0.1",
