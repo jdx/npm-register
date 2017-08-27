@@ -1,9 +1,9 @@
-# npm-register [![CircleCI](https://circleci.com/gh/dickeyxxx/npm-register/tree/master.svg?style=svg)](https://circleci.com/gh/dickeyxxx/npm-register/tree/master)
+# npm-register [![CircleCI](https://circleci.com/gh/jdxcode/npm-register/tree/master.svg?style=svg)](https://circleci.com/gh/jdxcode/npm-register/tree/master)
 
 Your own private npm registry and backup server. Used in production and maintained by Heroku. Designed to be easy to set up and maintain, performant, and stable.
 
-[![Code Climate](https://codeclimate.com/github/dickeyxxx/npm-register/badges/gpa.svg)](https://codeclimate.com/github/dickeyxxx/npm-register)
-[![codecov](https://codecov.io/gh/dickeyxxx/npm-register/branch/master/graph/badge.svg)](https://codecov.io/gh/dickeyxxx/npm-register)
+[![Code Climate](https://codeclimate.com/github/jdxcode/npm-register/badges/gpa.svg)](https://codeclimate.com/github/jdxcode/npm-register)
+[![codecov](https://codecov.io/gh/jdxcode/npm-register/branch/master/graph/badge.svg)](https://codecov.io/gh/jdxcode/npm-register)
 
 Overview
 --------
@@ -91,11 +91,11 @@ Then you can login with npm. Note that the email is ignored by the server, but t
 
 ```
 $ npm login --registry http://myregistry
-Username: dickeyxxx
+Username: jdxcode
 Password:
-Email: (this IS public) jeff@heroku.com
+Email: (this IS public) foo@heroku.com
 $ npm whoami --registry http://myregistry
-dickeyxxx
+jdxcode
 ```
 
 This stores the credentials in `~/.npmrc`. You can now use `npm publish` to publish packages.

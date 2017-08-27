@@ -6,7 +6,7 @@ stages:
   build:
     workDir: ~/npm-register
     environment:
-      - CIRCLE_PROJECT_USERNAME: dickeyxxx
+      - CIRCLE_PROJECT_USERNAME: jdxcode
       - CIRCLE_PROJECT_REPONAME: npm-register
     steps:
       - type: checkout
