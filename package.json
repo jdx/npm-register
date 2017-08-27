@@ -13,13 +13,13 @@
     "fs-extra": "^4.0.1",
     "got": "^7.1.0",
     "htpasswd-auth": "^2.0.0",
+    "http-call": "^2.1.5",
     "ioredis": "^3.1.4",
     "metric-log": "^1.0.1",
     "node-uuid": "^1.4.8",
     "on-finished": "^2.3.0",
     "opbeat": "^4.15.1",
     "s3": "^4.4.0",
-    "tunnel": "^0.0.5",
     "yargs": "^8.0.2"
   },
   "devDependencies": {
