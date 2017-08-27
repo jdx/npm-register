@@ -18,9 +18,16 @@ stages:
 
           # setup yarn
           yarn
+
+          # test
           yarn test
+
+          # upload code coverage data
           ./node_modules/.bin/nyc report --reporter=text-lcov > coverage.lcov
           bash <(curl -s https://codecov.io/bash)
+
+          # lint
+          standard
       - type: cache-save
         key: cli-engine-{{checksum "package.json"}}
         paths:
