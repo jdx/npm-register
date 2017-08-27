@@ -24,6 +24,7 @@ function load (name) {
   r.use(sub.allowedMethods())
 }
 
+load('version')
 load('packages')
 load('tarballs')
 load('auth')
