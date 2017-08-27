@@ -16,7 +16,7 @@
     "metric-log": "1.0.1",
     "node-uuid": "1.4.7",
     "on-finished": "^2.3.0",
-    "opbeat": "3.16.0",
+    "opbeat": "^4.15.1",
     "s3": "4.4.0",
     "tunnel": "0.0.4",
     "yargs": "5.0.0"
