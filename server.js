@@ -2,7 +2,8 @@
 
 const opbeat = require('./lib/opbeat')
 
-const app = require('koa')()
+const Koa = require('koa')
+const app = new Koa()
 const compress = require('koa-compress')
 const config = require('./config')
 const routes = require('./routes')
