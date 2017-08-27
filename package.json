@@ -6,28 +6,28 @@
   "bin": "bin/npm-register",
   "bugs": "https://github.com/jdxcode/npm-register",
   "dependencies": {
-    "aws-sdk": "2.5.2",
-    "bluebird": "3.4.1",
+    "aws-sdk": "^2.104.0",
+    "bluebird": "^3.5.0",
     "compression": "^1.7.0",
     "express": "^4.15.4",
-    "fs-extra": "0.30.0",
-    "got": "6.3.0",
-    "htpasswd-auth": "2.0.0",
-    "ioredis": "2.3.0",
-    "metric-log": "1.0.1",
-    "node-uuid": "1.4.7",
+    "fs-extra": "^4.0.1",
+    "got": "^7.1.0",
+    "htpasswd-auth": "^2.0.0",
+    "ioredis": "^3.1.4",
+    "metric-log": "^1.0.1",
+    "node-uuid": "^1.4.8",
     "on-finished": "^2.3.0",
     "opbeat": "^4.15.1",
-    "s3": "4.4.0",
-    "tunnel": "0.0.4",
-    "yargs": "5.0.0"
+    "s3": "^4.4.0",
+    "tunnel": "^0.0.5",
+    "yargs": "^8.0.2"
   },
   "devDependencies": {
-    "mocha": "3.2.0",
-    "nyc": "10.1.2",
+    "mocha": "^3.5.0",
+    "nyc": "^11.1.0",
     "standard": "^10.0.3",
-    "supertest": "3.0.0",
-    "unexpected": "10.26.2"
+    "supertest": "^3.0.0",
+    "unexpected": "^10.33.2"
   },
   "engineStrict": true,
   "enginesStrict": {
