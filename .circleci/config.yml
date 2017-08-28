@@ -2,6 +2,7 @@ version: 2
 executorType: docker
 containerInfo:
   - image: node:8
+  - image: redis:4.0.1
 stages:
   build:
     workDir: ~/npm-register
