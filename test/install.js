@@ -19,6 +19,7 @@ beforeEach(() => {
 })
 afterEach(() => {
   fs.removeSync(dir)
+  process.chdir(path.join(__dirname, '..'))
 })
 
 ;['fs', 's3'].forEach(storage => {
@@ -29,8 +30,9 @@ afterEach(() => {
     })
     describe('install', function () {
       it('installs heroku-git', async function () {
-        await exec(`npm install heroku-git`)
-        expect(fs.existsSync(path.join(dir, 'node_modules', 'heroku-git', 'package.json'))).to.equal(true)
+        await exec('npm install array-union')
+        expect(fs.existsSync(path.join(dir, 'node_modules', 'array-union', 'package.json'))).to.equal(true)
+        expect(fs.existsSync(path.join(dir, 'node_modules', 'array-uniq', 'package.json'))).to.equal(true)
       })
     })
   })

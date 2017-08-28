@@ -15,6 +15,7 @@
     "htpasswd-auth": "^2.0.0",
     "http-call": "^2.1.5",
     "ioredis": "^3.1.4",
+    "klaw": "^2.1.0",
     "metric-log": "^1.0.1",
     "node-uuid": "^1.4.8",
     "on-finished": "^2.3.0",
