@@ -12,7 +12,7 @@ stages:
       - run: |
           set -x
           node -v
-          if [ -z "$AWS_SECRET_ACCESS_KE" ]; then
+          if [ -z "$AWS_SECRET_ACCESS_KEY" ]; then
             echo "AWS_SECRET_ACCESS_KEY must be set. Pull requests may only be run by the owner of the repository"
             exit 1
           fi
