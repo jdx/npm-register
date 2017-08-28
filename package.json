@@ -33,8 +33,11 @@
     "unexpected": "^10.33.2"
   },
   "engineStrict": true,
-  "enginesStrict": {
+  "engines": {
     "node": ">=8.4.0"
+  },
+  "enginesStrict": {
+    "node": ">=8.0.0"
   },
   "files": [
     "lib"
