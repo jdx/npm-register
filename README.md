@@ -4,6 +4,7 @@ Your own private npm registry and backup server. Used in production and maintain
 
 [![Code Climate](https://codeclimate.com/github/jdxcode/npm-register/badges/gpa.svg)](https://codeclimate.com/github/jdxcode/npm-register)
 [![codecov](https://codecov.io/gh/jdxcode/npm-register/branch/master/graph/badge.svg)](https://codecov.io/gh/jdxcode/npm-register)
+[![Known Vulnerabilities](https://snyk.io/test/github/dickeyxxx/npm-register/badge.svg)](https://snyk.io/test/github/dickeyxxx/npm-register)
 
 Overview
 --------
