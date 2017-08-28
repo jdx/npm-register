@@ -17,10 +17,10 @@
     "ioredis": "^3.1.4",
     "klaw": "^2.1.0",
     "metric-log": "^1.0.1",
-    "node-uuid": "^1.4.8",
     "on-finished": "^2.3.0",
     "opbeat": "^4.15.1",
     "s3": "^4.4.0",
+    "uuid": "^3.1.0",
     "yargs": "^8.0.2"
   },
   "devDependencies": {
