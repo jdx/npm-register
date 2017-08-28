@@ -16,6 +16,7 @@ stages:
             exit 1
           fi
           set -x
+          export REDIS_URL=localhost:6379
           node -v
           yarn
           yarn test
