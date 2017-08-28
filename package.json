@@ -34,7 +34,7 @@
   },
   "engineStrict": true,
   "enginesStrict": {
-    "node": ">=8.1.4"
+    "node": ">=8.4.0"
   },
   "files": [
     "lib"

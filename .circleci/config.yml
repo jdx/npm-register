@@ -1,32 +1,21 @@
 version: 2
 executorType: docker
 containerInfo:
-  - image: yarnpkg/node-yarn:latest
+  - image: node:8
 stages:
   build:
     workDir: ~/npm-register
-    environment:
-      - CIRCLE_PROJECT_USERNAME: jdxcode
-      - CIRCLE_PROJECT_REPONAME: npm-register
     steps:
       - type: checkout
       - type: cache-restore
         key: npm-register-{{checksum "package.json"}}
-      - type: shell
-        command: |
-          set -exu
-
-          # setup yarn
+      - run: |
+          set -x
+          node -v
           yarn
-
-          # test
           yarn test
-
-          # upload code coverage data
           ./node_modules/.bin/nyc report --reporter=text-lcov > coverage.lcov
           bash <(curl -s https://codecov.io/bash)
-
-          # lint
           standard
       - type: cache-save
         key: cli-engine-{{checksum "package.json"}}
