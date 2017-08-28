@@ -1,11 +1,8 @@
-'use strict'
-/* global describe it before */
-
-let app = require('../server')
+let app = require('../lib/server')
 let request = require('supertest').agent(app.listen())
 let user = require('../lib/user')
 let co = require('co')
-let config = require('../config')
+let config = require('../lib/config')
 let expect = require('unexpected')
 
 // make sure this user is in the htpasswd file

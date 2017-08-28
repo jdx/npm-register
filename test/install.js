@@ -1,30 +1,36 @@
-'use strict'
-/* global describe it before */
-
 require('./server')
-let registry = 'http://localhost:' + process.env.PORT
-let bluebird = require('bluebird')
-let exec = bluebird.promisify(require('child_process').exec)
-let expect = require('unexpected')
-let config = require('../config')
+const registry = 'http://localhost:' + process.env.PORT
+const bluebird = require('bluebird')
+const exec = bluebird.promisify(require('child_process').exec)
+const expect = require('chai').expect
+const config = require('../lib/config')
+const tmp = require('tmp')
+const fs = require('fs-extra')
+const path = require('path')
 
-process.env.NPM_CONFIG_LOGSTREAM = '/dev/null';
+process.env.NPM_CONFIG_PACKAGE_LOCK = 'false'
+process.env.NPM_CONFIG_REGISTRY = registry
 
-['fs', 's3'].forEach(storage => {
+let dir
+tmp.setGracefulCleanup()
+beforeEach(() => {
+  dir = process.env.NPM_CONFIG_CACHE = tmp.dirSync().name
+  process.chdir(dir)
+})
+afterEach(() => {
+  fs.removeSync(dir)
+})
+
+;['fs', 's3'].forEach(storage => {
   describe(storage, () => {
     before(() => {
       let Storage = require('../lib/storage/' + storage)
       config.storage = new Storage()
     })
     describe('install', function () {
-      it('installs heroku-git', function () {
-        return exec('npm uninstall heroku-git').catch(() => {})
-        .then(() => exec('npm cache clean heroku-git'))
-        .then(() => exec(`npm install heroku-git --parseable --registry ${registry}`))
-        .then((output) => expect(output, 'to match', /heroku-git$/m))
-        .finally(function () {
-          exec('npm uninstall heroku-git')
-        })
+      it('installs heroku-git', async function () {
+        await exec(`npm install heroku-git`)
+        expect(fs.existsSync(path.join(dir, 'node_modules', 'heroku-git', 'package.json'))).to.equal(true)
       })
     })
   })

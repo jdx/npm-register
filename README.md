@@ -110,3 +110,14 @@ Yarn compatibility
 Yarn doesn't follow HTTP redirects and so expects all URLs to be HTTPS by default. Pass
 `--always-https` to ignore the protocol header and return all responses in a format Yarn
 understands.
+
+Local Development
+-----------------
+
+When running the test suite, you will need the following in `./tmp/htpasswd`:
+
+```
+test:$2y$05$t3NzHyb9qg.auYvVNZzAHuj3/e/rj6EjktdpoWzKzmal8FoH59MMK
+```
+
+This sets up a test user with password 'test'.

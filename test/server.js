@@ -1,12 +1,9 @@
-'use strict'
-/* global beforeEach */
-
-const config = require('../config')
+const config = require('../lib/config')
 const defaultAuth = config.auth
 
 beforeEach(() => {
-  config.auth = Object.assign({}, defaultAuth)
+  config.auth = {...defaultAuth}
 })
 
 process.env.PORT = '7129'
-require('../server').listen(process.env.PORT)
+require('../lib/server').listen(process.env.PORT)
