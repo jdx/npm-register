@@ -19,12 +19,15 @@
     "ioredis": "^3.1.4",
     "klaw": "^2.1.0",
     "lodash": "^4.17.4",
+    "material-ui": "^1.0.0-beta.8",
+    "material-ui-icons": "^1.0.0-beta.5",
     "metric-log": "^1.0.1",
     "on-finished": "^2.3.0",
     "opbeat": "^4.15.1",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "s3": "^4.4.0",
+    "typeface-roboto": "0.0.35",
     "uuid": "^3.1.0",
     "yargs": "^8.0.2"
   },
@@ -62,9 +65,10 @@
   "main": "lib/start.js",
   "repository": "jdxcode/npm-register",
   "scripts": {
+    "build": "webpack --progress --config webpack.config",
     "build:dev": "webpack --progress --watch --config webpack.config",
     "dev": "webpack-dev-server --content-base ./public",
-    "start": "concurrently './bin/npm-register start' 'npm run build:dev'",
+    "start": "./bin/npm-register start",
     "test": "nyc mocha && standard"
   },
   "standard": {
