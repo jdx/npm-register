@@ -1,9 +1,7 @@
 const path = require('path')
 const merge = require('webpack-merge')
-
 const devConfig = require('./webpack.dev')
 const prodConfig = require('./webpack.prod')
-
 const PATHS = {
   app: path.join(__dirname, '../client'),
   public: path.join(__dirname, '../public')
@@ -53,10 +51,12 @@ const baseConfig = {
   }
 }
 
-module.exports = (env) => {
-  if (env === 'production') {
+module.exports = () => {
+  if (process.env.NODE_ENV === 'production') {
+    console.log('Loading production config...')
     return merge(baseConfig, prodConfig)
   }
 
+  console.log('Loading development config...')
   return merge(baseConfig, devConfig)
 }
