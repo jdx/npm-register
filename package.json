@@ -72,9 +72,9 @@
   "repository": "jdxcode/npm-register",
   "scripts": {
     "build": "webpack --config ./config/webpack.config",
-    "server": "./bin/npm-register start",
+    "server": "node bin/npm-register start",
     "dev": "concurrently -p \"[{name}]\" -n \"API,UI\" -c \"bgMagenta.bold,bgGreen.bold\" \"npm run server\" \"webpack-dev-server --watch-poll --colors --config ./config/webpack.config\"",
-    "start": "NODE_ENV=production concurrently -p \"[{name}]\" -n \"UI,API\" -c \"bgMagenta.bold,bgGreen.bold\" \"npm run build\" \"./bin/npm-register start\"",
+    "start": "NODE_ENV=production concurrently -p \"[{name}]\" -n \"UI,API\" -c \"bgMagenta.bold,bgGreen.bold\" \"npm run build\" \"npm run server\"",
     "test": "nyc mocha && standard"
   },
   "standard": {
