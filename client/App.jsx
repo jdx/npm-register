@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import { withStyles } from 'material-ui/styles'
 import Paper from 'material-ui/Paper'
 import Grid from 'material-ui/Grid'
-import Typography from 'material-ui/Typography'
+
+import Header from './components/Header'
 
 const styles = theme => ({
   root: {
@@ -23,9 +24,7 @@ function AutoGrid (props) {
 
   return (
     <div className={classes.root}>
-      <Typography type='display1' gutterBottom>
-        NPM Register
-      </Typography>
+      <Header />
       <Grid container spacing={24}>
         <Grid item xs={12} sm={2}>
           <Paper className={classes.paper}>Sidebar</Paper>
