@@ -37,14 +37,18 @@
     "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.24.1",
     "chai": "^4.1.1",
+    "css-loader": "^0.28.7",
     "mocha": "^3.5.0",
     "nyc": "^11.1.0",
     "standard": "^10.0.3",
+    "style-loader": "^0.18.2",
     "supertest": "^3.0.0",
     "tmp": "^0.0.33",
     "unexpected": "^10.33.2",
+    "url-loader": "^0.5.9",
     "webpack": "^3.5.6",
-    "webpack-dev-server": "^2.7.1"
+    "webpack-dev-server": "^2.7.1",
+    "webpack-merge": "^4.1.0"
   },
   "engineStrict": true,
   "engines": {
@@ -65,9 +69,9 @@
   "main": "lib/start.js",
   "repository": "jdxcode/npm-register",
   "scripts": {
-    "build": "webpack --progress --config webpack.config",
-    "build:dev": "webpack --progress --watch --config webpack.config",
-    "dev": "webpack-dev-server --content-base ./public",
+    "build": "webpack --progress --config ./config/webpack.config",
+    "build:dev": "webpack --progress --watch --config ./config/webpack.config",
+    "dev": "concurrently './bin/npm-register start' 'webpack-dev-server --content-base ./public --config ./config/webpack.config'",
     "start": "./bin/npm-register start",
     "test": "nyc mocha && standard"
   },
