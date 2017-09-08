@@ -17,6 +17,9 @@ const baseConfig = {
     path: PATHS.public,
     filename: 'app.js'
   },
+  resolve: {
+    extensions: ['.webpack.js', '.web.js', '.js', '.json', '.jsx']
+  },
   module: {
     rules: [{
       test: /\.jsx$/,
