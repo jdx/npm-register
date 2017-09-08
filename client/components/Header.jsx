@@ -17,7 +17,7 @@ function SimpleAppBar (props) {
   return (
     <div className={classes.root}>
       <AppBar position='static' color='default'>
-        <Toolbar disableGutters>
+        <Toolbar>
           <Typography type='title' color='inherit'>
             NPM Register
           </Typography>

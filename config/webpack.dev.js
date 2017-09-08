@@ -14,5 +14,19 @@ module.exports = {
         secure: false
       }
     }
+  },
+  module: {
+    rules: [
+      {
+        enforce: 'pre',
+        test: /\.jsx?$/,
+        loader: 'standard-loader',
+        exclude: /(node_modules)/,
+        options: {
+          error: true,
+          snazzy: true
+        }
+      }
+    ]
   }
 }

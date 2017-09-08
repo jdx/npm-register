@@ -40,7 +40,9 @@
     "css-loader": "^0.28.7",
     "mocha": "^3.5.0",
     "nyc": "^11.1.0",
+    "snazzy": "^7.0.0",
     "standard": "^10.0.3",
+    "standard-loader": "^6.0.1",
     "style-loader": "^0.18.2",
     "supertest": "^3.0.0",
     "tmp": "^0.0.33",
@@ -69,9 +71,8 @@
   "main": "lib/start.js",
   "repository": "jdxcode/npm-register",
   "scripts": {
-    "build": "webpack --progress --config ./config/webpack.config",
-    "build:dev": "webpack --progress --watch --config ./config/webpack.config",
-    "dev": "concurrently --success './bin/npm-register start' 'webpack-dev-server --progress --content-base ./public --config ./config/webpack.config'",
+    "build": "webpack --config ./config/webpack.config",
+    "dev": "concurrently --success './bin/npm-register start' 'webpack-dev-server --content-base ./public --config ./config/webpack.config'",
     "start": "concurrently --success 'npm run build' './bin/npm-register start'",
     "test": "nyc mocha && standard"
   },
