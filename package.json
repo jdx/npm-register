@@ -37,6 +37,7 @@
     "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.24.1",
     "chai": "^4.1.1",
+    "cross-env": "^5.0.5",
     "css-loader": "^0.28.7",
     "mocha": "^3.5.0",
     "nyc": "^11.1.0",
@@ -73,8 +74,8 @@
   "scripts": {
     "build": "webpack --config ./config/webpack.config",
     "server": "node bin/npm-register start",
-    "dev": "concurrently -p \"[{name}]\" -n \"API,UI\" -c \"bgMagenta.bold,bgGreen.bold\" \"npm run server\" \"webpack-dev-server --watch-poll --colors --config ./config/webpack.config\"",
-    "start": "NODE_ENV=production concurrently -p \"[{name}]\" -n \"UI,API\" -c \"bgMagenta.bold,bgGreen.bold\" \"npm run build\" \"npm run server\"",
+    "dev": "cross-env NODE_ENV=development concurrently --kill-others -p \"[{name}]\" -n \"API,UI\" -c \"bgMagenta.bold,bgGreen.bold\" \"npm run server\" \"webpack-dev-server --watch-poll --colors --config ./config/webpack.config\"",
+    "start": "cross-env NODE_ENV=production concurrently --kill-others-on-fail -p \"[{name}]\" -n \"UI,API\" -c \"bgMagenta.bold,bgGreen.bold\" \"npm run build\" \"npm run server\"",
     "test": "nyc mocha && standard"
   },
   "standard": {
