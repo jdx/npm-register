@@ -40,6 +40,7 @@
     "cross-env": "^5.0.5",
     "css-loader": "^0.28.7",
     "mocha": "^3.5.0",
+    "nodemon": "^1.12.0",
     "nyc": "^11.1.0",
     "snazzy": "^7.0.0",
     "standard": "^10.0.3",
@@ -74,7 +75,8 @@
   "scripts": {
     "build": "webpack --config ./config/webpack.config",
     "server": "node bin/npm-register start",
-    "dev": "cross-env NODE_ENV=development concurrently --kill-others -p \"[{name}]\" -n \"API,UI\" -c \"bgMagenta.bold,bgGreen.bold\" \"npm run server\" \"webpack-dev-server --watch-poll --colors --config ./config/webpack.config\"",
+    "server:dev": "nodemon --watch lib bin/npm-register start",
+    "dev": "cross-env NODE_ENV=development concurrently --kill-others -p \"[{name}]\" -n \"API,UI\" -c \"bgMagenta.bold,bgGreen.bold\" \"npm run server:dev\" \"webpack-dev-server --watch-poll --colors --config ./config/webpack.config\"",
     "start": "cross-env NODE_ENV=production concurrently --kill-others-on-fail -p \"[{name}]\" -n \"UI,API\" -c \"bgMagenta.bold,bgGreen.bold\" \"npm run build\" \"npm run server\"",
     "test": "nyc mocha && standard"
   },
