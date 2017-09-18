@@ -1,3 +1,4 @@
+import axios from 'axios'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from 'material-ui/styles'
@@ -19,26 +20,39 @@ const styles = theme => ({
   }
 })
 
-function AutoGrid (props) {
-  const classes = props.classes
+class App extends React.Component {
+  constructor (props) {
+    super(props)
+    this.classes = props.classes
+  }
 
-  return (
-    <div className={classes.root}>
+  getPackages () {
+    return axios.get('/-/api/v1/packages')
+  }
+
+  componentDidMount () {
+    this.getPackages().then((response) => {
+      console.log(response)
+    })
+  }
+
+  render () {
+    return <div className={this.classes.root}>
       <Header />
       <Grid container spacing={24}>
         <Grid item xs={12} sm={2}>
-          <Paper className={classes.paper}>Sidebar</Paper>
+          <Paper className={this.classes.paper}>Sidebar</Paper>
         </Grid>
         <Grid item xs={12} sm={10}>
-          <Paper className={classes.paper}>Main Content</Paper>
+          <Paper className={this.classes.paper}>Main Content</Paper>
         </Grid>
       </Grid>
     </div>
-  )
+  }
 }
 
-AutoGrid.propTypes = {
+App.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(AutoGrid)
+export default withStyles(styles)(App)
