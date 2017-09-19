@@ -16,7 +16,7 @@ function SimpleAppBar (props) {
   const classes = props.classes
   return (
     <div className={classes.root}>
-      <AppBar position='static' color='default'>
+      <AppBar position='static' color='primary'>
         <Toolbar>
           <Typography type='title' color='inherit'>
             NPM Register
