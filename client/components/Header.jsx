@@ -9,6 +9,13 @@ const styles = {
   root: {
     marginBottom: 30,
     width: '100%'
+  },
+  appbar: {
+    background: '#cc0000',
+    color: '#FFF'
+  },
+  type: {
+    marginLeft: 10
   }
 }
 
@@ -16,9 +23,10 @@ function SimpleAppBar (props) {
   const classes = props.classes
   return (
     <div className={classes.root}>
-      <AppBar position='static' color='primary'>
+      <AppBar position='static' color='inherit' className={classes.appbar}>
         <Toolbar>
-          <Typography type='title' color='inherit'>
+          <img src='/images/logo-small.png' alt='NPM Register' width='30px' height='30px' />
+          <Typography type='headline' color='inherit' className={classes.type}>
             NPM Register
           </Typography>
         </Toolbar>
