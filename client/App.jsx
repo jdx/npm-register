@@ -1,4 +1,4 @@
-import axios from 'axios'
+import http from 'axios'
 import Button from 'material-ui/Button'
 import { CircularProgress } from 'material-ui/Progress'
 import Grid from 'material-ui/Grid'
@@ -23,8 +23,13 @@ const styles = theme => ({
   },
   paper: {
     padding: 16,
+    margin: 16,
+    width: '100%',
     textAlign: 'center',
     color: theme.palette.text.secondary
+  },
+  loader: {
+    color: '#282828'
   }
 })
 
@@ -42,7 +47,7 @@ class App extends React.Component {
     this.setState({
       loading: true
     })
-    return axios.get('/-/api/v1/packages')
+    return http.get('/-/api/v1/packages')
   }
 
   refreshPackages () {
@@ -64,9 +69,10 @@ class App extends React.Component {
     return <div className={this.classes.root}>
       <Header />
       <Grid container spacing={24}>
-        <Grid item xs={12} sm={12}>
-          <Paper className={this.classes.paper}>
-            {this.state.loading ? <CircularProgress size={120} /> : null }
+        <Paper className={this.classes.paper}>
+          <Grid item xs={12} sm={12}>
+            {this.state.loading && <CircularProgress size={120} className={this.classes.loader} />}
+            {!this.state.loading &&
             <Table>
               <TableHead>
                 <TableRow>
@@ -85,17 +91,20 @@ class App extends React.Component {
                     <TableCell>{item.description}</TableCell>
                     <TableCell>{item.current_version}</TableCell>
                     <TableCell>
-                      <IconButton color='accent' aria-label='Download Tarball'><Icon>get_app</Icon></IconButton>
+                      <IconButton color='default' aria-label='Download Tarball'><Icon>get_app</Icon></IconButton>
                     </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
-            <Button raised color='primary' className={this.classes.button} onClick={this.refreshPackages.bind(this)}>
+            }
+          </Grid>
+          <Grid item xs={12} sm={12}>
+            <Button raised className={this.classes.button} onClick={this.refreshPackages.bind(this)}>
               Refresh Packages
             </Button>
-          </Paper>
-        </Grid>
+          </Grid>
+        </Paper>
       </Grid>
     </div>
   }
