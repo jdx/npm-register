@@ -89,7 +89,7 @@ class App extends React.Component {
                     <TableCell>{item.name}</TableCell>
                     <TableCell>{item.author.name}</TableCell>
                     <TableCell>{item.description}</TableCell>
-                    <TableCell>{item.current_version}</TableCell>
+                    <TableCell>{item.currentVersion}</TableCell>
                     <TableCell>
                       <IconButton color='default' aria-label='Download Tarball'><Icon>get_app</Icon></IconButton>
                     </TableCell>
