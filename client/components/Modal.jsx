@@ -9,6 +9,7 @@ import Toolbar from 'material-ui/Toolbar'
 import IconButton from 'material-ui/IconButton'
 import Typography from 'material-ui/Typography'
 import CloseIcon from 'material-ui-icons/Close'
+import md from 'marked'
 
 const styles = {
   appBar: {
@@ -16,6 +17,10 @@ const styles = {
   },
   flex: {
     flex: 1
+  },
+  readme: {
+    overflow: 'auto',
+    padding: 16
   }
 }
 
@@ -29,6 +34,7 @@ class Modal extends React.Component {
   }
 
   render () {
+    let readme = md.parse(this.props.readme || '', {sanitize: true})
     return (
       <Dialog
         fullScreen
@@ -49,9 +55,7 @@ class Modal extends React.Component {
             </Button>
           </Toolbar>
         </AppBar>
-        <div>
-          Hello World {this.props.readme}
-        </div>
+        <Typography type='body1' component='div' dangerouslySetInnerHTML={{__html: readme}} className={this.classes.readme} />
       </Dialog>
     )
   }

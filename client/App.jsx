@@ -22,10 +22,13 @@ const styles = theme => ({
   button: {
     margin: theme.spacing.unit
   },
+  anchor: {
+    'text-decoration': 'none'
+  },
   paper: {
     padding: 16,
     margin: 16,
-    width: '100%',
+    flexGrow: 1,
     textAlign: 'center',
     color: theme.palette.text.secondary
   },
@@ -104,11 +107,13 @@ class App extends React.Component {
                     <TableCell>{item.currentVersion}</TableCell>
                     <TableCell>
                       <IconButton color='default' aria-label='Open read me' onClick={this.toggleReadMeModal.bind(this, item.readme)}>
-                        <Icon>get_app</Icon>
+                        <Icon>class</Icon>
                       </IconButton>
                     </TableCell>
                     <TableCell>
-                      <IconButton color='default' aria-label='Download Tarball'><Icon>get_app</Icon></IconButton>
+                      <a href={item.tarball.tarball} className={this.classes.anchor}>
+                        <IconButton color='default' aria-label='Download Tarball'><Icon>get_app</Icon></IconButton>
+                      </a>
                     </TableCell>
                   </TableRow>
                 ))}

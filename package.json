@@ -20,6 +20,7 @@
     "ioredis": "^3.1.4",
     "klaw": "^2.1.0",
     "lodash": "^4.17.4",
+    "marked": "^0.3.6",
     "material-ui": "^1.0.0-beta.11",
     "material-ui-icons": "^1.0.0-beta.10",
     "metric-log": "^1.0.1",
