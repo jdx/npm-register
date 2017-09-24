@@ -11,7 +11,12 @@ import Typography from 'material-ui/Typography'
 import CloseIcon from 'material-ui-icons/Close'
 
 const styles = {
-
+  appBar: {
+    position: 'relative'
+  },
+  flex: {
+    flex: 1
+  }
 }
 
 class Modal extends React.Component {
@@ -26,26 +31,26 @@ class Modal extends React.Component {
   render () {
     return (
       <Dialog
-        fullscreen
-        open={this.show}
-        onRequestClose={this.onClose}
+        fullScreen
+        open={this.props.show}
+        onRequestClose={this.props.onClose}
         transition={<Slide direction='up' />}
       >
         <AppBar className={this.classes.appBar}>
           <Toolbar>
-            <IconButton color='contrast' onClick={this.onClose} aria-label='Close'>
+            <IconButton color='contrast' onClick={this.props.onClose} aria-label='Close'>
               <CloseIcon />
             </IconButton>
             <Typography type='title' color='inherit' className={this.classes.flex}>
               README
             </Typography>
-            <Button color='contrast' onClick={this.onClose}>
+            <Button color='contrast' onClick={this.props.onClose}>
               Close
             </Button>
           </Toolbar>
         </AppBar>
         <div>
-          Hello World {this.readme}
+          Hello World {this.props.readme}
         </div>
       </Dialog>
     )

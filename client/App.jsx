@@ -11,6 +11,7 @@ import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Ta
 import { withStyles } from 'material-ui/styles'
 
 import Header from './components/Header'
+import Modal from './components/Modal'
 
 const styles = theme => ({
   root: {
@@ -39,7 +40,9 @@ class App extends React.Component {
     this.classes = props.classes
     this.state = {
       packages: [],
-      loading: false
+      loading: false,
+      readmeOpen: false,
+      readmeContent: null
     }
   }
 
@@ -48,6 +51,14 @@ class App extends React.Component {
       loading: true
     })
     return http.get('/-/api/v1/packages')
+  }
+
+  toggleReadMeModal (readme) {
+    let content = readme || ''
+    this.setState({
+      readmeOpen: !this.state.readmeOpen,
+      readmeContent: content
+    })
   }
 
   refreshPackages () {
@@ -80,6 +91,7 @@ class App extends React.Component {
                   <TableCell>Author(s)</TableCell>
                   <TableCell>Description</TableCell>
                   <TableCell>Latest Version</TableCell>
+                  <TableCell>Readme</TableCell>
                   <TableCell>Tarball</TableCell>
                 </TableRow>
               </TableHead>
@@ -90,6 +102,11 @@ class App extends React.Component {
                     <TableCell>{item.author.name}</TableCell>
                     <TableCell>{item.description}</TableCell>
                     <TableCell>{item.currentVersion}</TableCell>
+                    <TableCell>
+                      <IconButton color='default' aria-label='Open read me' onClick={this.toggleReadMeModal.bind(this, item.readme)}>
+                        <Icon>get_app</Icon>
+                      </IconButton>
+                    </TableCell>
                     <TableCell>
                       <IconButton color='default' aria-label='Download Tarball'><Icon>get_app</Icon></IconButton>
                     </TableCell>
@@ -106,6 +123,7 @@ class App extends React.Component {
           </Grid>
         </Paper>
       </Grid>
+      <Modal show={this.state.readmeOpen} onClose={this.toggleReadMeModal.bind(this, null)} readme={this.state.readmeContent} />
     </div>
   }
 }
