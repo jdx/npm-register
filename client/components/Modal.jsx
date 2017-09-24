@@ -13,7 +13,9 @@ import md from 'marked'
 
 const styles = {
   appBar: {
-    position: 'relative'
+    position: 'relative',
+    background: '#282828',
+    color: '#FFF'
   },
   flex: {
     flex: 1
@@ -42,7 +44,7 @@ class Modal extends React.Component {
         onRequestClose={this.props.onClose}
         transition={<Slide direction='up' />}
       >
-        <AppBar className={this.classes.appBar}>
+        <AppBar color='inherit' className={this.classes.appBar}>
           <Toolbar>
             <IconButton color='contrast' onClick={this.props.onClose} aria-label='Close'>
               <CloseIcon />
