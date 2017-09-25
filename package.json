@@ -8,6 +8,9 @@
   "dependencies": {
     "aws-sdk": "^2.104.0",
     "axios": "^0.16.2",
+    "babel-core": "^6.26.0",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-react": "^6.24.1",
     "babel-loader": "^7.1.2",
     "bluebird": "^3.5.0",
     "body-parser": "^1.17.2",
@@ -44,9 +47,6 @@
     "webpack-merge": "^4.1.0"
   },
   "devDependencies": {
-    "babel-core": "^6.26.0",
-    "babel-preset-env": "^1.6.0",
-    "babel-preset-react": "^6.24.1",
     "chai": "^4.1.1",
     "mocha": "^3.5.3",
     "nodemon": "^1.12.1",
