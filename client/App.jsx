@@ -15,7 +15,6 @@ import Modal from './components/Modal'
 
 const styles = theme => ({
   root: {
-    flexGrow: 1,
     marginTop: 30,
     'font-family': ['Roboto', 'Arial', 'sans-serif']
   },
@@ -28,9 +27,15 @@ const styles = theme => ({
   paper: {
     padding: 16,
     margin: 16,
-    flexGrow: 1,
     textAlign: 'center',
-    color: theme.palette.text.secondary
+    color: theme.palette.text.secondary,
+    width: '100%',
+    marginTop: theme.spacing.unit * 3,
+    overflowX: 'auto'
+  },
+  table: {
+    overflow: 'auto',
+    'word=break': 'keep-all'
   },
   loader: {
     color: '#282828'
@@ -82,12 +87,12 @@ class App extends React.Component {
   render () {
     return <div className={this.classes.root}>
       <Header />
-      <Grid container spacing={24}>
+      <Grid container spacing={16}>
         <Paper className={this.classes.paper}>
           <Grid item xs={12} sm={12}>
             {this.state.loading && <CircularProgress size={120} className={this.classes.loader} />}
             {!this.state.loading &&
-            <Table>
+            <Table className={this.classes.table}>
               <TableHead>
                 <TableRow>
                   <TableCell>Package Name</TableCell>
