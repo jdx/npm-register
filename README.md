@@ -113,7 +113,12 @@ understands.
 Local Development
 -----------------
 
-The integration tests require other resources in order to be run locally:
+To run the tests:
+
+- `yarn install`
+- `yarn test`
+
+Prerequisites for running the tests locally:
 
 ### An s3 Bucket
 
@@ -124,7 +129,7 @@ The s3 bucket needs read/write/delete access. Set the following env variables:
 
 ### An htpasswd file
 
-When running the test suite, you will need the following in `./tmp/htpasswd` and in the root of your s3 bucket:
+When running the test suite, you will need the following in `./tmp/htpasswd` *and in the root of your s3 bucket*:
 
 ```
 test:$2y$05$ZhGKbrjyUbSbiMUeYeRUKOXPKzs9./NIZHsycrQkUKIj1Z2VybqdK

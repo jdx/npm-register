@@ -6,11 +6,11 @@ let config = require('../lib/config')
 describe('invalidate', () => {
   // TODO: test this functionality. right now this is just executing
   describe('POST /-/invalidate/array-union', () => {
-    beforeEach(async function () {
+    before(function () {
       if (!redis) return this.skip()
       config.auth.write = false
     })
-    afterEach(() => {
+    after(() => {
       config.auth.write = true
     })
     it('does not fail', async () => {
