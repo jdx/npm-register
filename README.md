@@ -1,6 +1,6 @@
 # npm-register [![CircleCI](https://circleci.com/gh/jdxcode/npm-register/tree/master.svg?style=svg)](https://circleci.com/gh/jdxcode/npm-register/tree/master)
 
-Your own private npm registry and backup server. Used in production and maintained by Heroku. Designed to be easy to set up and maintain, performant, and stable.
+Your own private npm registry and backup server. Designed to be easy to set up and maintain, performant, and stable.
 
 [![Code Climate](https://codeclimate.com/github/jdxcode/npm-register/badges/gpa.svg)](https://codeclimate.com/github/jdxcode/npm-register)
 [![codecov](https://codecov.io/gh/jdxcode/npm-register/branch/master/graph/badge.svg)](https://codecov.io/gh/jdxcode/npm-register)
