@@ -7,6 +7,8 @@ let crypto = require('crypto')
 let fs = require('fs')
 let config = require('../lib/config')
 let expect = require('unexpected')
+let sinon = require('sinon')
+let http = require('http-call').default
 
 // make sure this user is in the htpasswd file
 const testUser = {name: 'test', password: 'test'}
@@ -34,7 +36,10 @@ storageBackends.forEach(storage => {
       let Storage = require('../lib/storage/' + storage)
       config.storage = new Storage()
       token = yield user.authenticate(testUser)
+      sinon.spy(http, 'request')
     }))
+    after(() => http.request.restore())
+    afterEach(() => http.request.reset())
 
     describe('packages', () => {
       describe('GET /:package (package metadata)', () => {
@@ -52,6 +57,31 @@ storageBackends.forEach(storage => {
               request.get('/mocha')
                 .use(bearer(token))
                 .expect(200))
+        })
+        it('can request from npm using basic auth', () => {
+          config.auth.read = false
+          config.npm.basic = 'testing basic auth'
+          return request.get('/mocha')
+            .accept('json')
+            .expect(200)
+            .then((r) => {
+              let requestHeaders = http.request.getCall(0).args[1].headers
+              expect(requestHeaders.Authorization, 'to equal', 'Basic testing basic auth')
+              expect(r.body.name, 'to equal', 'mocha')
+            })
+        })
+        it('can request from npm using an auth token', () => {
+          config.auth.read = false
+          config.npm.basic = null
+          config.npm.token = 'testing auth token'
+          return request.get('/mocha')
+            .accept('json')
+            .expect(200)
+            .then((r) => {
+              let requestHeaders = http.request.getCall(0).args[1].headers
+              expect(requestHeaders.Authorization, 'to equal', 'Bearer testing auth token')
+              expect(r.body.name, 'to equal', 'mocha')
+            })
         })
       })
 
@@ -88,6 +118,33 @@ storageBackends.forEach(storage => {
               request.get('/mocha/-/package.json')
                 .use(bearer(token))
                 .expect(302))
+        })
+        it('can request tarballs from npm using basic auth', () => {
+          config.auth.read = false
+          config.npm.basic = 'tarball basic auth'
+          return request.get('/mocha')
+            .accept('json')
+            .expect(200)
+            .then((r) => r.body.versions['1.0.0'].dist)
+            .then((dist) => {
+              request.get(url.parse(dist.tarball).path)
+              let requestHeaders = http.request.getCall(0).args[1].headers
+              expect(requestHeaders.Authorization, 'to equal', 'Basic tarball basic auth')
+            })
+        })
+        it('can request tarballs from npm using basic auth', () => {
+          config.auth.read = false
+          config.npm.basic = null
+          config.npm.token = 'tarball auth token'
+          return request.get('/mocha')
+            .accept('json')
+            .expect(200)
+            .then((r) => r.body.versions['1.0.0'].dist)
+            .then((dist) => {
+              request.get(url.parse(dist.tarball).path)
+              let requestHeaders = http.request.getCall(0).args[1].headers
+              expect(requestHeaders.Authorization, 'to equal', 'Bearer tarball auth token')
+            })
         })
       })
 

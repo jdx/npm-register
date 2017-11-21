@@ -1,6 +1,6 @@
 let app = require('../lib/server')
 let request = require('supertest').agent(app.listen())
-const redis = require('../lib/redis')
+let redis = require('../lib/redis')
 let config = require('../lib/config')
 
 describe('invalidate', () => {
@@ -14,8 +14,7 @@ describe('invalidate', () => {
       config.auth.write = true
     })
     it('does not fail', async () => {
-      await request.post('/-/invalidate/array-union')
-        .expect(200)
+      await request.post('/-/invalidate/array-union').expect(200)
     })
   })
 })
