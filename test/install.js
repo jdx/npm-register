@@ -13,20 +13,20 @@ process.env.NPM_CONFIG_REGISTRY = registry
 
 let dir
 tmp.setGracefulCleanup()
-beforeEach(() => {
-  dir = process.env.NPM_CONFIG_CACHE = tmp.dirSync().name
-  process.chdir(dir)
-})
-afterEach(() => {
-  fs.removeSync(dir)
-  process.chdir(path.join(__dirname, '..'))
-})
 
 ;['fs', 's3'].forEach(storage => {
   describe(storage, () => {
     before(() => {
       let Storage = require('../lib/storage/' + storage)
       config.storage = new Storage()
+    })
+    beforeEach(() => {
+      dir = process.env.NPM_CONFIG_CACHE = tmp.dirSync().name
+      process.chdir(dir)
+    })
+    afterEach(() => {
+      fs.removeSync(dir)
+      process.chdir(path.join(__dirname, '..'))
     })
     describe('install', function () {
       it('installs heroku-git', async function () {
