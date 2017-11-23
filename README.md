@@ -1,6 +1,6 @@
 # npm-register [![CircleCI](https://circleci.com/gh/jdxcode/npm-register/tree/master.svg?style=svg)](https://circleci.com/gh/jdxcode/npm-register/tree/master)
 
-Your own private npm registry and backup server. Used in production and maintained by Heroku. Designed to be easy to set up and maintain, performant, and stable.
+Your own private npm registry and backup server. Designed to be easy to set up and maintain, performant, and stable.
 
 [![Code Climate](https://codeclimate.com/github/jdxcode/npm-register/badges/gpa.svg)](https://codeclimate.com/github/jdxcode/npm-register)
 [![codecov](https://codecov.io/gh/jdxcode/npm-register/branch/master/graph/badge.svg)](https://codecov.io/gh/jdxcode/npm-register)
@@ -113,10 +113,31 @@ understands.
 Local Development
 -----------------
 
-When running the test suite, you will need the following in `./tmp/htpasswd`:
+To run the tests:
+
+- `yarn install`
+- `yarn test`
+
+Prerequisites for running the tests locally:
+
+### An s3 Bucket
+
+The s3 bucket needs read/write/delete access. Set the following env variables:
+- `AWS_S3_BUCKET`
+- `AWS_ACCESS_KEY_ID`
+- `AWS_SECRET_ACCESS_KEY`
+
+### An htpasswd file
+
+When running the test suite, you will need the following in `./tmp/htpasswd` *and in the root of your s3 bucket*:
 
 ```
-test:$2y$05$t3NzHyb9qg.auYvVNZzAHuj3/e/rj6EjktdpoWzKzmal8FoH59MMK
+test:$2y$05$ZhGKbrjyUbSbiMUeYeRUKOXPKzs9./NIZHsycrQkUKIj1Z2VybqdK
 ```
 
 This sets up a test user with password 'test'.
+
+### A local redis instance
+
+When you have it running you should set the port number or url as the following env variable:
+- `REDIS_URL`

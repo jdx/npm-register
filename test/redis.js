@@ -1,12 +1,11 @@
 const redis = require('../lib/redis')
 const {expect} = require('chai')
 
-beforeEach(async function () {
-  if (!redis) return this.skip()
-  await redis.del('teststring')
-})
-
 describe('redis', () => {
+  beforeEach(async function () {
+    if (!redis) return this.skip()
+    await redis.del('teststring')
+  })
   it('zget nothing', async function () {
     let value = await redis.zget('teststring')
     expect(value).to.equal(null)
