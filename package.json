@@ -19,6 +19,7 @@
     "cross-env": "^5.0.5",
     "css-loader": "^0.28.7",
     "debug": "^3.0.1",
+    "dotenv": "^4.0.0",
     "express": "^4.15.5",
     "fs-extra": "^4.0.1",
     "htpasswd-auth": "^2.0.0",
@@ -80,8 +81,8 @@
     "build": "webpack --config ./config/webpack.config",
     "server": "node bin/npm-register start",
     "server:dev": "nodemon --watch lib bin/npm-register start",
-    "dev": "cross-env NODE_ENV=development concurrently --kill-others -p \"[{name}]\" -n \"API,UI\" -c \"bgMagenta.bold,bgGreen.bold\" \"npm run server:dev\" \"webpack-dev-server --watch-poll --colors --config ./config/webpack.config\"",
-    "start": "cross-env NODE_ENV=production concurrently --kill-others-on-fail -p \"[{name}]\" -n \"UI,API\" -c \"bgMagenta.bold,bgGreen.bold\" \"npm run build\" \"npm run server\"",
+    "dev": "cross-env NODE_ENV=development concurrently --kill-others -p \"[{name}]\" -n \"API,UI\" -c \"white.bgMagenta.bold,white.bgGreen.bold\" \"npm run server:dev\" \"webpack-dev-server --watch-poll --colors --config ./config/webpack.config\"",
+    "start": "cross-env NODE_ENV=production concurrently --kill-others-on-fail -p \"[{name}]\" -n \"UI,API\" -c \"white.bgMagenta.bold,white.bgGreen.bold\" \"npm run build\" \"npm run server\"",
     "test": "nyc mocha && standard"
   },
   "standard": {
