@@ -14,7 +14,7 @@
     "express": "^4.15.4",
     "fs-extra": "^4.0.1",
     "htpasswd-auth": "^2.0.0",
-    "http-call": "^4.0.3",
+    "http-call": "^4.0.4",
     "ioredis": "^3.1.4",
     "klaw": "^2.1.0",
     "lodash": "^4.17.4",
