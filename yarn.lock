@@ -1331,9 +1331,9 @@ htpasswd-auth@^2.0.0:
     apache-md5 "^1.0.0"
     bcrypt "^0.8.3"
 
-http-call@^4.0.2:
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/http-call/-/http-call-4.0.2.tgz#9d590c6e74f58a9cd6fafe02aea457aa6aba9ce4"
+http-call@^4.0.3:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/http-call/-/http-call-4.0.3.tgz#ef3619f04c49ca820606612716967a70b15de637"
   dependencies:
     "@types/content-type" "1.1.2"
     content-type "1.0.4"
