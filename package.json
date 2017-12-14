@@ -26,13 +26,13 @@
     "yargs": "^8.0.2"
   },
   "devDependencies": {
-    "chai": "^4.1.1",
-    "mocha": "^3.5.0",
-    "nyc": "^11.1.0",
+    "chai": "^4.1.2",
+    "mocha": "^4.0.1",
+    "nyc": "^11.3.0",
     "standard": "^10.0.3",
     "supertest": "^3.0.0",
     "tmp": "^0.0.33",
-    "unexpected": "^10.33.2"
+    "unexpected": "^10.36.2"
   },
   "engineStrict": true,
   "engines": {
