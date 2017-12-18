@@ -14,9 +14,9 @@ process.env.NPM_CONFIG_REGISTRY = registry
 let dir
 tmp.setGracefulCleanup()
 
-const storageMethods = process.env.CI ? ['fs'] : ['fs', 's3']
+const storageBackends = process.env.AWS_SECRET_ACCESS_KEY ? ['fs', 's3'] : ['fs']
 
-storageMethods.forEach(storage => {
+storageBackends.forEach(storage => {
   describe(storage, () => {
     before(() => {
       let Storage = require('../lib/storage/' + storage)

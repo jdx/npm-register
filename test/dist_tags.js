@@ -7,6 +7,7 @@ let expect = require('unexpected')
 
 // make sure this user is in the htpasswd file
 const testUser = {name: 'test', password: 'test'}
+const storageBackends = process.env.AWS_SECRET_ACCESS_KEY ? ['fs', 's3'] : ['fs']
 
 function bearer (token) {
   return function (request) {
@@ -14,10 +15,8 @@ function bearer (token) {
   }
 }
 
-const storageMethods = process.env.CI ? ['fs'] : ['fs', 's3']
-
 describe('dist-tags', () => {
-  storageMethods.forEach(storage => {
+  storageBackends.forEach(storage => {
     describe(storage, () => {
       let token
       before(co.wrap(function * () {
