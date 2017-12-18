@@ -14,8 +14,10 @@ function bearer (token) {
   }
 }
 
+const storageMethods = process.env.CI ? ['fs'] : ['fs', 's3']
+
 describe('dist-tags', () => {
-  ['fs', 's3'].forEach(storage => {
+  storageMethods.forEach(storage => {
     describe(storage, () => {
       let token
       before(co.wrap(function * () {

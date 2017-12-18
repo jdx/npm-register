@@ -14,7 +14,9 @@ function bearer (token) {
   }
 }
 
-['fs', 's3'].forEach(storage => {
+const storageMethods = process.env.CI ? ['fs'] : ['fs', 's3']
+
+storageMethods.forEach(storage => {
   describe(storage, () => {
     before(() => {
       let Storage = require('../lib/storage/' + storage)
