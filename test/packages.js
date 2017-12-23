@@ -25,7 +25,9 @@ function bearer (token) {
   }
 }
 
-['fs', 's3'].forEach(storage => {
+const storageBackends = process.env.AWS_SECRET_ACCESS_KEY ? ['fs', 's3'] : ['fs']
+
+storageBackends.forEach(storage => {
   describe(storage, () => {
     let token
     before(co.wrap(function * () {
