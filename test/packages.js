@@ -1,6 +1,7 @@
 let app = require('../lib/server')
 let request = require('supertest').agent(app.listen())
 let user = require('../lib/user')
+let redis = require('../lib/redis')
 let co = require('co')
 let url = require('url')
 let crypto = require('crypto')
@@ -8,7 +9,7 @@ let fs = require('fs')
 let config = require('../lib/config')
 let expect = require('unexpected')
 let sinon = require('sinon')
-let http = require('http-call').default
+let http = require('http-call').HTTP
 
 // make sure this user is in the htpasswd file
 const testUser = {name: 'test', password: 'test'}
@@ -37,9 +38,16 @@ storageBackends.forEach(storage => {
       config.storage = new Storage()
       token = yield user.authenticate(testUser)
       sinon.spy(http, 'request')
+      if (redis) sinon.stub(redis, 'zget').returns(null)
     }))
-    after(() => http.request.restore())
-    afterEach(() => http.request.reset())
+    after(() => {
+      http.request.restore()
+      redis.zget.restore()
+    })
+    afterEach(() => {
+      http.request.reset()
+      redis.zget.reset()
+    })
 
     describe('packages', () => {
       describe('GET /:package (package metadata)', () => {

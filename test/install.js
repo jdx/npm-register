@@ -17,14 +17,6 @@ tmp.setGracefulCleanup()
 const storageBackends = process.env.AWS_SECRET_ACCESS_KEY ? ['fs', 's3'] : ['fs']
 
 storageBackends.forEach(storage => {
-  beforeEach(() => {
-    dir = process.env.NPM_CONFIG_CACHE = tmp.dirSync().name
-    process.chdir(dir)
-  })
-  afterEach(() => {
-    fs.removeSync(dir)
-    process.chdir(path.join(__dirname, '..'))
-  })
   describe(storage, () => {
     before(() => {
       let Storage = require('../lib/storage/' + storage)
