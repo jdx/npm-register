@@ -54,7 +54,7 @@
   "main": "lib/start.js",
   "repository": "jdxcode/npm-register",
   "scripts": {
-    "start": "./bin/npm-register start",
+    "start": "node bin/npm-register start",
     "test": "nyc mocha && standard"
   },
   "standard": {
