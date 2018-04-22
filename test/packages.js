@@ -33,20 +33,16 @@ const storageBackends = process.env.AWS_SECRET_ACCESS_KEY ? ['fs', 's3'] : ['fs'
 storageBackends.forEach(storage => {
   describe(storage, () => {
     let token
-    before(co.wrap(function * () {
+    beforeEach(co.wrap(function * () {
       let Storage = require('../lib/storage/' + storage)
       config.storage = new Storage()
       token = yield user.authenticate(testUser)
       sinon.spy(http, 'request')
       if (redis) sinon.stub(redis, 'zget').returns(null)
     }))
-    after(() => {
+    afterEach(() => {
       http.request.restore()
       redis.zget.restore()
-    })
-    afterEach(() => {
-      http.request.reset()
-      redis.zget.reset()
     })
 
     describe('packages', () => {
@@ -247,15 +243,15 @@ storageBackends.forEach(storage => {
             .expect(200)
             .then(() => {
               return request.get('/-/package/elephant-sample/dist-tags')
-              .accept('json')
-              .expect(200)
-              .then((r) => expect(r.body, 'to satisfy', {latest: '1.0.0', alpha: '2.0.0', beta: '3.0.0'}))
-              .then(() => {
-                return request.get('/elephant-sample')
                 .accept('json')
                 .expect(200)
-                .then((r) => expect(r.body['dist-tags'], 'to satisfy', {latest: '1.0.0', alpha: '2.0.0', beta: '3.0.0'}))
-              })
+                .then((r) => expect(r.body, 'to satisfy', {latest: '1.0.0', alpha: '2.0.0', beta: '3.0.0'}))
+                .then(() => {
+                  return request.get('/elephant-sample')
+                    .accept('json')
+                    .expect(200)
+                    .then((r) => expect(r.body['dist-tags'], 'to satisfy', {latest: '1.0.0', alpha: '2.0.0', beta: '3.0.0'}))
+                })
             })
         })
       })
