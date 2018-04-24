@@ -226,9 +226,9 @@ atob@^2.0.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.0.tgz#ab2b150e51d7b122b9efc8d7340c06b6c41076bc"
 
-aws-sdk@^2.226.1:
-  version "2.226.1"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.226.1.tgz#8e6e2b466aaf26cb35714905d5f934e6c8317a99"
+aws-sdk@^2.227.1:
+  version "2.227.1"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.227.1.tgz#e0051fa680f29cd83d66f4b751aafbc6beebe9ab"
   dependencies:
     buffer "4.9.1"
     events "1.1.1"
@@ -1582,15 +1582,14 @@ htpasswd-auth@^2.0.1:
     apache-md5 "^1.0.0"
     bcrypt "^2.0.1"
 
-http-call@^5.1.0:
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/http-call/-/http-call-5.1.0.tgz#699847d9bcd635eb4e3fdfe3084456a9c89d716d"
+http-call@^5.1.1:
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/http-call/-/http-call-5.1.1.tgz#0110095d455b876c64cc9fe820b3f836cc552ea7"
   dependencies:
     content-type "^1.0.4"
     debug "^3.1.0"
     is-retry-allowed "^1.1.0"
     is-stream "^1.1.0"
-    tslib "^1.9.0"
     tunnel-agent "^0.6.0"
 
 http-errors@1.6.2, http-errors@~1.6.2:
@@ -3677,10 +3676,6 @@ trim-right@^1.0.1:
 tryit@^1.0.1:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/tryit/-/tryit-1.0.3.tgz#393be730a9446fd1ead6da59a014308f36c289cb"
-
-tslib@^1.9.0:
-  version "1.9.0"
-  resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.9.0.tgz#e37a86fda8cbbaf23a057f473c9f4dc64e5fc2e8"
 
 tunnel-agent@^0.6.0:
   version "0.6.0"
