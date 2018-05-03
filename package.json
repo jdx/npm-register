@@ -35,12 +35,8 @@
     "tmp": "^0.0.33",
     "unexpected": "^10.37.5"
   },
-  "engineStrict": true,
   "engines": {
-    "node": ">=8.4.0"
-  },
-  "enginesStrict": {
-    "node": ">=8.0.0"
+    "node": "^8.4.0"
   },
   "files": [
     "bin",
