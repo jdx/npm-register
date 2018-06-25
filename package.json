@@ -24,7 +24,8 @@
     "s3": "^4.4.0",
     "sinon": "^4.5.0",
     "uuid": "^3.2.1",
-    "yargs": "^11.0.0"
+    "yargs": "^11.0.0",
+    "snyk": "^1.85.0"
   },
   "devDependencies": {
     "chai": "^4.1.2",
@@ -51,9 +52,12 @@
   "repository": "jdxcode/npm-register",
   "scripts": {
     "start": "node bin/npm-register start",
-    "test": "nyc mocha && standard"
+    "test": "nyc mocha && standard",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "standard": {
     "env": "mocha"
-  }
+  },
+  "snyk": true
 }
