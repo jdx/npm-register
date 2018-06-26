@@ -11,10 +11,6 @@ stages:
       - type: cache-restore
         key: npm-register-{{checksum "package.json"}}
       - run: |
-          if [ -z "$AWS_SECRET_ACCESS_KEY" ]; then
-            echo "AWS_SECRET_ACCESS_KEY must be set. Pull requests may only be run by the owner of the repository"
-            exit 1
-          fi
           set -x
           export REDIS_URL=localhost:6379
           node -v
