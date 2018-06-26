@@ -47,7 +47,7 @@
     "klaw": "^2.1.1",
     "lodash": "^4.17.5",
     "marked": "^0.3.6",
-    "material-ui": "^1.0.0-beta.12",
+    "material-ui": "^1.0.0-beta.47",
     "material-ui-icons": "^1.0.0-beta.10",
     "metric-log": "^1.0.1",
     "on-finished": "^2.3.0",
