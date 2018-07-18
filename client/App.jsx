@@ -52,6 +52,7 @@ class App extends React.Component {
       readmeOpen: false,
       readmeContent: null
     }
+    this.toggleReadMeModal = this.toggleReadMeModal.bind(this)
   }
 
   getPackages () {
@@ -84,57 +85,77 @@ class App extends React.Component {
     this.refreshPackages()
   }
 
-  render () {
-    return <div className={this.classes.root}>
-      <Header />
-      <Grid container spacing={16}>
-        <Paper className={this.classes.paper}>
-          <Grid item xs={12} sm={12}>
-            {this.state.loading && <CircularProgress size={120} className={this.classes.loader} />}
-            {!this.state.loading &&
-            <Table className={this.classes.table}>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Package Name</TableCell>
-                  <TableCell>Author(s)</TableCell>
-                  <TableCell>Description</TableCell>
-                  <TableCell>Latest Version</TableCell>
-                  <TableCell>Readme</TableCell>
-                  <TableCell>Tarball</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {this.state.packages.map((item, idx) => (
-                  <TableRow key={idx} hover>
-                    <TableCell>{item.name}</TableCell>
-                    <TableCell>{item.author.name}</TableCell>
-                    <TableCell>{item.description}</TableCell>
-                    <TableCell>{item.currentVersion}</TableCell>
-                    <TableCell>
-                      <IconButton color='default' aria-label='Open read me' onClick={this.toggleReadMeModal.bind(this, item.readme)}>
-                        <Icon>class</Icon>
-                      </IconButton>
-                    </TableCell>
-                    <TableCell>
-                      <a href={item.tarball.tarball} className={this.classes.anchor}>
-                        <IconButton color='default' aria-label='Download Tarball'><Icon>get_app</Icon></IconButton>
-                      </a>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-            }
-          </Grid>
-          <Grid item xs={12} sm={12}>
-            <Button raised className={this.classes.button} onClick={this.refreshPackages.bind(this)}>
-              Refresh Packages
-            </Button>
-          </Grid>
-        </Paper>
+  tableHeader () {
+    return (
+      <TableHead>
+        <TableRow>
+          <TableCell>Package Name</TableCell>
+          <TableCell>Author(s)</TableCell>
+          <TableCell>Description</TableCell>
+          <TableCell>Latest Version</TableCell>
+          <TableCell>Readme</TableCell>
+          <TableCell>Tarball</TableCell>
+        </TableRow>
+      </TableHead>
+    )
+  };
+
+  tableBody () {
+    return (
+      <TableBody>
+        {this.state.packages.map((item, idx) => (
+          <TableRow key={idx} hover>
+            <TableCell>{item.name}</TableCell>
+            <TableCell>{item.author.name}</TableCell>
+            <TableCell>{item.description}</TableCell>
+            <TableCell>{item.currentVersion}</TableCell>
+            <TableCell>
+              <IconButton color='default' aria-label='Open read me' onClick={this.toggleReadMeModal}>
+                <Icon>class</Icon>
+              </IconButton>
+            </TableCell>
+            <TableCell>
+              <a href={item.tarball.tarball} className={this.classes.anchor}>
+                <IconButton color='default' aria-label='Download Tarball'><Icon>get_app</Icon></IconButton>
+              </a>
+            </TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    )
+  }
+
+  refreshButton () {
+    return (
+      <Grid item xs={12} sm={12}>
+        <Button raised className={this.classes.button} onClick={this.refreshPackages}>
+          Refresh Packages
+        </Button>
       </Grid>
-      <Modal show={this.state.readmeOpen} onClose={this.toggleReadMeModal.bind(this, null)} readme={this.state.readmeContent} />
-    </div>
+    )
+  }
+
+  render () {
+    return (
+      <div className={this.classes.root}>
+        <Header />
+        <Grid container spacing={16}>
+          <Paper className={this.classes.paper}>
+            <Grid item xs={12} sm={12}>
+              {this.state.loading && <CircularProgress size={120} className={this.classes.loader} />}
+              {!this.state.loading &&
+                <Table className={this.classes.table}>
+                  {this.tableHeader}
+                  {this.tableBody}
+                </Table>
+              }
+            </Grid>
+            {this.refreshButton}
+          </Paper>
+        </Grid>
+        <Modal show={this.state.readmeOpen} onClose={this.toggleReadMeModal} readme={this.state.readmeContent} />
+      </div>
+    )
   }
 }
 
