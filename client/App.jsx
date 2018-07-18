@@ -128,7 +128,7 @@ class App extends React.Component {
   refreshButton () {
     return (
       <Grid item xs={12} sm={12}>
-        <Button raised className={this.classes.button} onClick={this.refreshPackages}>
+        <Button variant='raised' className={this.classes.button} onClick={this.refreshPackages}>
           Refresh Packages
         </Button>
       </Grid>
@@ -145,12 +145,12 @@ class App extends React.Component {
               {this.state.loading && <CircularProgress size={120} className={this.classes.loader} />}
               {!this.state.loading &&
                 <Table className={this.classes.table}>
-                  {this.tableHeader}
-                  {this.tableBody}
+                  {this.tableHeader()}
+                  {this.tableBody()}
                 </Table>
               }
             </Grid>
-            {this.refreshButton}
+            {this.refreshButton()}
           </Paper>
         </Grid>
         <Modal show={this.state.readmeOpen} onClose={this.toggleReadMeModal} readme={this.state.readmeContent} />
