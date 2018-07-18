@@ -62,7 +62,7 @@ class App extends React.Component {
   }
 
   toggleReadMeModal (readme) {
-    let content = readme || ''
+    let content = readme || 'No Readme Content.'
     this.setState({
       readmeOpen: !this.state.readmeOpen,
       readmeContent: content

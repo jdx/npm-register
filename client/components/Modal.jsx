@@ -46,7 +46,7 @@ class Modal extends React.Component {
       >
         <AppBar color='inherit' className={this.classes.appBar}>
           <Toolbar>
-            <IconButton color='contrast' onClick={this.props.onClose} aria-label='Close'>
+            <IconButton onClick={this.props.onClose} aria-label='Close'>
               <CloseIcon />
             </IconButton>
             <Typography type='title' color='inherit' className={this.classes.flex}>
