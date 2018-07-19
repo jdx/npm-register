@@ -53,6 +53,7 @@ class App extends React.Component {
       readmeContent: null
     }
     this.toggleReadMeModal = this.toggleReadMeModal.bind(this)
+    this.refreshPackages = this.refreshPackages.bind(this)
   }
 
   getPackages () {
