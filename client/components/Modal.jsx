@@ -35,24 +35,28 @@ class Modal extends React.Component {
     this.onClose = props.onClose
   }
 
+  Transition (props) {
+    return <Slide direction='up' {...props} />
+  }
+
   render () {
     let readme = md.parse(this.props.readme || '', {sanitize: true})
     return (
       <Dialog
         fullScreen
         open={this.props.show}
-        onRequestClose={this.props.onClose}
-        transition={<Slide direction='up' />}
+        onClose={this.props.onClose}
+        TransitionComponent={this.Transition}
       >
         <AppBar color='inherit' className={this.classes.appBar}>
           <Toolbar>
-            <IconButton onClick={this.props.onClose} aria-label='Close'>
+            <IconButton color='inherit' onClick={this.props.onClose} aria-label='Close'>
               <CloseIcon />
             </IconButton>
             <Typography type='title' color='inherit' className={this.classes.flex}>
               README
             </Typography>
-            <Button color='contrast' onClick={this.props.onClose}>
+            <Button color='inherit' onClick={this.props.onClose}>
               Close
             </Button>
           </Toolbar>

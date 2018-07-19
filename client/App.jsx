@@ -62,12 +62,13 @@ class App extends React.Component {
     return http.get('/-/api/v1/packages')
   }
 
-  toggleReadMeModal (readme) {
-    let content = readme || 'No Readme Content.'
-    this.setState({
-      readmeOpen: !this.state.readmeOpen,
-      readmeContent: content
-    })
+  toggleReadMeModal (readmeContent) {
+    return () => {
+      this.setState({
+        readmeOpen: !this.state.readmeOpen,
+        readmeContent
+      })
+    }
   }
 
   refreshPackages () {
@@ -110,7 +111,7 @@ class App extends React.Component {
             <TableCell>{item.description}</TableCell>
             <TableCell>{item.currentVersion}</TableCell>
             <TableCell>
-              <IconButton color='default' aria-label='Open read me' onClick={this.toggleReadMeModal}>
+              <IconButton color='default' aria-label='Open read me' onClick={this.toggleReadMeModal(item.readme)}>
                 <Icon>class</Icon>
               </IconButton>
             </TableCell>
@@ -153,7 +154,7 @@ class App extends React.Component {
             {this.refreshButton()}
           </Paper>
         </Grid>
-        <Modal show={this.state.readmeOpen} onClose={this.toggleReadMeModal} readme={this.state.readmeContent} />
+        <Modal show={this.state.readmeOpen} onClose={this.toggleReadMeModal()} readme={this.state.readmeContent} />
       </div>
     )
   }
