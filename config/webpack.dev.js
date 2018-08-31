@@ -5,6 +5,7 @@ module.exports = {
   devServer: {
     historyApiFallback: true,
     contentBase: path.join(__dirname, '../public/'),
+    hot: true,
     stats: 'errors-only',
     host: 'localhost',
     port: '8080',
@@ -34,11 +35,14 @@ module.exports = {
       }
     ]
   },
+  mode: 'development',
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('development')
       }
-    })
+    }),
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NamedModulesPlugin()
   ]
 }
