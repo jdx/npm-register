@@ -2,7 +2,7 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const webpack = require('webpack')
 
 module.exports = {
-  mode: 'produciton',
+  mode: 'production',
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
