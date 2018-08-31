@@ -114,6 +114,23 @@ storageBackends.forEach(storage => {
               })
             })
         })
+
+        it('follows redirects when the request is misconfigured', () => {
+          let hash = 'ed7e583e5f49f6986e34ba328acf13cdd74f1d53'
+          let path = '/mocha/-/mocha-1.0.0'
+          return request.get(`${path}/${hash}/${hash}.tgz`)
+            .expect(302)
+            .then(r => expect(r.headers.location, 'to equal', `${path}/${hash}.tgz`))
+        })
+
+        it('follows redirects when the request is misconfigured and there is a scope', () => {
+          let hash = 'a9d8e137bc429a44aba9689fe6a0e4331784f853'
+          let path = '/@google-cloud/common/-/common-0.13.6'
+          return request.get(`${path}/${hash}/${hash}.tgz`)
+            .expect(302)
+            .then(r => expect(r.headers.location, 'to equal', `${path}/${hash}.tgz`))
+        })
+
         it('can be configured to require authentication', () => {
           config.auth.read = true
           return request.get('/mocha/-/package.json')

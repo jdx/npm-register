@@ -1,6 +1,6 @@
 {
   "name": "npm-register",
-  "version": "2.6.4",
+  "version": "2.7.0",
   "description": "Your own private npm registry and backup server",
   "keywords": [
     "npm"
@@ -50,10 +50,12 @@
     "material-ui": "^1.0.0-beta.47",
     "material-ui-icons": "^1.0.0-beta.10",
     "metric-log": "^1.0.1",
+    "node-pre-gyp": "^0.10.3",
     "on-finished": "^2.3.0",
     "opbeat": "^4.17.0",
     "react": "^15.6.2",
     "react-dom": "^15.6.2",
+    "path-join-safe": "1.0.0",
     "s3": "^4.4.0",
     "sinon": "^4.5.0",
     "standard-loader": "^6.0.1",

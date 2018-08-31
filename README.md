@@ -127,6 +127,18 @@ The s3 bucket needs read/write/delete access. Set the following env variables:
 - `AWS_ACCESS_KEY_ID`
 - `AWS_SECRET_ACCESS_KEY`
 
+#### Non-AWS S3
+
+When not using AWS S3 but another implementation, you can use `AWS_S3_PARAMS` to set
+every option the official S3 client support. The Bucket is still read from the environment
+variable `AWS_S3_BUCKET` in this case to stay compatible with older configurations.
+
+The following configuration worked fine for the Ceph RGW S3 implementation:
+- `AWS_S3_BUCKET=npm-register`
+- `AWS_S3_PARAMS='{"endpoint": "http://ceph-rgw/npm-register", "s3BucketEndpoint": true, "s3DisableBodySigning": true, "accessKeyId": "<redacted>", "secretAccessKey": "<redacted>"}'`
+
+You can get a list of parameters and their meaning here: [AWS SDK documentation](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#constructor-property)
+
 ### An htpasswd file
 
 When running the test suite, you will need the following in `./tmp/htpasswd` *and in the root of your s3 bucket*:
