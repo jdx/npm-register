@@ -1,10 +1,9 @@
 import React from 'react'
-import * as ReactDOM from 'react-dom'
-import 'typeface-roboto'
+import { render } from 'react-dom'
 import App from './App'
 
 const renderApp = () => {
-  ReactDOM.render(
+  render(
     <App />,
     document.getElementById('app')
   )
