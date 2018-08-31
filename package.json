@@ -1,16 +1,46 @@
 {
   "name": "npm-register",
-  "description": "Your own private npm registry and backup server",
   "version": "2.7.1",
-  "author": "Jeff Dickey (@jdxcode)",
-  "bin": "bin/npm-register",
+  "description": "Your own private npm registry and backup server",
+  "keywords": [
+    "npm"
+  ],
+  "homepage": "https://github.com/jdxcode/npm-register",
   "bugs": "https://github.com/jdxcode/npm-register",
+  "repository": "jdxcode/npm-register",
+  "license": "ISC",
+  "author": "Jeff Dickey (@jdxcode)",
+  "files": [
+    "bin",
+    "lib"
+  ],
+  "main": "lib/start.js",
+  "bin": "bin/npm-register",
+  "scripts": {
+    "build": "cross-env NODE_ENV=production webpack --config ./config/webpack.config",
+    "dev": "cross-env NODE_ENV=development concurrently --kill-others -p \"[{name}]\" -n \"API,UI\" -c \"white.bgMagenta.bold,white.bgGreen.bold\" \"npm run server:dev\" \"webpack-dev-server --watch-poll --colors --config ./config/webpack.config\"",
+    "server": "node bin/npm-register start",
+    "server:dev": "nodemon --watch lib bin/npm-register start",
+    "start": "cross-env NODE_ENV=production concurrently --kill-others-on-fail -p \"[{name}]\" -n \"UI,API\" -c \"white.bgMagenta.bold,white.bgGreen.bold\" \"npm run build\" \"npm run server\"",
+    "test": "nyc mocha && standard"
+  },
   "dependencies": {
+    "@material-ui/core": "^3.0.1",
+    "@material-ui/icons": "^3.0.1",
     "aws-sdk": "^2.227.1",
+    "axios": "^0.16.2",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-react": "^6.24.1",
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
     "compression": "^1.7.2",
+    "concurrently": "^3.5.0",
+    "cross-env": "^5.0.5",
+    "css-loader": "^0.28.7",
     "debug": "^3.1.0",
+    "dotenv": "^4.0.0",
     "express": "^4.16.3",
     "fs-extra": "^5.0.0",
     "htpasswd-auth": "^2.0.1",
@@ -18,42 +48,41 @@
     "ioredis": "^3.2.2",
     "klaw": "^2.1.1",
     "lodash": "^4.17.5",
+    "marked": "^0.3.6",
     "metric-log": "^1.0.1",
     "node-pre-gyp": "^0.10.3",
     "on-finished": "^2.3.0",
     "opbeat": "^4.17.0",
     "path-join-safe": "1.0.0",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
     "s3": "^4.4.0",
     "sinon": "^4.5.0",
+    "standard-loader": "^6.0.1",
+    "style-loader": "^0.18.2",
+    "uglify-es": "^3.1.2",
+    "uglifyjs-webpack-plugin": "^1.0.0-beta.2",
+    "url-loader": "^0.5.9",
     "uuid": "^3.2.1",
+    "webpack": "4.17.1",
+    "webpack-merge": "^4.1.0",
     "yargs": "^11.0.0"
   },
   "devDependencies": {
     "chai": "^4.1.2",
     "mocha": "^5.1.1",
+    "nodemon": "^1.12.1",
     "nyc": "^11.7.1",
+    "snazzy": "^7.0.0",
     "standard": "^11.0.1",
     "supertest": "^3.0.0",
     "tmp": "^0.0.33",
-    "unexpected": "^10.37.5"
+    "unexpected": "^10.37.5",
+    "webpack-cli": "^3.1.0",
+    "webpack-dev-server": "3.1.7"
   },
   "engines": {
     "node": "^8.4.0"
-  },
-  "files": [
-    "bin",
-    "lib"
-  ],
-  "homepage": "https://github.com/jdxcode/npm-register",
-  "keywords": [
-    "npm"
-  ],
-  "license": "ISC",
-  "main": "lib/start.js",
-  "repository": "jdxcode/npm-register",
-  "scripts": {
-    "start": "node bin/npm-register start",
-    "test": "nyc mocha && standard"
   },
   "standard": {
     "env": "mocha"
