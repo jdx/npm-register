@@ -1,6 +1,6 @@
 {
   "name": "npm-register",
-  "version": "2.7.0",
+  "version": "2.7.1",
   "description": "Your own private npm registry and backup server",
   "keywords": [
     "npm"
