@@ -42,7 +42,7 @@ storageBackends.forEach(storage => {
     }))
     afterEach(() => {
       http.request.restore()
-      redis.zget.restore()
+      if (redis) redis.zget.restore()
     })
 
     describe('packages', () => {
