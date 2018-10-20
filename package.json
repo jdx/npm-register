@@ -48,7 +48,7 @@
     "ioredis": "^3.2.2",
     "klaw": "^2.1.1",
     "lodash": "^4.17.5",
-    "marked": "^0.3.6",
+    "marked": "^0.5.1",
     "metric-log": "^1.0.1",
     "node-pre-gyp": "^0.10.3",
     "on-finished": "^2.3.0",
