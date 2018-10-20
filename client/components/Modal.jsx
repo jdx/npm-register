@@ -40,7 +40,7 @@ class Modal extends React.Component {
   }
 
   render () {
-    let readme = md.parse(this.props.readme || '', {sanitize: true})
+    let readme = md.parse(this.props.readme || '', { sanitize: true })
     return (
       <Dialog
         fullScreen
@@ -61,7 +61,7 @@ class Modal extends React.Component {
             </Button>
           </Toolbar>
         </AppBar>
-        <Typography type='body1' component='div' dangerouslySetInnerHTML={{__html: readme}} className={this.classes.readme} />
+        <Typography type='body1' component='div' dangerouslySetInnerHTML={{ __html: readme }} className={this.classes.readme} />
       </Dialog>
     )
   }
