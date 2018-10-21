@@ -18,11 +18,15 @@
   "bin": "bin/npm-register",
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --config ./config/webpack.config",
+    "build:dev": "cross-env NODE_ENV=development webpack --config ./config/webpack.config",
     "dev": "cross-env NODE_ENV=development concurrently --kill-others -p \"[{name}]\" -n \"API,UI\" -c \"white.bgMagenta.bold,white.bgGreen.bold\" \"npm run server:dev\" \"webpack-dev-server --watch-poll --colors --config ./config/webpack.config\"",
+    "lint": "standard --verbose | snazzy",
+    "precommit": "echo 'Running Linters...' && npm run lint",
     "server": "node bin/npm-register start",
     "server:dev": "nodemon --watch lib bin/npm-register start",
     "start": "cross-env NODE_ENV=production concurrently --kill-others-on-fail -p \"[{name}]\" -n \"UI,API\" -c \"white.bgMagenta.bold,white.bgGreen.bold\" \"npm run build\" \"npm run server\"",
-    "test": "nyc mocha && standard"
+    "test": "nyc mocha && standard",
+    "test:mocha": "nyc mocha"
   },
   "dependencies": {
     "@material-ui/core": "^3.2.2",
@@ -70,6 +74,7 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
+    "husky": "^1.1.2",
     "mocha": "^5.2.0",
     "nodemon": "^1.18.4",
     "nyc": "^11.9.0",
