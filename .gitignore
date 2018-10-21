@@ -5,4 +5,5 @@ node_modules
 tmp
 npm-debug.log
 public/app.js
+public/app.js.*
 .env

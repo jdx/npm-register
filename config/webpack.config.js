@@ -25,7 +25,10 @@ const baseConfig = {
       use: {
         loader: 'babel-loader',
         options: {
-          presets: ['react']
+          presets: [
+            'react',
+            ['env', { 'modules': false }]
+          ]
         }
       }
     }, {
@@ -53,10 +56,10 @@ const baseConfig = {
 
 module.exports = () => {
   if (process.env.NODE_ENV === 'production') {
-    console.log('Loading production config...')
+    console.log('Building production config...')
     return merge(baseConfig, prodConfig)
   }
 
-  console.log('Loading development config...')
+  console.log('Building development config...')
   return merge(baseConfig, devConfig)
 }
