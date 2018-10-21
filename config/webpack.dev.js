@@ -6,7 +6,6 @@ module.exports = {
     historyApiFallback: true,
     contentBase: path.join(__dirname, '../public/'),
     hot: true,
-    stats: 'errors-only',
     host: 'localhost',
     port: '8080',
     compress: true,
