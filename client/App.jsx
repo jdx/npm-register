@@ -12,7 +12,7 @@ import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
-import { withStyles } from '@material-ui/core/styles'
+import withStyles from '@material-ui/core/styles/withStyles'
 
 import Header from './components/Header'
 import Modal from './components/Modal'
@@ -134,7 +134,7 @@ class App extends React.Component {
   refreshButton () {
     return (
       <Grid item xs={12} sm={12}>
-        <Button variant='raised' className={this.classes.button} onClick={this.refreshPackages}>
+        <Button variant='contained' className={this.classes.button} onClick={this.refreshPackages}>
           Refresh Packages
         </Button>
       </Grid>

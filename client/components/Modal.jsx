@@ -1,6 +1,7 @@
 import React from 'react'
+import md from 'marked'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
+import withStyles from '@material-ui/core/styles/withStyles'
 import Dialog from '@material-ui/core/Dialog'
 import Slide from '@material-ui/core/Slide'
 import Button from '@material-ui/core/Button'
@@ -9,7 +10,6 @@ import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
 import CloseIcon from '@material-ui/icons/Close'
-import md from 'marked'
 
 const styles = {
   appBar: {
