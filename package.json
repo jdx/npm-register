@@ -31,7 +31,7 @@
   "dependencies": {
     "@material-ui/core": "^3.2.2",
     "@material-ui/icons": "^3.0.1",
-    "aws-sdk": "^2.339.0",
+    "aws-sdk": "2.304.0",
     "axios": "^0.18.0",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
