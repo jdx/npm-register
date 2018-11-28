@@ -49,6 +49,13 @@ Local Filesystem Storage
 
 Using the local filesystem is the default. You can explicitly set the storage with `NPM_REGISTER_STORAGE=fs`. Select the location for the files to be stored with `NPM_REGISTER_FS_DIRECTORY=/var/npm-register`. Defaults to `./tmp`.
 
+Google Cloud Storage
+--------------------
+
+Use GCS for storage by setting `NPM_REGISTER_STORAGE=gcs`. Then set `GCS_BUCKET` to the proper bucket name.  Uses application default credentials. 
+
+See https://cloud.google.com/docs/authentication/production
+
 Redis
 -----
 
