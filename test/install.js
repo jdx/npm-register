@@ -14,7 +14,7 @@ process.env.NPM_CONFIG_REGISTRY = registry
 let dir
 tmp.setGracefulCleanup()
 
-const storageBackends = process.env.AWS_SECRET_ACCESS_KEY ? ['fs', 's3'] : ['fs']
+const storageBackends = process.env.AWS_SECRET_ACCESS_KEY ? ['fs', 's3'] : process.env.GCS_BUCKET && process.env.GOOGLE_APPLICATION_CREDENTIALS ? ['fs', 'gcs'] : ['fs']
 
 storageBackends.forEach(storage => {
   describe(storage, () => {
