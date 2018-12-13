@@ -4,6 +4,7 @@ const user = require('../lib/user')
 const co = require('co')
 const expect = require('unexpected')
 const config = require('../lib/config')
+const storageBackends = require('./_storage_backends')
 
 // make sure this user is in the htpasswd file
 const testUser = {name: 'test', password: 'test'}
@@ -13,8 +14,6 @@ function bearer (token) {
     request.set('Authorization', `Bearer ${token}`)
   }
 }
-
-const storageBackends = process.env.AWS_SECRET_ACCESS_KEY ? ['fs', 's3'] : process.env.GCS_BUCKET && process.env.GOOGLE_APPLICATION_CREDENTIALS ? ['fs', 'gcs'] : ['fs']
 
 storageBackends.forEach(storage => {
   describe(storage, () => {
