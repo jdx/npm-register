@@ -10,6 +10,7 @@ let config = require('../lib/config')
 let expect = require('unexpected')
 let sinon = require('sinon')
 let http = require('http-call').HTTP
+let storageBackends = require('./_storage_backends')
 
 // make sure this user is in the htpasswd file
 const testUser = {name: 'test', password: 'test'}
@@ -27,8 +28,6 @@ function bearer (token) {
     request.set('Authorization', `Bearer ${token}`)
   }
 }
-
-const storageBackends = process.env.AWS_SECRET_ACCESS_KEY ? ['fs', 's3'] : ['fs']
 
 storageBackends.forEach(storage => {
   describe(storage, () => {

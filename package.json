@@ -29,6 +29,7 @@
     "test:mocha": "nyc mocha"
   },
   "dependencies": {
+    "@google-cloud/storage": "^2.3.1",
     "@material-ui/core": "^3.2.2",
     "@material-ui/icons": "^3.0.1",
     "aws-sdk": "2.304.0",
@@ -84,6 +85,11 @@
     "tmp": "^0.0.33",
     "unexpected": "^10.39.1",
     "webpack-dev-server": "3.1.7"
+  },
+  "nyc": {
+    "exclude": [
+      "**/_*.js"
+    ]
   },
   "engines": {
     "node": "^8.4.0"

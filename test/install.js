@@ -7,14 +7,13 @@ const config = require('../lib/config')
 const tmp = require('tmp')
 const fs = require('fs-extra')
 const path = require('path')
+const storageBackends = require('./_storage_backends')
 
 process.env.NPM_CONFIG_PACKAGE_LOCK = 'false'
 process.env.NPM_CONFIG_REGISTRY = registry
 
 let dir
 tmp.setGracefulCleanup()
-
-const storageBackends = process.env.AWS_SECRET_ACCESS_KEY ? ['fs', 's3'] : ['fs']
 
 storageBackends.forEach(storage => {
   describe(storage, () => {

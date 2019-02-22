@@ -9,6 +9,7 @@
     "AWS_ACCESS_KEY_ID": "",
     "AWS_SECRET_ACCESS_KEY": "",
     "AWS_S3_BUCKET": "",
+    "GCS_BUCKET": "",
     "CACHE_PACKAGE_TTL": "60",
     "NODE_ENV": "production",
     "UPLINK": "https://registry.npmjs.org"
