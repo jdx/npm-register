@@ -1,0 +1,25 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.13.5
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  SNYK-JS-AXIOS-174505:
+    - axios:
+        patched: '2019-05-29T08:13:15.684Z'
+    - '@google-cloud/storage > gcs-resumable-upload > axios':
+        patched: '2019-05-29T08:13:15.684Z'
+    - '@google-cloud/storage > @google-cloud/common > google-auth-library > axios':
+        patched: '2019-05-29T08:13:15.684Z'
+    - '@google-cloud/storage > gcs-resumable-upload > google-auth-library > axios':
+        patched: '2019-05-29T08:13:15.684Z'
+    - '@google-cloud/storage > @google-cloud/common > google-auth-library > gcp-metadata > axios':
+        patched: '2019-05-29T08:13:15.684Z'
+    - '@google-cloud/storage > gcs-resumable-upload > google-auth-library > gcp-metadata > axios':
+        patched: '2019-05-29T08:13:15.684Z'
+    - '@google-cloud/storage > @google-cloud/common > google-auth-library > gtoken > axios':
+        patched: '2019-05-29T08:13:15.684Z'
+    - '@google-cloud/storage > gcs-resumable-upload > google-auth-library > gtoken > axios':
+        patched: '2019-05-29T08:13:15.684Z'
+  'npm:mime:20170907':
+    - s3 > mime:
+        patched: '2019-05-29T08:13:15.684Z'
