@@ -26,7 +26,9 @@
     "server:dev": "nodemon --watch lib bin/npm-register start",
     "start": "cross-env NODE_ENV=production concurrently --kill-others-on-fail -p \"[{name}]\" -n \"UI,API\" -c \"white.bgMagenta.bold,white.bgGreen.bold\" \"npm run build\" \"npm run server\"",
     "test": "nyc mocha && standard",
-    "test:mocha": "nyc mocha"
+    "test:mocha": "nyc mocha",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "dependencies": {
     "@google-cloud/storage": "^2.3.1",
@@ -53,7 +55,7 @@
     "ioredis": "^3.2.2",
     "klaw": "^2.1.1",
     "lodash": "^4.17.11",
-    "marked": "^0.5.1",
+    "marked": "^0.6.2",
     "metric-log": "^1.0.1",
     "node-pre-gyp": "^0.10.3",
     "on-finished": "^2.3.0",
@@ -71,7 +73,8 @@
     "webpack": "4.17.1",
     "webpack-cli": "^3.1.2",
     "webpack-merge": "^4.1.4",
-    "yargs": "^12.0.2"
+    "yargs": "^12.0.2",
+    "snyk": "^1.168.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
@@ -96,5 +99,6 @@
   },
   "standard": {
     "env": "mocha"
-  }
+  },
+  "snyk": true
 }
