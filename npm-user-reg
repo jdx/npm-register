@@ -1,0 +1,49 @@
+class UserRegistration {
+  constructor() {
+    this.users = [];
+  }
+
+  registerUser(username, password, email) {
+    if (!username || !password || !email) {
+      return { success: false, message: "All fields are required." };
+    }
+    if (password.length < 6) {
+      return { success: false, message: "Password must be at least 6 characters." };
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return { success: false, message: "Invalid email format." };
+    }
+    if (this.users.some(user => user.email === email)) {
+      return { success: false, message: "User with this email already exists." };
+    }
+    this.users.push({ username, password, email });
+    return { success: true, message: "User registered successfully." };
+  }
+
+  getAllUsers() {
+    return this.users;
+  }
+}
+
+module.exports = UserRegistration;
+test.js
+javascript
+Copy code
+// test.js
+const UserRegistration = require('./index.js');
+const registration = new UserRegistration();
+
+console.log(registration.registerUser('JohnDoe', 'password123', 'johndoe@example.com'));
+console.log(registration.registerUser('', 'password123', 'johndoe@example.com'));
+console.log(registration.registerUser('JaneDoe', 'password123', 'janedoe'));
+console.log(registration.registerUser('JaneDoe', 'pass', 'janedoe@example.com'));
+console.log(registration.registerUser('JohnDoe', 'password123', 'johndoe@example.com'));
+
+console.log("Registered users:", registration.getAllUsers());
+Explanation of Changes
+Simplified Validation: Directly used regex inside the registerUser method to check for a valid email.
+Reduced Redundant Code: Eliminated unnecessary function declarations by keeping everything in one concise method.
+Streamlined the test.js Script: Consolidated test cases to log output directly, making it simpler and more compact.
+
+
+This version keeps the essential functionality and logic while reducing code length and enhancing readability.
